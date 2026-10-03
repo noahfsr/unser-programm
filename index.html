@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#17171c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>♡ Unser Programm</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#17171c;color:#f5f5f7;font-family:Arial,sans-serif}
+button,input,textarea{font:inherit}
+.app{max-width:720px;margin:auto;padding:20px 16px 35px}
+header{text-align:center;padding:22px 0 14px}
+.heart{font-size:48px;color:#ff5c8a}
+h1{margin:4px 0 8px;font-size:30px}
+.sub{color:#aaaab5}
+nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
+nav button,.btn{border:0;border-radius:14px;padding:12px;background:#2b2b34;color:#fff;cursor:pointer}
+nav button.active,.btn.primary{background:#ff5c8a}
+.card{background:#222229;border-radius:18px;padding:18px;margin:12px 0}
+h2{margin-top:0}
+input,textarea{width:100%;border:0;outline:0;background:#303039;color:#fff;border-radius:12px;padding:13px;margin:7px 0}
+textarea{min-height:110px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.item{background:#2b2b34;border-radius:14px;padding:14px;margin:9px 0}
+.item .date{font-size:12px;color:#aaaab5;margin-top:8px}
+.empty{text-align:center;color:#aaaab5;padding:25px}
+.status{font-size:13px;color:#aaaab5;text-align:center;margin-top:10px}
+.small{font-size:13px;color:#aaaab5}
+label{display:block;color:#aaaab5;font-size:13px;margin-top:8px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="heart">♡</div>
+  <h1 id="couple">Ich ♥ Du</h1>
+  <div class="sub">Unser kleines gemeinsames Zuhause</div>
+</header>
+
+<nav>
+  <button data-page="home" class="active">🏠</button>
+  <button data-page="messages">💌</button>
+  <button data-page="moments">⭐</button>
+  <button data-page="tasks">📝</button>
+</nav>
+
+<main id="content"></main>
+<div id="status" class="status"></div>
+</div>
+
+<script>
+const STORAGE = "unser_programm_v1";
+let data = JSON.parse(localStorage.getItem(STORAGE) || "null") || {
+  name1:"Ich", name2:"Du", messages:[], moments:[], tasks:[]
+};
+let currentPage = "home";
+
+function save(){
+  localStorage.setItem(STORAGE, JSON.stringify(data));
+}
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+}
+
+function dateNow(){
+  return new Date().toLocaleString("de-DE",{dateStyle:"short",timeStyle:"short"});
+}
+
+function render(){
+  document.getElementById("couple").textContent = `${data.name1} ♥ ${data.name2}`;
+  document.querySelectorAll("nav button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===currentPage);
+  });
+
+  const c=document.getElementById("content");
+
+  if(currentPage==="home"){
+    c.innerHTML=`
+      <div class="card" style="text-align:center">
+        <h2>♡ Schön, dass ihr hier seid</h2>
+        <p class="sub">Heute ist ${esc(new Date().toLocaleDateString("de-DE"))}</p>
+      </div>
+      <div class="card">
+        <h2>⚡ Schnellzugriff</h2>
+        <div class="row">
+          <button class="btn primary" onclick="newMessage()">💌 Nachricht</button>
+          <button class="btn" onclick="newMoment()">⭐ Moment</button>
+          <button class="btn" onclick="newTask()">📝 Aufgabe</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>💡 Idee</h2>
+        <p class="sub">Wir können später Bilder, einen gemeinsamen Kalender, einen Countdown und vieles mehr hinzufügen.</p>
+      </div>
+      <div class="card">
+        <h2>⚙ Namen</h2>
+        <div class="row">
+          <input id="name1" value="${esc(data.name1)}" placeholder="Name 1">
+          <input id="name2" value="${esc(data.name2)}" placeholder="Name 2">
+        </div>
+        <button class="btn primary" onclick="saveNames()">Speichern</button>
+      </div>`;
+  }
+
+  if(currentPage==="messages"){
+    c.innerHTML=`
+      <div class="card">
+        <h2>💌 Nachrichten</h2>
+        <div class="row">
+          <button class="btn primary" onclick="newMessage()">Neue Nachricht</button>
+        </div>
+      </div>
+      ${data.messages.length?data.messages.slice().reverse().map(m=>`
+        <div class="item">
+          <b style="color:#ff87a9">${esc(m.name)}</b>
+          <div style="margin-top:7px">${esc(m.text)}</div>
+          <div class="date">${esc(m.date)}</div>
+        </div>`).join(""):`<div class="empty">Noch keine Nachrichten.</div>`}`;
+  }
+
+  if(currentPage==="moments"){
+    c.innerHTML=`
+      <div class="card">
+        <h2>⭐ Unsere Momente</h2>
+        <button class="btn primary" onclick="newMoment()">Moment hinzufügen</button>
+      </div>
+      ${data.moments.length?data.moments.slice().reverse().map(m=>`
+        <div class="item">
+          <b style="color:#ff87a9">⭐ ${esc(m.title)}</b>
+          <div style="margin-top:7px">${esc(m.text)}</div>
+          <div class="date">${esc(m.date)}</div>
+        </div>`).join(""):`<div class="empty">Noch keine Momente.</div>`}`;
+  }
+
+  if(currentPage==="tasks"){
+    c.innerHTML=`
+      <div class="card">
+        <h2>📝 Gemeinsam machen</h2>
+        <button class="btn primary" onclick="newTask()">Aufgabe hinzufügen</button>
+      </div>
+      ${data.tasks.length?data.tasks.map((t,i)=>`
+        <div class="item">
+          <label style="display:flex;gap:10px;align-items:center;color:#fff;font-size:15px">
+            <input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i},this.checked)" style="width:auto;margin:0">
+            <span style="${t.done?"text-decoration:line-through;color:#aaaab5":""}">${esc(t.text)}</span>
+          </label>
+        </div>`).join(""):`<div class="empty">Noch keine Aufgaben.</div>`}`;
+  }
+}
+
+function saveNames(){
+  const a=document.getElementById("name1").value.trim();
+  const b=document.getElementById("name2").value.trim();
+  if(a)data.name1=a;
+  if(b)data.name2=b;
+  save(); render();
+}
+
+function newMessage(){
+  const name=prompt(`Wer schreibt?\n${data.name1} oder ${data.name2}`,data.name1);
+  if(!name)return;
+  const text=prompt("Was möchtest du schreiben?");
+  if(!text)return;
+  data.messages.push({name,text,date:dateNow()});
+  save(); currentPage="messages"; render();
+}
+
+function newMoment(){
+  const title=prompt("Titel des Moments:");
+  if(!title)return;
+  const text=prompt("Was ist passiert?");
+  if(!text)return;
+  data.moments.push({title,text,date:dateNow()});
+  save(); currentPage="moments"; render();
+}
+
+function newTask(){
+  const text=prompt("Was möchtet ihr gemeinsam machen?");
+  if(!text)return;
+  data.tasks.push({text,done:false});
+  save(); currentPage="tasks"; render();
+}
+
+function toggleTask(i,v){
+  data.tasks[i].done=v;
+  save();
+  render();
+}
+
+document.querySelectorAll("nav button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    currentPage=b.dataset.page;
+    render();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
