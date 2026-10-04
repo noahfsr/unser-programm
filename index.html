@@ -26,6 +26,10 @@ input {
     font: inherit;
 }
 
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .page {
     width: 100%;
     max-width: 900px;
@@ -112,7 +116,9 @@ input {
     display: none !important;
 }
 
-/* NACHRICHTEN */
+/* ==========================
+   NACHRICHTEN
+========================== */
 
 .messages {
     display: flex;
@@ -124,7 +130,8 @@ input {
 }
 
 .message {
-    padding: 12px 15px;
+    position: relative;
+    padding: 12px 15px 42px;
     border-radius: 15px;
     max-width: 80%;
     background: #f7dce6;
@@ -150,6 +157,23 @@ input {
     margin-top: 5px;
     font-size: 11px;
     color: #8d6878;
+}
+
+.delete-message-button {
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,.75);
+    color: #b52d5d;
+    padding: 5px 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.delete-message-button:hover {
+    background: white;
 }
 
 .message-form {
@@ -178,7 +202,9 @@ input {
     font-weight: bold;
 }
 
-/* BILDER */
+/* ==========================
+   BILDER
+========================== */
 
 .upload-area {
     text-align: center;
@@ -229,10 +255,32 @@ input {
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: .15s;
 }
 
 .gallery-item img:hover {
     transform: scale(1.03);
+}
+
+.delete-image-button {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    z-index: 5;
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(255,255,255,.92);
+    color: #b52d5d;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+}
+
+.delete-image-button:hover {
+    background: white;
+    transform: scale(1.05);
 }
 
 .empty {
@@ -255,7 +303,9 @@ input {
     font-size: 14px;
 }
 
-/* LIGHTBOX */
+/* ==========================
+   LIGHTBOX
+========================== */
 
 .lightbox {
     position: fixed;
@@ -293,7 +343,9 @@ input {
     cursor: pointer;
 }
 
-/* BALD */
+/* ==========================
+   BALD
+========================== */
 
 .soon {
     text-align: center;
@@ -333,6 +385,10 @@ input {
 
     .send-button {
         padding: 13px;
+    }
+
+    .message {
+        max-width: 90%;
     }
 }
 </style>
@@ -810,12 +866,98 @@ function addMessage(message) {
 
         '<div class="message-time">' +
         time +
-        '</div>';
+        '</div>' +
+
+        '<button ' +
+        'class="delete-message-button" ' +
+        'type="button" ' +
+        'title="Nachricht löschen">' +
+        '🗑️ Löschen' +
+        '</button>';
+
+    const deleteButton =
+        div.querySelector(
+            ".delete-message-button"
+        );
+
+    deleteButton.addEventListener(
+        "click",
+        () => {
+
+            deleteMessage(
+                message.id,
+                div
+            );
+
+        }
+    );
 
     container.appendChild(div);
 
     container.scrollTop =
         container.scrollHeight;
+}
+
+
+/* ==========================
+   NACHRICHT LÖSCHEN
+========================== */
+
+async function deleteMessage(
+    messageId,
+    element
+) {
+
+    const confirmed =
+        confirm(
+            "Möchtest du diese Nachricht wirklich löschen?"
+        );
+
+    if (!confirmed) return;
+
+    const result =
+        await supabaseClient
+            .from(MESSAGE_TABLE)
+            .delete()
+            .eq(
+                "id",
+                messageId
+            );
+
+    if (result.error) {
+
+        console.error(
+            "Nachricht löschen:",
+            result.error
+        );
+
+        alert(
+            "Die Nachricht konnte nicht gelöscht werden."
+        );
+
+        return;
+    }
+
+    if (element) {
+
+        element.remove();
+    }
+
+    const container =
+        document.getElementById(
+            "messages"
+        );
+
+    if (
+        container &&
+        container.children.length === 0
+    ) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            'Noch keine Nachrichten ❤️' +
+            '</div>';
+    }
 }
 
 
@@ -910,6 +1052,31 @@ supabaseClient
                 addMessage(
                     message
                 );
+            }
+        }
+    )
+    .on(
+        "postgres_changes",
+        {
+            event: "DELETE",
+            schema: "public",
+            table: MESSAGE_TABLE
+        },
+        payload => {
+
+            const messageId =
+                payload.old.id;
+
+            const element =
+                document.querySelector(
+                    '[data-id="' +
+                    messageId +
+                    '"]'
+                );
+
+            if (element) {
+
+                element.remove();
             }
         }
     )
@@ -1057,6 +1224,9 @@ async function loadImages() {
         item.className =
             "gallery-item";
 
+        item.dataset.filename =
+            file.name;
+
         const image =
             document.createElement(
                 "img"
@@ -1091,13 +1261,116 @@ async function loadImages() {
             }
         );
 
+        /*
+           LÖSCHBUTTON
+        */
+
+        const deleteButton =
+            document.createElement(
+                "button"
+            );
+
+        deleteButton.type =
+            "button";
+
+        deleteButton.className =
+            "delete-image-button";
+
+        deleteButton.textContent =
+            "🗑️";
+
+        deleteButton.title =
+            "Bild löschen";
+
+        deleteButton.addEventListener(
+            "click",
+            event => {
+
+                event.stopPropagation();
+
+                deleteImage(
+                    file.name,
+                    item
+                );
+
+            }
+        );
+
         item.appendChild(
             image
+        );
+
+        item.appendChild(
+            deleteButton
         );
 
         gallery.appendChild(
             item
         );
+    }
+}
+
+
+/* ==========================
+   BILD LÖSCHEN
+========================== */
+
+async function deleteImage(
+    fileName,
+    element
+) {
+
+    const confirmed =
+        confirm(
+            "Möchtest du dieses Bild wirklich löschen?"
+        );
+
+    if (!confirmed) return;
+
+    const result =
+        await supabaseClient
+            .storage
+            .from(IMAGE_BUCKET)
+            .remove([
+                fileName
+            ]);
+
+    if (result.error) {
+
+        console.error(
+            "Bild löschen:",
+            result.error
+        );
+
+        alert(
+            "Das Bild konnte nicht gelöscht werden."
+        );
+
+        return;
+    }
+
+    if (element) {
+
+        element.remove();
+    }
+
+    const gallery =
+        document.getElementById(
+            "gallery"
+        );
+
+    if (
+        gallery &&
+        gallery.querySelector(
+            ".gallery-item"
+        ) === null
+    ) {
+
+        gallery.innerHTML =
+            '<div class="empty">' +
+            'Noch keine Bilder ❤️<br>' +
+            'Lade euer erstes Bild hoch!' +
+            '</div>';
     }
 }
 
