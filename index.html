@@ -130,8 +130,7 @@ button {
 }
 
 .message {
-    position: relative;
-    padding: 12px 15px 42px;
+    padding: 12px 15px;
     border-radius: 15px;
     max-width: 80%;
     background: #f7dce6;
@@ -153,22 +152,27 @@ button {
     word-break: break-word;
 }
 
+.message-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 7px;
+}
+
 .message-time {
-    margin-top: 5px;
     font-size: 11px;
     color: #8d6878;
 }
 
 .delete-message-button {
-    position: absolute;
-    right: 10px;
-    bottom: 8px;
+    flex-shrink: 0;
     border: none;
     border-radius: 8px;
     background: rgba(255,255,255,.75);
     color: #b52d5d;
     padding: 5px 8px;
-    font-size: 13px;
+    font-size: 12px;
     cursor: pointer;
 }
 
@@ -646,7 +650,6 @@ localStorage.getItem(
     "unser_programm_user"
 );
 
-
 function chooseIdentity(name) {
 
     currentUser = name;
@@ -661,12 +664,9 @@ function chooseIdentity(name) {
     showPage("homePage");
 }
 
-
 function changeIdentity() {
-
     showPage("identityPage");
 }
-
 
 function updateUserText() {
 
@@ -722,12 +722,9 @@ function showPage(id) {
     window.scrollTo(0,0);
 }
 
-
 function goHome() {
-
     showPage("homePage");
 }
-
 
 function showComingSoon(name) {
 
@@ -808,9 +805,7 @@ async function loadMessages() {
 
     result.data.forEach(
         message => {
-
             addMessage(message);
-
         }
     );
 }
@@ -834,7 +829,6 @@ function addMessage(message) {
         message.id;
 
     if (message.sender === currentUser) {
-
         div.classList.add("mine");
     }
 
@@ -864,6 +858,8 @@ function addMessage(message) {
         escapeHtml(message.message) +
         '</div>' +
 
+        '<div class="message-footer">' +
+
         '<div class="message-time">' +
         time +
         '</div>' +
@@ -873,7 +869,9 @@ function addMessage(message) {
         'type="button" ' +
         'title="Nachricht löschen">' +
         '🗑️ Löschen' +
-        '</button>';
+        '</button>' +
+
+        '</div>';
 
     const deleteButton =
         div.querySelector(
@@ -939,7 +937,6 @@ async function deleteMessage(
     }
 
     if (element) {
-
         element.remove();
     }
 
@@ -1014,10 +1011,7 @@ async function sendMessage(event) {
         );
 
     if (!existing) {
-
-        addMessage(
-            result.data
-        );
+        addMessage(result.data);
     }
 }
 
@@ -1048,10 +1042,7 @@ supabaseClient
                 );
 
             if (!existing) {
-
-                addMessage(
-                    message
-                );
+                addMessage(message);
             }
         }
     )
@@ -1075,7 +1066,6 @@ supabaseClient
                 );
 
             if (element) {
-
                 element.remove();
             }
         }
@@ -1101,11 +1091,6 @@ function openImages() {
     loadImages();
 }
 
-
-/*
-    Bilder werden über eine
-    temporäre Signed URL geladen.
-*/
 
 async function loadImages() {
 
@@ -1171,11 +1156,6 @@ async function loadImages() {
 
     gallery.innerHTML = "";
 
-    /*
-       Jedes Bild bekommt eine eigene
-       Signed URL.
-    */
-
     for (const file of files) {
 
         const signedResult =
@@ -1206,9 +1186,7 @@ async function loadImages() {
             errorBox.textContent =
                 "Bild konnte nicht geladen werden.";
 
-            gallery.appendChild(
-                errorBox
-            );
+            gallery.appendChild(errorBox);
 
             continue;
         }
@@ -1233,19 +1211,13 @@ async function loadImages() {
             );
 
         image.src = url;
-
-        image.alt =
-            "Unser Bild";
-
-        image.loading =
-            "lazy";
+        image.alt = "Unser Bild";
+        image.loading = "lazy";
 
         image.addEventListener(
             "click",
             () => {
-
                 openLightbox(url);
-
             }
         );
 
@@ -1257,30 +1229,19 @@ async function loadImages() {
                     '<div class="gallery-error">' +
                     'Bild konnte nicht geladen werden.' +
                     '</div>';
-
             }
         );
-
-        /*
-           LÖSCHBUTTON
-        */
 
         const deleteButton =
             document.createElement(
                 "button"
             );
 
-        deleteButton.type =
-            "button";
-
+        deleteButton.type = "button";
         deleteButton.className =
             "delete-image-button";
-
-        deleteButton.textContent =
-            "🗑️";
-
-        deleteButton.title =
-            "Bild löschen";
+        deleteButton.textContent = "🗑️";
+        deleteButton.title = "Bild löschen";
 
         deleteButton.addEventListener(
             "click",
@@ -1292,21 +1253,13 @@ async function loadImages() {
                     file.name,
                     item
                 );
-
             }
         );
 
-        item.appendChild(
-            image
-        );
+        item.appendChild(image);
+        item.appendChild(deleteButton);
 
-        item.appendChild(
-            deleteButton
-        );
-
-        gallery.appendChild(
-            item
-        );
+        gallery.appendChild(item);
     }
 }
 
@@ -1350,7 +1303,6 @@ async function deleteImage(
     }
 
     if (element) {
-
         element.remove();
     }
 
@@ -1386,8 +1338,7 @@ async function uploadImages(event) {
             event.target.files || []
         );
 
-    if (files.length === 0)
-        return;
+    if (files.length === 0) return;
 
     const status =
         document.getElementById(
@@ -1482,8 +1433,7 @@ function getExtension(name) {
     const parts =
         name.split(".");
 
-    if (parts.length < 2)
-        return "";
+    if (parts.length < 2) return "";
 
     return parts
         .pop()
@@ -1513,9 +1463,7 @@ function openLightbox(url) {
 
     image.src = url;
 
-    box.classList.add(
-        "open"
-    );
+    box.classList.add("open");
 }
 
 
@@ -1531,9 +1479,7 @@ function closeLightbox() {
             "lightboxImage"
         );
 
-    box.classList.remove(
-        "open"
-    );
+    box.classList.remove("open");
 
     image.src = "";
 }
@@ -1546,26 +1492,11 @@ function closeLightbox() {
 function escapeHtml(value) {
 
     return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
 
@@ -1574,36 +1505,28 @@ function escapeHtml(value) {
 ========================== */
 
 document
-    .getElementById(
-        "messageForm"
-    )
+    .getElementById("messageForm")
     .addEventListener(
         "submit",
         sendMessage
     );
 
 document
-    .getElementById(
-        "imageInput"
-    )
+    .getElementById("imageInput")
     .addEventListener(
         "change",
         uploadImages
     );
 
 document
-    .getElementById(
-        "closeLightbox"
-    )
+    .getElementById("closeLightbox")
     .addEventListener(
         "click",
         closeLightbox
     );
 
 document
-    .getElementById(
-        "lightbox"
-    )
+    .getElementById("lightbox")
     .addEventListener(
         "click",
         event => {
@@ -1612,7 +1535,6 @@ document
                 event.target.id ===
                 "lightbox"
             ) {
-
                 closeLightbox();
             }
         }
@@ -1622,11 +1544,7 @@ document.addEventListener(
     "keydown",
     event => {
 
-        if (
-            event.key ===
-            "Escape"
-        ) {
-
+        if (event.key === "Escape") {
             closeLightbox();
         }
     }
@@ -1641,15 +1559,11 @@ if (currentUser) {
 
     updateUserText();
 
-    showPage(
-        "homePage"
-    );
+    showPage("homePage");
 
 } else {
 
-    showPage(
-        "identityPage"
-    );
+    showPage("identityPage");
 }
 
 </script>
