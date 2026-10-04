@@ -1,206 +1,350 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#17171c">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>♡ Unser Programm</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#17171c;color:#f5f5f7;font-family:Arial,sans-serif}
-button,input,textarea{font:inherit}
-.app{max-width:720px;margin:auto;padding:20px 16px 35px}
-header{text-align:center;padding:22px 0 14px}
-.heart{font-size:48px;color:#ff5c8a}
-h1{margin:4px 0 8px;font-size:30px}
-.sub{color:#aaaab5}
-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:15px 0}
-nav button,.btn{border:0;border-radius:14px;padding:12px;background:#2b2b34;color:#fff;cursor:pointer}
-nav button.active,.btn.primary{background:#ff5c8a}
-.card{background:#222229;border-radius:18px;padding:18px;margin:12px 0}
-h2{margin-top:0}
-input,textarea{width:100%;border:0;outline:0;background:#303039;color:#fff;border-radius:12px;padding:13px;margin:7px 0}
-textarea{min-height:110px;resize:vertical}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1;min-width:130px}
-.item{background:#2b2b34;border-radius:14px;padding:14px;margin:9px 0}
-.item .date{font-size:12px;color:#aaaab5;margin-top:8px}
-.empty{text-align:center;color:#aaaab5;padding:25px}
-.status{font-size:13px;color:#aaaab5;text-align:center;margin-top:10px}
-.small{font-size:13px;color:#aaaab5}
-label{display:block;color:#aaaab5;font-size:13px;margin-top:8px}
-.hidden{display:none}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Unsere Nachrichten</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #17171c;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .app {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .box {
+      background: #222229;
+      padding: 20px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 14px;
+      margin: 6px 0;
+      border: 0;
+      border-radius: 12px;
+      background: #303039;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      border: 0;
+      border-radius: 12px;
+      background: #ff5c8a;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .message {
+      background: #2b2b34;
+      padding: 14px;
+      border-radius: 14px;
+      margin-top: 10px;
+    }
+
+    .sender {
+      color: #ff87a9;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .date {
+      color: #999;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    #status {
+      text-align: center;
+      color: #aaa;
+      margin-top: 12px;
+      min-height: 20px;
+    }
+  </style>
 </head>
+
 <body>
+
 <div class="app">
-<header>
-  <div class="heart">♡</div>
-  <h1 id="couple">Ich ♥ Du</h1>
-  <div class="sub">Unser kleines gemeinsames Zuhause</div>
-</header>
 
-<nav>
-  <button data-page="home" class="active">🏠</button>
-  <button data-page="messages">💌</button>
-  <button data-page="moments">⭐</button>
-  <button data-page="tasks">📝</button>
-</nav>
+  <h1>💌 Unsere Nachrichten</h1>
 
-<main id="content"></main>
-<div id="status" class="status"></div>
+  <div class="box">
+
+    <input
+      id="sender"
+      type="text"
+      placeholder="Dein Name"
+    >
+
+    <input
+      id="message"
+      type="text"
+      placeholder="Deine Nachricht"
+    >
+
+    <button onclick="sendMessage()">
+      Nachricht senden
+    </button>
+
+    <div id="status"></div>
+
+  </div>
+
+  <div class="box">
+
+    <h2>Nachrichten</h2>
+
+    <div id="messages">
+      Nachrichten werden geladen...
+    </div>
+
+  </div>
+
 </div>
 
+
 <script>
-const STORAGE = "unser_programm_v1";
-let data = JSON.parse(localStorage.getItem(STORAGE) || "null") || {
-  name1:"Ich", name2:"Du", messages:[], moments:[], tasks:[]
-};
-let currentPage = "home";
 
-function save(){
-  localStorage.setItem(STORAGE, JSON.stringify(data));
-}
+const SUPABASE_URL =
+  "https://mvlhbxtywabqsnfcfrzm.supabase.co";
 
-function esc(s){
-  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-}
+const SUPABASE_KEY =
+  "sb_publishable_VWpohfk0SvSuK6eum-FZMQ_sbp-nPJy";
 
-function dateNow(){
-  return new Date().toLocaleString("de-DE",{dateStyle:"short",timeStyle:"short"});
-}
 
-function render(){
-  document.getElementById("couple").textContent = `${data.name1} ♥ ${data.name2}`;
-  document.querySelectorAll("nav button").forEach(b=>{
-    b.classList.toggle("active",b.dataset.page===currentPage);
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+async function loadMessages() {
+
+  const container =
+    document.getElementById("messages");
+
+  const { data, error } =
+    await supabaseClient
+      .from("message")
+      .select("*")
+      .order("created_at", {
+        ascending: true
+      });
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      "❌ Fehler beim Laden: " +
+      escapeHTML(error.message);
+
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<div style='color:#999'>Noch keine Nachrichten.</div>";
+
+    return;
+  }
+
+
+  data.forEach(msg => {
+
+    const div =
+      document.createElement("div");
+
+    div.className = "message";
+
+
+    div.innerHTML = `
+
+      <div class="sender">
+        ${escapeHTML(msg.sender)}
+      </div>
+
+      <div>
+        ${escapeHTML(msg.message)}
+      </div>
+
+      <div class="date">
+        ${new Date(msg.created_at)
+          .toLocaleString("de-DE")}
+      </div>
+
+    `;
+
+
+    container.appendChild(div);
+
   });
 
-  const c=document.getElementById("content");
+}
 
-  if(currentPage==="home"){
-    c.innerHTML=`
-      <div class="card" style="text-align:center">
-        <h2>♡ Schön, dass ihr hier seid</h2>
-        <p class="sub">Heute ist ${esc(new Date().toLocaleDateString("de-DE"))}</p>
-      </div>
-      <div class="card">
-        <h2>⚡ Schnellzugriff</h2>
-        <div class="row">
-          <button class="btn primary" onclick="newMessage()">💌 Nachricht</button>
-          <button class="btn" onclick="newMoment()">⭐ Moment</button>
-          <button class="btn" onclick="newTask()">📝 Aufgabe</button>
-        </div>
-      </div>
-      <div class="card">
-        <h2>💡 Idee</h2>
-        <p class="sub">Wir können später Bilder, einen gemeinsamen Kalender, einen Countdown und vieles mehr hinzufügen.</p>
-      </div>
-      <div class="card">
-        <h2>⚙ Namen</h2>
-        <div class="row">
-          <input id="name1" value="${esc(data.name1)}" placeholder="Name 1">
-          <input id="name2" value="${esc(data.name2)}" placeholder="Name 2">
-        </div>
-        <button class="btn primary" onclick="saveNames()">Speichern</button>
-      </div>`;
+
+async function sendMessage() {
+
+  const sender =
+    document
+      .getElementById("sender")
+      .value
+      .trim();
+
+
+  const message =
+    document
+      .getElementById("message")
+      .value
+      .trim();
+
+
+  const status =
+    document.getElementById("status");
+
+
+  if (!sender) {
+
+    status.textContent =
+      "Bitte deinen Namen eingeben.";
+
+    return;
+
   }
 
-  if(currentPage==="messages"){
-    c.innerHTML=`
-      <div class="card">
-        <h2>💌 Nachrichten</h2>
-        <div class="row">
-          <button class="btn primary" onclick="newMessage()">Neue Nachricht</button>
-        </div>
-      </div>
-      ${data.messages.length?data.messages.slice().reverse().map(m=>`
-        <div class="item">
-          <b style="color:#ff87a9">${esc(m.name)}</b>
-          <div style="margin-top:7px">${esc(m.text)}</div>
-          <div class="date">${esc(m.date)}</div>
-        </div>`).join(""):`<div class="empty">Noch keine Nachrichten.</div>`}`;
+
+  if (!message) {
+
+    status.textContent =
+      "Bitte eine Nachricht eingeben.";
+
+    return;
+
   }
 
-  if(currentPage==="moments"){
-    c.innerHTML=`
-      <div class="card">
-        <h2>⭐ Unsere Momente</h2>
-        <button class="btn primary" onclick="newMoment()">Moment hinzufügen</button>
-      </div>
-      ${data.moments.length?data.moments.slice().reverse().map(m=>`
-        <div class="item">
-          <b style="color:#ff87a9">⭐ ${esc(m.title)}</b>
-          <div style="margin-top:7px">${esc(m.text)}</div>
-          <div class="date">${esc(m.date)}</div>
-        </div>`).join(""):`<div class="empty">Noch keine Momente.</div>`}`;
+
+  status.textContent =
+    "⏳ Nachricht wird gesendet...";
+
+
+  const { error } =
+    await supabaseClient
+      .from("message")
+      .insert({
+
+        sender: sender,
+
+        message: message
+
+      });
+
+
+  if (error) {
+
+    console.error(error);
+
+    status.textContent =
+      "❌ Fehler: " +
+      error.message;
+
+    return;
+
   }
 
-  if(currentPage==="tasks"){
-    c.innerHTML=`
-      <div class="card">
-        <h2>📝 Gemeinsam machen</h2>
-        <button class="btn primary" onclick="newTask()">Aufgabe hinzufügen</button>
-      </div>
-      ${data.tasks.length?data.tasks.map((t,i)=>`
-        <div class="item">
-          <label style="display:flex;gap:10px;align-items:center;color:#fff;font-size:15px">
-            <input type="checkbox" ${t.done?"checked":""} onchange="toggleTask(${i},this.checked)" style="width:auto;margin:0">
-            <span style="${t.done?"text-decoration:line-through;color:#aaaab5":""}">${esc(t.text)}</span>
-          </label>
-        </div>`).join(""):`<div class="empty">Noch keine Aufgaben.</div>`}`;
-  }
+
+  document
+    .getElementById("message")
+    .value = "";
+
+
+  status.textContent =
+    "✅ Nachricht gesendet!";
+
+
+  await loadMessages();
+
 }
 
-function saveNames(){
-  const a=document.getElementById("name1").value.trim();
-  const b=document.getElementById("name2").value.trim();
-  if(a)data.name1=a;
-  if(b)data.name2=b;
-  save(); render();
+
+function escapeHTML(text) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    String(text ?? "");
+
+  return div.innerHTML;
+
 }
 
-function newMessage(){
-  const name=prompt(`Wer schreibt?\n${data.name1} oder ${data.name2}`,data.name1);
-  if(!name)return;
-  const text=prompt("Was möchtest du schreiben?");
-  if(!text)return;
-  data.messages.push({name,text,date:dateNow()});
-  save(); currentPage="messages"; render();
-}
 
-function newMoment(){
-  const title=prompt("Titel des Moments:");
-  if(!title)return;
-  const text=prompt("Was ist passiert?");
-  if(!text)return;
-  data.moments.push({title,text,date:dateNow()});
-  save(); currentPage="moments"; render();
-}
+/* Nachrichten beim Start laden */
 
-function newTask(){
-  const text=prompt("Was möchtet ihr gemeinsam machen?");
-  if(!text)return;
-  data.tasks.push({text,done:false});
-  save(); currentPage="tasks"; render();
-}
+loadMessages();
 
-function toggleTask(i,v){
-  data.tasks[i].done=v;
-  save();
-  render();
-}
 
-document.querySelectorAll("nav button").forEach(b=>{
-  b.addEventListener("click",()=>{
-    currentPage=b.dataset.page;
-    render();
-  });
-});
+/* Neue Nachrichten automatisch erkennen */
 
-render();
+supabaseClient
+  .channel("messages-channel")
+
+  .on(
+    "postgres_changes",
+
+    {
+      event: "INSERT",
+
+      schema: "public",
+
+      table: "message"
+    },
+
+    function() {
+
+      loadMessages();
+
+    }
+
+  )
+
+  .subscribe();
+
+
 </script>
+
 </body>
 </html>
