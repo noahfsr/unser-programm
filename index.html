@@ -3,7 +3,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Noah & Emma ❤️</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,12 +13,19 @@
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
-    min-height: 100vh;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #fff0f5, #ffe1eb);
     color: #3b2430;
+    overflow-x: hidden;
 }
 
 button,
@@ -46,6 +53,7 @@ button {
     margin: 0;
     font-size: 34px;
     color: #d6336c;
+    line-height: 1.2;
 }
 
 .header p {
@@ -55,7 +63,8 @@ button {
 }
 
 .card {
-    background: rgba(255,255,255,.94);
+    width: 100%;
+    background: rgba(255,255,255,.95);
     border-radius: 22px;
     padding: 20px;
     margin-bottom: 18px;
@@ -64,7 +73,7 @@ button {
 
 .menu {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
 }
 
@@ -78,7 +87,7 @@ button {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(100,40,70,.1);
-    transition: .15s;
+    transition: transform .15s;
 }
 
 .menu button:hover {
@@ -124,16 +133,22 @@ button {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
     max-height: 500px;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 5px;
 }
 
 .message {
+    width: fit-content;
+    max-width: 80%;
+    min-width: 0;
     padding: 12px 15px;
     border-radius: 15px;
-    max-width: 80%;
     background: #f7dce6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .message.mine {
@@ -145,10 +160,13 @@ button {
     font-weight: bold;
     color: #c02d62;
     font-size: 14px;
+    overflow-wrap: anywhere;
 }
 
 .message-text {
     margin-top: 4px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
     word-break: break-word;
 }
 
@@ -156,24 +174,30 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    margin-top: 7px;
+    gap: 8px;
+    margin-top: 8px;
+    width: 100%;
+    min-width: 0;
 }
 
 .message-time {
-    font-size: 11px;
+    min-width: 0;
     color: #8d6878;
+    font-size: 11px;
+    white-space: nowrap;
 }
 
 .delete-message-button {
     flex-shrink: 0;
     border: none;
     border-radius: 8px;
-    background: rgba(255,255,255,.75);
+    background: rgba(255,255,255,.8);
     color: #b52d5d;
-    padding: 5px 8px;
+    padding: 6px 9px;
     font-size: 12px;
+    line-height: 1.2;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .delete-message-button:hover {
@@ -182,12 +206,15 @@ button {
 
 .message-form {
     display: flex;
+    align-items: stretch;
     gap: 10px;
+    width: 100%;
     margin-top: 15px;
 }
 
 .message-form input {
-    flex: 1;
+    flex: 1 1 auto;
+    width: 100%;
     min-width: 0;
     border: 1px solid #edbfd0;
     border-radius: 14px;
@@ -196,7 +223,12 @@ button {
     background: #fffafb;
 }
 
+.message-form input:focus {
+    border-color: #d6336c;
+}
+
 .send-button {
+    flex: 0 0 auto;
     border: none;
     border-radius: 14px;
     background: #d6336c;
@@ -236,18 +268,20 @@ button {
     margin-top: 12px;
     color: #80566a;
     min-height: 20px;
+    overflow-wrap: anywhere;
 }
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin-top: 20px;
 }
 
 .gallery-item {
     position: relative;
-    aspect-ratio: 1/1;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     border-radius: 16px;
     overflow: hidden;
     background: #f6dbe5;
@@ -259,7 +293,7 @@ button {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: .15s;
+    transition: transform .15s;
 }
 
 .gallery-item img:hover {
@@ -284,19 +318,19 @@ button {
 
 .delete-image-button:hover {
     background: white;
-    transform: scale(1.05);
 }
 
 .empty {
-    grid-column: 1/-1;
+    grid-column: 1 / -1;
+    width: 100%;
     text-align: center;
     color: #8d6878;
     padding: 35px 10px;
+    overflow-wrap: anywhere;
 }
 
 .gallery-error {
     width: 100%;
-    height: 100%;
     min-height: 100px;
     display: flex;
     align-items: center;
@@ -360,39 +394,221 @@ button {
     font-size: 50px;
 }
 
-@media(max-width:600px) {
+/* ==========================
+   HANDY
+========================== */
+
+@media (max-width: 600px) {
+
+    body {
+        background: linear-gradient(135deg, #fff3f7, #ffe6ef);
+    }
 
     .page {
-        padding: 12px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .header {
+        padding: 18px 5px 15px;
     }
 
     .header h1 {
-        font-size: 28px;
+        font-size: 27px;
+    }
+
+    .header p {
+        font-size: 15px;
+        line-height: 1.4;
+    }
+
+    .card {
+        padding: 14px;
+        border-radius: 18px;
+        margin-bottom: 12px;
     }
 
     .menu {
-        gap: 10px;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
     }
 
     .menu button {
-        min-height: 78px;
+        min-height: 75px;
+        padding: 8px 4px;
+        border-radius: 15px;
+        font-size: 14px;
+    }
+
+    .identity-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .identity-buttons button {
+        width: 100%;
+        padding: 16px;
+    }
+
+    /* Nachrichten */
+
+    .messages {
+        max-height: 55vh;
+        padding: 3px;
+    }
+
+    .message {
+        max-width: 94%;
+        padding: 10px 11px;
+        border-radius: 13px;
+    }
+
+    .message-name {
+        font-size: 13px;
+    }
+
+    .message-text {
         font-size: 15px;
+        line-height: 1.35;
+    }
+
+    .message-footer {
+        margin-top: 8px;
+        gap: 6px;
+    }
+
+    .message-time {
+        font-size: 10px;
+    }
+
+    .delete-message-button {
+        padding: 6px 8px;
+        font-size: 11px;
+        border-radius: 7px;
+    }
+
+    .message-form {
+        flex-direction: row;
+        gap: 7px;
+    }
+
+    .message-form input {
+        min-width: 0;
+        padding: 12px 11px;
+        border-radius: 12px;
+        font-size: 16px;
+    }
+
+    .send-button {
+        padding: 0 13px;
+        border-radius: 12px;
+        font-size: 14px;
+    }
+
+    /* Bilder */
+
+    .upload-area {
+        padding: 16px 10px;
+    }
+
+    .upload-label {
+        width: 100%;
+        padding: 13px 10px;
     }
 
     .gallery {
-        grid-template-columns: repeat(2,1fr);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 14px;
+    }
+
+    .gallery-item {
+        border-radius: 12px;
+    }
+
+    .delete-image-button {
+        width: 35px;
+        height: 35px;
+        right: 6px;
+        top: 6px;
+        font-size: 16px;
+        border-radius: 9px;
+    }
+
+    .back-button {
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+
+    .lightbox {
+        padding: 10px;
+    }
+
+    .lightbox img {
+        max-width: 96vw;
+        max-height: 80vh;
+    }
+
+    .close-lightbox {
+        top: 10px;
+        right: 10px;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+/* Sehr kleine Handys */
+
+@media (max-width: 380px) {
+
+    .page {
+        padding: 8px;
+    }
+
+    .card {
+        padding: 11px;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .menu {
+        gap: 7px;
+    }
+
+    .menu button {
+        min-height: 70px;
+        font-size: 13px;
+    }
+
+    .message {
+        max-width: 97%;
+    }
+
+    .message-footer {
+        flex-wrap: wrap;
+    }
+
+    .message-time {
+        flex: 1 1 auto;
+    }
+
+    .delete-message-button {
+        font-size: 10px;
     }
 
     .message-form {
         flex-direction: column;
     }
 
-    .send-button {
-        padding: 13px;
+    .message-form input {
+        width: 100%;
     }
 
-    .message {
-        max-width: 90%;
+    .send-button {
+        width: 100%;
+        min-height: 44px;
     }
 }
 </style>
@@ -501,7 +717,9 @@ button {
 <div class="card">
 
 <div id="messages" class="messages">
-<div class="empty">Nachrichten werden geladen...</div>
+<div class="empty">
+Nachrichten werden geladen...
+</div>
 </div>
 
 <form id="messageForm" class="message-form">
@@ -719,7 +937,7 @@ function showPage(id) {
         }
     });
 
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
 }
 
 function goHome() {
@@ -790,8 +1008,10 @@ async function loadMessages() {
         return;
     }
 
-    if (!result.data ||
-        result.data.length === 0) {
+    if (
+        !result.data ||
+        result.data.length === 0
+    ) {
 
         container.innerHTML =
             '<div class="empty">' +
