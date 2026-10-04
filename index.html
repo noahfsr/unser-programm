@@ -74,6 +74,11 @@ input {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 5px 15px rgba(100,40,70,.1);
+    transition: .15s;
+}
+
+.menu button:hover {
+    transform: translateY(-2px);
 }
 
 .back-button {
@@ -107,7 +112,7 @@ input {
     display: none !important;
 }
 
-/* Nachrichten */
+/* NACHRICHTEN */
 
 .messages {
     display: flex;
@@ -115,6 +120,7 @@ input {
     gap: 10px;
     max-height: 500px;
     overflow-y: auto;
+    padding: 5px;
 }
 
 .message {
@@ -172,7 +178,7 @@ input {
     font-weight: bold;
 }
 
-/* Bilder */
+/* BILDER */
 
 .upload-area {
     text-align: center;
@@ -225,11 +231,8 @@ input {
     display: block;
 }
 
-.gallery-error {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 20px;
-    color: #a33;
+.gallery-item img:hover {
+    transform: scale(1.03);
 }
 
 .empty {
@@ -239,7 +242,20 @@ input {
     padding: 35px 10px;
 }
 
-/* Großes Bild */
+.gallery-error {
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    color: #a33;
+    font-size: 14px;
+}
+
+/* LIGHTBOX */
 
 .lightbox {
     position: fixed;
@@ -276,6 +292,8 @@ input {
     font-size: 25px;
     cursor: pointer;
 }
+
+/* BALD */
 
 .soon {
     text-align: center;
@@ -436,7 +454,7 @@ placeholder="Schreib etwas... ❤️"
 autocomplete="off"
 >
 
-<button class="send-button">
+<button class="send-button" type="submit">
 Senden
 </button>
 
@@ -480,7 +498,11 @@ multiple
 </div>
 
 <div id="gallery" class="gallery">
-<div class="empty">Bilder werden geladen...</div>
+
+<div class="empty">
+Bilder werden geladen...
+</div>
+
 </div>
 
 </div>
@@ -498,11 +520,17 @@ multiple
 
 <div class="card soon">
 
-<div class="soon-icon">✨</div>
+<div class="soon-icon">
+✨
+</div>
 
-<h2 id="soonTitle">Bald verfügbar</h2>
+<h2 id="soonTitle">
+Bald verfügbar
+</h2>
 
-<p>Dieser Bereich kommt noch. ❤️</p>
+<p>
+Dieser Bereich kommt noch. ❤️
+</p>
 
 </div>
 
@@ -517,11 +545,16 @@ multiple
 
 <button
 id="closeLightbox"
-class="close-lightbox">
+class="close-lightbox"
+aria-label="Bild schließen">
 ×
 </button>
 
-<img id="lightboxImage" src="" alt="Großes Bild">
+<img
+id="lightboxImage"
+src=""
+alt="Großes Bild"
+>
 
 </div>
 
@@ -540,8 +573,8 @@ const SUPABASE_KEY =
 
 const supabaseClient =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+    SUPABASE_URL,
+    SUPABASE_KEY
 );
 
 const MESSAGE_TABLE = "message";
@@ -554,55 +587,51 @@ const IMAGE_BUCKET = "bilder";
 
 let currentUser =
 localStorage.getItem(
-"unser_programm_user"
+    "unser_programm_user"
 );
 
 
 function chooseIdentity(name) {
 
-currentUser = name;
+    currentUser = name;
 
-localStorage.setItem(
-"unser_programm_user",
-name
-);
+    localStorage.setItem(
+        "unser_programm_user",
+        name
+    );
 
-updateUserText();
+    updateUserText();
 
-showPage("homePage");
-
+    showPage("homePage");
 }
 
 
 function changeIdentity() {
 
-showPage("identityPage");
-
+    showPage("identityPage");
 }
 
 
 function updateUserText() {
 
-const element =
-document.getElementById(
-"currentUserText"
-);
+    const element =
+        document.getElementById(
+            "currentUserText"
+        );
 
-if (!element) return;
+    if (!element) return;
 
-if (!currentUser) {
+    if (!currentUser) {
 
-element.textContent = "";
+        element.textContent = "";
 
-return;
+        return;
+    }
 
-}
-
-element.innerHTML =
-"Du bist gerade als <strong>" +
-escapeHtml(currentUser) +
-"</strong> angemeldet ❤️";
-
+    element.innerHTML =
+        "Du bist gerade als <strong>" +
+        escapeHtml(currentUser) +
+        "</strong> angemeldet ❤️";
 }
 
 
@@ -612,50 +641,45 @@ escapeHtml(currentUser) +
 
 function showPage(id) {
 
-const pages = [
-"homePage",
-"identityPage",
-"messagesPage",
-"imagesPage",
-"soonPage"
-];
+    const pages = [
+        "homePage",
+        "identityPage",
+        "messagesPage",
+        "imagesPage",
+        "soonPage"
+    ];
 
-pages.forEach(pageId => {
+    pages.forEach(pageId => {
 
-const page =
-document.getElementById(pageId);
+        const page =
+            document.getElementById(pageId);
 
-if (page) {
+        if (page) {
 
-page.classList.toggle(
-"hidden",
-pageId !== id
-);
+            page.classList.toggle(
+                "hidden",
+                pageId !== id
+            );
+        }
+    });
 
-}
-
-});
-
-window.scrollTo(0,0);
-
+    window.scrollTo(0,0);
 }
 
 
 function goHome() {
 
-showPage("homePage");
-
+    showPage("homePage");
 }
 
 
 function showComingSoon(name) {
 
-document.getElementById(
-"soonTitle"
-).textContent = name;
+    document.getElementById(
+        "soonTitle"
+    ).textContent = name;
 
-showPage("soonPage");
-
+    showPage("soonPage");
 }
 
 
@@ -665,213 +689,231 @@ showPage("soonPage");
 
 function openMessages() {
 
-if (!currentUser) {
+    if (!currentUser) {
 
-showPage("identityPage");
-return;
+        showPage("identityPage");
 
-}
+        return;
+    }
 
-showPage("messagesPage");
+    showPage("messagesPage");
 
-loadMessages();
-
+    loadMessages();
 }
 
 
 async function loadMessages() {
 
-const container =
-document.getElementById(
-"messages"
-);
+    const container =
+        document.getElementById(
+            "messages"
+        );
 
-container.innerHTML =
-'<div class="empty">Nachrichten werden geladen...</div>';
+    container.innerHTML =
+        '<div class="empty">' +
+        'Nachrichten werden geladen...' +
+        '</div>';
 
+    const result =
+        await supabaseClient
+            .from(MESSAGE_TABLE)
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: true
+                }
+            );
 
-const result =
-await supabaseClient
-.from(MESSAGE_TABLE)
-.select("*")
-.order(
-"created_at",
-{ascending:true}
-);
+    if (result.error) {
 
+        console.error(result.error);
 
-if (result.error) {
+        container.innerHTML =
+            '<div class="empty">' +
+            'Fehler beim Laden der Nachrichten.' +
+            '</div>';
 
-console.error(result.error);
+        return;
+    }
 
-container.innerHTML =
-'<div class="empty">Fehler beim Laden der Nachrichten.</div>';
+    if (!result.data ||
+        result.data.length === 0) {
 
-return;
+        container.innerHTML =
+            '<div class="empty">' +
+            'Noch keine Nachrichten ❤️' +
+            '</div>';
 
-}
+        return;
+    }
 
+    container.innerHTML = "";
 
-if (!result.data ||
-result.data.length === 0) {
+    result.data.forEach(
+        message => {
 
-container.innerHTML =
-'<div class="empty">Noch keine Nachrichten ❤️</div>';
+            addMessage(message);
 
-return;
-
-}
-
-
-container.innerHTML = "";
-
-result.data.forEach(
-message => {
-
-addMessage(
-message
-);
-
-});
-
+        }
+    );
 }
 
 
 function addMessage(message) {
 
-const container =
-document.getElementById(
-"messages"
-);
+    const container =
+        document.getElementById(
+            "messages"
+        );
 
-const div =
-document.createElement(
-"div"
-);
+    const div =
+        document.createElement(
+            "div"
+        );
 
-div.className =
-"message";
+    div.className = "message";
 
-div.dataset.id =
-message.id;
+    div.dataset.id =
+        message.id;
 
+    if (message.sender === currentUser) {
 
-if (message.sender === currentUser) {
+        div.classList.add("mine");
+    }
 
-div.classList.add("mine");
+    const date =
+        new Date(
+            message.created_at
+        );
 
-}
+    const time =
+        date.toLocaleString(
+            "de-DE",
+            {
+                day: "2-digit",
+                month: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
 
+    div.innerHTML =
 
-const date =
-new Date(
-message.created_at
-);
+        '<div class="message-name">' +
+        escapeHtml(message.sender) +
+        '</div>' +
 
-const time =
-date.toLocaleString(
-"de-DE",
-{
-day:"2-digit",
-month:"2-digit",
-hour:"2-digit",
-minute:"2-digit"
-}
-);
+        '<div class="message-text">' +
+        escapeHtml(message.message) +
+        '</div>' +
 
+        '<div class="message-time">' +
+        time +
+        '</div>';
 
-div.innerHTML =
+    container.appendChild(div);
 
-'<div class="message-name">' +
-escapeHtml(message.sender) +
-'</div>' +
-
-'<div class="message-text">' +
-escapeHtml(message.message) +
-'</div>' +
-
-'<div class="message-time">' +
-time +
-'</div>';
-
-
-container.appendChild(div);
-
-container.scrollTop =
-container.scrollHeight;
-
+    container.scrollTop =
+        container.scrollHeight;
 }
 
 
 async function sendMessage(event) {
 
-event.preventDefault();
+    event.preventDefault();
 
-if (!currentUser) return;
+    if (!currentUser) return;
 
+    const input =
+        document.getElementById(
+            "messageInput"
+        );
 
-const input =
-document.getElementById(
-"messageInput"
-);
+    const text =
+        input.value.trim();
 
-const text =
-input.value.trim();
+    if (!text) return;
 
-if (!text) return;
+    input.disabled = true;
 
+    const result =
+        await supabaseClient
+            .from(MESSAGE_TABLE)
+            .insert([
+                {
+                    sender: currentUser,
+                    message: text
+                }
+            ])
+            .select()
+            .single();
 
-input.disabled = true;
+    input.disabled = false;
 
+    if (result.error) {
 
-const result =
-await supabaseClient
-.from(MESSAGE_TABLE)
-.insert([
-{
-sender:currentUser,
-message:text
-}
-])
-.select()
-.single();
+        console.error(result.error);
 
+        alert(
+            "Die Nachricht konnte nicht gesendet werden."
+        );
 
-input.disabled = false;
+        return;
+    }
 
+    input.value = "";
 
-if (result.error) {
+    const existing =
+        document.querySelector(
+            '[data-id="' +
+            result.data.id +
+            '"]'
+        );
 
-console.error(result.error);
+    if (!existing) {
 
-alert(
-"Die Nachricht konnte nicht gesendet werden."
-);
-
-return;
-
-}
-
-
-input.value = "";
-
-
-const existing =
-document.querySelector(
-'[data-id="' +
-result.data.id +
-'"]'
-);
-
-if (!existing) {
-
-addMessage(
-result.data
-);
-
+        addMessage(
+            result.data
+        );
+    }
 }
 
-}
+
+/* ==========================
+   REALTIME
+========================== */
+
+supabaseClient
+    .channel("messages-live")
+    .on(
+        "postgres_changes",
+        {
+            event: "INSERT",
+            schema: "public",
+            table: MESSAGE_TABLE
+        },
+        payload => {
+
+            const message =
+                payload.new;
+
+            const existing =
+                document.querySelector(
+                    '[data-id="' +
+                    message.id +
+                    '"]'
+                );
+
+            if (!existing) {
+
+                addMessage(
+                    message
+                );
+            }
+        }
+    )
+    .subscribe();
 
 
 /* ==========================
@@ -880,173 +922,183 @@ result.data
 
 function openImages() {
 
-if (!currentUser) {
+    if (!currentUser) {
 
-showPage("identityPage");
-return;
+        showPage("identityPage");
 
-}
+        return;
+    }
 
-showPage("imagesPage");
+    showPage("imagesPage");
 
-loadImages();
-
+    loadImages();
 }
 
 
 /*
-   WICHTIG:
-   Wir erstellen die öffentliche URL
-   selbst aus dem Supabase-Bucket.
+    Bilder werden über eine
+    temporäre Signed URL geladen.
 */
-
-function getImageUrl(fileName) {
-
-return (
-SUPABASE_URL +
-"/storage/v1/object/public/" +
-IMAGE_BUCKET +
-"/" +
-encodeURIComponent(fileName)
-);
-
-}
-
 
 async function loadImages() {
 
-const gallery =
-document.getElementById(
-"gallery"
-);
+    const gallery =
+        document.getElementById(
+            "gallery"
+        );
 
-gallery.innerHTML =
-'<div class="empty">Bilder werden geladen...</div>';
+    gallery.innerHTML =
+        '<div class="empty">' +
+        'Bilder werden geladen...' +
+        '</div>';
 
+    const result =
+        await supabaseClient
+            .storage
+            .from(IMAGE_BUCKET)
+            .list(
+                "",
+                {
+                    limit: 100,
+                    offset: 0,
+                    sortBy: {
+                        column: "created_at",
+                        order: "desc"
+                    }
+                }
+            );
 
-const result =
-await supabaseClient
-.storage
-.from(IMAGE_BUCKET)
-.list(
-"",
-{
-limit:100,
-offset:0,
-sortBy:{
-column:"created_at",
-order:"desc"
-}
-}
-);
+    if (result.error) {
 
+        console.error(
+            "Storage-Liste Fehler:",
+            result.error
+        );
 
-if (result.error) {
+        gallery.innerHTML =
+            '<div class="gallery-error">' +
+            'Fehler beim Laden der Bilder.' +
+            '</div>';
 
-console.error(
-result.error
-);
+        return;
+    }
 
-gallery.innerHTML =
-'<div class="gallery-error">Fehler beim Laden der Bilder.</div>';
+    const files =
+        (result.data || [])
+            .filter(file =>
+                file.name &&
+                file.name !==
+                ".emptyFolderPlaceholder"
+            );
 
-return;
+    if (files.length === 0) {
 
-}
+        gallery.innerHTML =
+            '<div class="empty">' +
+            'Noch keine Bilder ❤️<br>' +
+            'Lade euer erstes Bild hoch!' +
+            '</div>';
 
+        return;
+    }
 
-const files =
-(result.data || [])
-.filter(file =>
-file.name &&
-file.name !==
-".emptyFolderPlaceholder"
-);
+    gallery.innerHTML = "";
 
+    /*
+       Jedes Bild bekommt eine eigene
+       Signed URL.
+    */
 
-if (files.length === 0) {
+    for (const file of files) {
 
-gallery.innerHTML =
-`
-<div class="empty">
-Noch keine Bilder ❤️<br>
-Lade euer erstes Bild hoch!
-</div>
-`;
+        const signedResult =
+            await supabaseClient
+                .storage
+                .from(IMAGE_BUCKET)
+                .createSignedUrl(
+                    file.name,
+                    3600
+                );
 
-return;
+        if (signedResult.error) {
 
-}
+            console.error(
+                "Signed URL Fehler:",
+                file.name,
+                signedResult.error
+            );
 
+            const errorBox =
+                document.createElement(
+                    "div"
+                );
 
-gallery.innerHTML = "";
+            errorBox.className =
+                "gallery-error";
 
+            errorBox.textContent =
+                "Bild konnte nicht geladen werden.";
 
-files.forEach(file => {
+            gallery.appendChild(
+                errorBox
+            );
 
-const url =
-getImageUrl(
-file.name
-);
+            continue;
+        }
 
+        const url =
+            signedResult.data.signedUrl;
 
-const item =
-document.createElement(
-"div"
-);
+        const item =
+            document.createElement(
+                "div"
+            );
 
-item.className =
-"gallery-item";
+        item.className =
+            "gallery-item";
 
+        const image =
+            document.createElement(
+                "img"
+            );
 
-const image =
-document.createElement(
-"img"
-);
+        image.src = url;
 
-image.src = url;
+        image.alt =
+            "Unser Bild";
 
-image.alt =
-"Unser Bild";
+        image.loading =
+            "lazy";
 
-image.loading =
-"lazy";
+        image.addEventListener(
+            "click",
+            () => {
 
+                openLightbox(url);
 
-/*
-   Wenn das Bild nicht geladen werden kann,
-   zeigen wir einen Hinweis.
-*/
+            }
+        );
 
-image.onerror = () => {
+        image.addEventListener(
+            "error",
+            () => {
 
-item.innerHTML =
-`
-<div class="gallery-error">
-Bild konnte nicht geladen werden.
-</div>
-`;
+                item.innerHTML =
+                    '<div class="gallery-error">' +
+                    'Bild konnte nicht geladen werden.' +
+                    '</div>';
 
-};
+            }
+        );
 
+        item.appendChild(
+            image
+        );
 
-image.onclick = () => {
-
-openLightbox(url);
-
-};
-
-
-item.appendChild(
-image
-);
-
-gallery.appendChild(
-item
-);
-
-});
-
+        gallery.appendChild(
+            item
+        );
+    }
 }
 
 
@@ -1056,126 +1108,117 @@ item
 
 async function uploadImages(event) {
 
-const files =
-Array.from(
-event.target.files || []
-);
+    const files =
+        Array.from(
+            event.target.files || []
+        );
 
-if (files.length === 0)
-return;
+    if (files.length === 0)
+        return;
 
+    const status =
+        document.getElementById(
+            "uploadStatus"
+        );
 
-const status =
-document.getElementById(
-"uploadStatus"
-);
+    status.textContent =
+        "Bilder werden hochgeladen...";
 
-status.textContent =
-"Bilder werden hochgeladen...";
+    let count = 0;
 
+    for (const file of files) {
 
-let count = 0;
+        if (
+            !file.type.startsWith(
+                "image/"
+            )
+        ) {
+            continue;
+        }
 
+        const extension =
+            getExtension(
+                file.name
+            ) || "jpg";
 
-for (const file of files) {
+        const fileName =
+            Date.now() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .substring(2,10) +
+            "." +
+            extension;
 
-if (!file.type.startsWith("image/"))
-continue;
+        const result =
+            await supabaseClient
+                .storage
+                .from(IMAGE_BUCKET)
+                .upload(
+                    fileName,
+                    file,
+                    {
+                        contentType:
+                            file.type,
+                        upsert: false
+                    }
+                );
 
+        if (result.error) {
 
-const extension =
-getExtension(
-file.name
-) || "jpg";
+            console.error(
+                "Upload Fehler:",
+                result.error
+            );
 
+        } else {
 
-const fileName =
-Date.now() +
-"-" +
-Math.random()
-.toString(36)
-.substring(2,10) +
-"." +
-extension;
+            count++;
+        }
+    }
 
+    event.target.value = "";
 
-const result =
-await supabaseClient
-.storage
-.from(IMAGE_BUCKET)
-.upload(
-fileName,
-file,
-{
-contentType:file.type,
-upsert:false
-}
-);
+    if (count === 0) {
 
+        status.textContent =
+            "Kein Bild konnte hochgeladen werden.";
 
-if (result.error) {
+    } else {
 
-console.error(
-"Upload Fehler:",
-result.error
-);
+        status.textContent =
+            count === 1
+                ? "1 Bild wurde hochgeladen ❤️"
+                : count +
+                  " Bilder wurden hochgeladen ❤️";
+    }
 
-} else {
+    await loadImages();
 
-count++;
-
-}
-
-}
-
-
-event.target.value = "";
-
-
-if (count === 0) {
-
-status.textContent =
-"Kein Bild konnte hochgeladen werden.";
-
-} else {
-
-status.textContent =
-count === 1
-? "1 Bild wurde hochgeladen ❤️"
-: count +
-" Bilder wurden hochgeladen ❤️";
-
-}
-
-
-await loadImages();
-
-
-setTimeout(() => {
-
-status.textContent = "";
-
-},3000);
-
+    setTimeout(
+        () => {
+            status.textContent = "";
+        },
+        3000
+    );
 }
 
 
 function getExtension(name) {
 
-const parts =
-name.split(".");
+    const parts =
+        name.split(".");
 
-if (parts.length < 2)
-return "";
+    if (parts.length < 2)
+        return "";
 
-return parts
-.pop()
-.toLowerCase()
-.replace(
-/[^a-z0-9]/g,
-""
-);
-
+    return parts
+        .pop()
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9]/g,
+            ""
+        );
 }
 
 
@@ -1185,98 +1228,72 @@ return parts
 
 function openLightbox(url) {
 
-const box =
-document.getElementById(
-"lightbox"
-);
+    const box =
+        document.getElementById(
+            "lightbox"
+        );
 
-const image =
-document.getElementById(
-"lightboxImage"
-);
+    const image =
+        document.getElementById(
+            "lightboxImage"
+        );
 
-image.src = url;
+    image.src = url;
 
-box.classList.add(
-"open"
-);
-
+    box.classList.add(
+        "open"
+    );
 }
 
 
 function closeLightbox() {
 
-const box =
-document.getElementById(
-"lightbox"
-);
+    const box =
+        document.getElementById(
+            "lightbox"
+        );
 
-const image =
-document.getElementById(
-"lightboxImage"
-);
+    const image =
+        document.getElementById(
+            "lightboxImage"
+        );
 
-box.classList.remove(
-"open"
-);
+    box.classList.remove(
+        "open"
+    );
 
-image.src = "";
-
+    image.src = "";
 }
 
 
 /* ==========================
-   SICHERHEIT
+   HTML SICHER MACHEN
 ========================== */
 
 function escapeHtml(value) {
 
-return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
-
-
-/* ==========================
-   REALTIME NACHRICHTEN
-========================== */
-
-supabaseClient
-.channel("messages-live")
-.on(
-"postgres_changes",
-{
-event:"INSERT",
-schema:"public",
-table:MESSAGE_TABLE
-},
-payload => {
-
-const message =
-payload.new;
-
-const existing =
-document.querySelector(
-'[data-id="' +
-message.id +
-'"]'
-);
-
-if (!existing) {
-
-addMessage(
-message
-);
-
-}
-
-}
-)
-.subscribe();
 
 
 /* ==========================
@@ -1284,60 +1301,63 @@ message
 ========================== */
 
 document
-.getElementById("messageForm")
-.addEventListener(
-"submit",
-sendMessage
-);
-
-
-document
-.getElementById("imageInput")
-.addEventListener(
-"change",
-uploadImages
-);
-
+    .getElementById(
+        "messageForm"
+    )
+    .addEventListener(
+        "submit",
+        sendMessage
+    );
 
 document
-.getElementById("closeLightbox")
-.addEventListener(
-"click",
-closeLightbox
-);
-
+    .getElementById(
+        "imageInput"
+    )
+    .addEventListener(
+        "change",
+        uploadImages
+    );
 
 document
-.getElementById("lightbox")
-.addEventListener(
-"click",
-event => {
+    .getElementById(
+        "closeLightbox"
+    )
+    .addEventListener(
+        "click",
+        closeLightbox
+    );
 
-if (
-event.target.id ===
-"lightbox"
-) {
+document
+    .getElementById(
+        "lightbox"
+    )
+    .addEventListener(
+        "click",
+        event => {
 
-closeLightbox();
+            if (
+                event.target.id ===
+                "lightbox"
+            ) {
 
-}
-
-});
-
+                closeLightbox();
+            }
+        }
+    );
 
 document.addEventListener(
-"keydown",
-event => {
+    "keydown",
+    event => {
 
-if (
-event.key === "Escape"
-) {
+        if (
+            event.key ===
+            "Escape"
+        ) {
 
-closeLightbox();
-
-}
-
-});
+            closeLightbox();
+        }
+    }
+);
 
 
 /* ==========================
@@ -1346,14 +1366,17 @@ closeLightbox();
 
 if (currentUser) {
 
-updateUserText();
+    updateUserText();
 
-showPage("homePage");
+    showPage(
+        "homePage"
+    );
 
 } else {
 
-showPage("identityPage");
-
+    showPage(
+        "identityPage"
+    );
 }
 
 </script>
