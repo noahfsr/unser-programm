@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -9,6 +10,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 20px;
@@ -24,6 +29,7 @@
 
     h1 {
       text-align: center;
+      margin-bottom: 25px;
     }
 
     .box {
@@ -33,9 +39,68 @@
       margin-bottom: 20px;
     }
 
+    .identity-screen {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .identity-screen h1 {
+      font-size: 28px;
+    }
+
+    .identity-screen p {
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    .identity-button {
+      width: 100%;
+      padding: 16px;
+      margin: 8px 0;
+      border: 0;
+      border-radius: 14px;
+      background: #ff5c8a;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .identity-button:active,
+    .send-button:active,
+    .change-button:active {
+      transform: scale(0.98);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .top-bar h1 {
+      margin: 0;
+      text-align: left;
+    }
+
+    .change-button {
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 12px;
+      background: #303039;
+      color: #ddd;
+      cursor: pointer;
+    }
+
+    .current-user {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
     input {
       width: 100%;
-      box-sizing: border-box;
       padding: 14px;
       margin: 6px 0;
       border: 0;
@@ -43,9 +108,14 @@
       background: #303039;
       color: white;
       font-size: 16px;
+      outline: none;
     }
 
-    button {
+    input:focus {
+      box-shadow: 0 0 0 2px #ff5c8a;
+    }
+
+    .send-button {
       width: 100%;
       padding: 14px;
       margin-top: 8px;
@@ -55,10 +125,6 @@
       color: white;
       font-size: 16px;
       cursor: pointer;
-    }
-
-    button:active {
-      transform: scale(0.98);
     }
 
     .message {
@@ -86,6 +152,10 @@
       margin-top: 12px;
       min-height: 20px;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
@@ -93,36 +163,86 @@
 
 <div class="app">
 
-  <h1>💌 Unsere Nachrichten</h1>
+  <!-- IDENTITÄT AUSWÄHLEN -->
 
-  <div class="box">
+  <div id="identityScreen" class="identity-screen">
 
-    <input
-      id="sender"
-      type="text"
-      placeholder="Dein Name"
+    <h1>💕 Wer bist du?</h1>
+
+    <p>
+      Wähle deinen Namen aus.
+    </p>
+
+    <button
+      class="identity-button"
+      onclick="chooseIdentity('Noah')"
     >
-
-    <input
-      id="message"
-      type="text"
-      placeholder="Deine Nachricht"
-    >
-
-    <button onclick="sendMessage()">
-      Nachricht senden
+      👦 Noah
     </button>
 
-    <div id="status"></div>
+    <button
+      class="identity-button"
+      onclick="chooseIdentity('Emma')"
+    >
+      👧 Emma
+    </button>
 
   </div>
 
-  <div class="box">
 
-    <h2>Nachrichten</h2>
+  <!-- HAUPTSEITE -->
 
-    <div id="messages">
-      Nachrichten werden geladen...
+  <div id="mainApp" class="hidden">
+
+    <div class="top-bar">
+
+      <h1>💌 Nachrichten</h1>
+
+      <button
+        class="change-button"
+        onclick="changeIdentity()"
+      >
+        Identität ändern
+      </button>
+
+    </div>
+
+
+    <div class="current-user">
+      Du bist <strong id="currentUser"></strong>
+    </div>
+
+
+    <div class="box">
+
+      <input
+        id="message"
+        type="text"
+        placeholder="Deine Nachricht..."
+        maxlength="500"
+        onkeydown="handleEnter(event)"
+      >
+
+      <button
+        class="send-button"
+        onclick="sendMessage()"
+      >
+        Nachricht senden
+      </button>
+
+      <div id="status"></div>
+
+    </div>
+
+
+    <div class="box">
+
+      <h2>💬 Unsere Nachrichten</h2>
+
+      <div id="messages">
+        Nachrichten werden geladen...
+      </div>
+
     </div>
 
   </div>
@@ -146,10 +266,83 @@ const supabaseClient =
   );
 
 
+let currentUser =
+  localStorage.getItem("unser_programm_user");
+
+
+/*
+   IDENTITÄT AUSWÄHLEN
+*/
+
+function chooseIdentity(name) {
+
+  currentUser = name;
+
+  localStorage.setItem(
+    "unser_programm_user",
+    name
+  );
+
+  showMainApp();
+
+}
+
+
+/*
+   HAUPTSEITE ANZEIGEN
+*/
+
+function showMainApp() {
+
+  document
+    .getElementById("identityScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("mainApp")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("currentUser")
+    .textContent = currentUser;
+
+  loadMessages();
+
+}
+
+
+/*
+   IDENTITÄT ÄNDERN
+*/
+
+function changeIdentity() {
+
+  localStorage.removeItem(
+    "unser_programm_user"
+  );
+
+  currentUser = null;
+
+  document
+    .getElementById("mainApp")
+    .classList.add("hidden");
+
+  document
+    .getElementById("identityScreen")
+    .classList.remove("hidden");
+
+}
+
+
+/*
+   NACHRICHTEN LADEN
+*/
+
 async function loadMessages() {
 
   const container =
     document.getElementById("messages");
+
 
   const { data, error } =
     await supabaseClient
@@ -158,6 +351,7 @@ async function loadMessages() {
       .order("created_at", {
         ascending: true
       });
+
 
   if (error) {
 
@@ -168,6 +362,7 @@ async function loadMessages() {
       escapeHTML(error.message);
 
     return;
+
   }
 
 
@@ -180,6 +375,7 @@ async function loadMessages() {
       "<div style='color:#999'>Noch keine Nachrichten.</div>";
 
     return;
+
   }
 
 
@@ -213,33 +409,41 @@ async function loadMessages() {
 
   });
 
+
+  /*
+     Automatisch nach unten scrollen,
+     damit die neuesten Nachrichten sichtbar sind.
+  */
+
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth"
+  });
+
 }
 
 
+/*
+   NACHRICHT SENDEN
+*/
+
 async function sendMessage() {
 
-  const sender =
-    document
-      .getElementById("sender")
-      .value
-      .trim();
-
-
-  const message =
-    document
-      .getElementById("message")
-      .value
-      .trim();
-
+  const messageInput =
+    document.getElementById("message");
 
   const status =
     document.getElementById("status");
 
 
-  if (!sender) {
+  const message =
+    messageInput.value.trim();
+
+
+  if (!currentUser) {
 
     status.textContent =
-      "Bitte deinen Namen eingeben.";
+      "Bitte zuerst deine Identität auswählen.";
 
     return;
 
@@ -265,7 +469,7 @@ async function sendMessage() {
       .from("message")
       .insert({
 
-        sender: sender,
+        sender: currentUser,
 
         message: message
 
@@ -285,10 +489,7 @@ async function sendMessage() {
   }
 
 
-  document
-    .getElementById("message")
-    .value = "";
-
+  messageInput.value = "";
 
   status.textContent =
     "✅ Nachricht gesendet!";
@@ -296,8 +497,40 @@ async function sendMessage() {
 
   await loadMessages();
 
+
+  /*
+     Status nach kurzer Zeit löschen
+  */
+
+  setTimeout(() => {
+
+    status.textContent = "";
+
+  }, 2000);
+
 }
 
+
+/*
+   ENTER-TASTE
+*/
+
+function handleEnter(event) {
+
+  if (event.key === "Enter") {
+
+    event.preventDefault();
+
+    sendMessage();
+
+  }
+
+}
+
+
+/*
+   HTML-SICHERHEIT
+*/
 
 function escapeHTML(text) {
 
@@ -312,12 +545,9 @@ function escapeHTML(text) {
 }
 
 
-/* Nachrichten beim Start laden */
-
-loadMessages();
-
-
-/* Neue Nachrichten automatisch erkennen */
+/*
+   AUTOMATISCHE AKTUALISIERUNG
+*/
 
 supabaseClient
   .channel("messages-channel")
@@ -327,15 +557,22 @@ supabaseClient
 
     {
       event: "INSERT",
-
       schema: "public",
-
       table: "message"
     },
 
     function() {
 
-      loadMessages();
+      /*
+         Nur aktualisieren,
+         wenn bereits eine Identität ausgewählt wurde.
+      */
+
+      if (currentUser) {
+
+        loadMessages();
+
+      }
 
     }
 
@@ -344,7 +581,19 @@ supabaseClient
   .subscribe();
 
 
+/*
+   BEIM START PRÜFEN,
+   OB SCHON EIN NAME GESPEICHERT IST
+*/
+
+if (currentUser) {
+
+  showMainApp();
+
+}
+
 </script>
 
 </body>
 </html>
+```
