@@ -51,16 +51,16 @@ input {
 }
 
 .card {
-    background: rgba(255,255,255,0.92);
+    background: rgba(255,255,255,.94);
     border-radius: 22px;
     padding: 20px;
-    box-shadow: 0 8px 25px rgba(120,50,80,0.12);
     margin-bottom: 18px;
+    box-shadow: 0 8px 25px rgba(120,50,80,.12);
 }
 
 .menu {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2,1fr);
     gap: 14px;
 }
 
@@ -73,11 +73,7 @@ input {
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(100,40,70,0.1);
-}
-
-.menu button:hover {
-    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(100,40,70,.1);
 }
 
 .back-button {
@@ -88,13 +84,12 @@ input {
     border-radius: 12px;
     cursor: pointer;
     font-weight: bold;
-    margin-bottom: 15px;
 }
 
 .identity-buttons {
     display: flex;
-    gap: 15px;
     justify-content: center;
+    gap: 15px;
     flex-wrap: wrap;
 }
 
@@ -105,8 +100,14 @@ input {
     padding: 18px 30px;
     cursor: pointer;
     font-size: 18px;
-    box-shadow: 0 5px 15px rgba(100,40,70,0.12);
+    box-shadow: 0 5px 15px rgba(100,40,70,.12);
 }
+
+.hidden {
+    display: none !important;
+}
+
+/* Nachrichten */
 
 .messages {
     display: flex;
@@ -114,7 +115,6 @@ input {
     gap: 10px;
     max-height: 500px;
     overflow-y: auto;
-    padding: 5px;
 }
 
 .message {
@@ -133,17 +133,17 @@ input {
     font-weight: bold;
     color: #c02d62;
     font-size: 14px;
-    margin-bottom: 4px;
 }
 
 .message-text {
-    word-wrap: break-word;
+    margin-top: 4px;
+    word-break: break-word;
 }
 
 .message-time {
+    margin-top: 5px;
     font-size: 11px;
     color: #8d6878;
-    margin-top: 5px;
 }
 
 .message-form {
@@ -171,6 +171,8 @@ input {
     cursor: pointer;
     font-weight: bold;
 }
+
+/* Bilder */
 
 .upload-area {
     text-align: center;
@@ -202,14 +204,14 @@ input {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3,1fr);
     gap: 12px;
     margin-top: 20px;
 }
 
 .gallery-item {
     position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1/1;
     border-radius: 16px;
     overflow: hidden;
     background: #f6dbe5;
@@ -220,31 +222,29 @@ input {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+}
+
+.gallery-error {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 20px;
+    color: #a33;
 }
 
 .empty {
+    grid-column: 1/-1;
     text-align: center;
     color: #8d6878;
     padding: 35px 10px;
 }
 
-.soon {
-    text-align: center;
-    padding: 30px 10px;
-}
-
-.soon-icon {
-    font-size: 50px;
-}
-
-.hidden {
-    display: none !important;
-}
+/* Großes Bild */
 
 .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(30,15,23,0.88);
+    background: rgba(20,10,15,.9);
     display: none;
     align-items: center;
     justify-content: center;
@@ -267,17 +267,27 @@ input {
     position: absolute;
     top: 18px;
     right: 20px;
-    border: none;
-    background: white;
-    color: #5d243b;
     width: 44px;
     height: 44px;
+    border: none;
     border-radius: 50%;
+    background: white;
+    color: #5d243b;
     font-size: 25px;
     cursor: pointer;
 }
 
-@media (max-width: 600px) {
+.soon {
+    text-align: center;
+    padding: 30px;
+}
+
+.soon-icon {
+    font-size: 50px;
+}
+
+@media(max-width:600px) {
+
     .page {
         padding: 12px;
     }
@@ -296,7 +306,7 @@ input {
     }
 
     .gallery {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2,1fr);
     }
 
     .message-form {
@@ -314,1091 +324,1037 @@ input {
 
 <div class="page">
 
-    <!-- STARTSEITE -->
-    <section id="homePage">
+<!-- STARTSEITE -->
 
-        <div class="header">
-            <h1>❤️ Noah & Emma</h1>
-            <p>Ein Ort für unsere schönsten Momente 💕</p>
-        </div>
+<section id="homePage">
 
-        <div class="card">
-            <div class="menu">
+<div class="header">
+<h1>❤️ Noah & Emma</h1>
+<p>Ein Ort für unsere schönsten Momente 💕</p>
+</div>
 
-                <button onclick="openMessages()">
-                    💌<br>
-                    Nachrichten
-                </button>
+<div class="card">
 
-                <button onclick="openImages()">
-                    📸<br>
-                    Unsere Bilder
-                </button>
+<div class="menu">
 
-                <button onclick="showComingSoon('Unsere Momente')">
-                    💕<br>
-                    Unsere Momente
-                </button>
+<button onclick="openMessages()">
+💌<br>Nachrichten
+</button>
 
-                <button onclick="showComingSoon('Spiele')">
-                    🎮<br>
-                    Spiele
-                </button>
+<button onclick="openImages()">
+📸<br>Unsere Bilder
+</button>
 
-                <button onclick="showComingSoon('Überraschung')">
-                    ✨<br>
-                    Überraschung
-                </button>
+<button onclick="showComingSoon('Unsere Momente')">
+💕<br>Unsere Momente
+</button>
 
-                <button onclick="showComingSoon('Unsere Wünsche')">
-                    📝<br>
-                    Unsere Wünsche
-                </button>
+<button onclick="showComingSoon('Spiele')">
+🎮<br>Spiele
+</button>
 
-            </div>
-        </div>
+<button onclick="showComingSoon('Überraschung')">
+✨<br>Überraschung
+</button>
 
-        <div class="card" style="text-align:center;">
-            <span id="currentUserText"></span>
+<button onclick="showComingSoon('Unsere Wünsche')">
+📝<br>Unsere Wünsche
+</button>
 
-            <br><br>
+</div>
+</div>
 
-            <button class="back-button" onclick="changeIdentity()">
-                👤 Person wechseln
-            </button>
-        </div>
+<div class="card" style="text-align:center">
 
-    </section>
+<span id="currentUserText"></span>
+
+<br><br>
+
+<button class="back-button" onclick="changeIdentity()">
+👤 Person wechseln
+</button>
+
+</div>
+
+</section>
 
 
-    <!-- PERSON AUSWÄHLEN -->
-    <section id="identityPage" class="hidden">
+<!-- IDENTITÄT -->
 
-        <div class="header">
-            <h1>❤️ Hallo!</h1>
-            <p>Wer bist du?</p>
-        </div>
+<section id="identityPage" class="hidden">
 
-        <div class="card">
+<div class="header">
+<h1>❤️ Hallo!</h1>
+<p>Wer bist du?</p>
+</div>
 
-            <div class="identity-buttons">
+<div class="card">
 
-                <button onclick="chooseIdentity('Noah')">
-                    👦<br>
-                    Noah
-                </button>
+<div class="identity-buttons">
 
-                <button onclick="chooseIdentity('Emma')">
-                    👧<br>
-                    Emma
-                </button>
+<button onclick="chooseIdentity('Noah')">
+👦<br>Noah
+</button>
 
-            </div>
+<button onclick="chooseIdentity('Emma')">
+👧<br>Emma
+</button>
 
-        </div>
+</div>
 
-    </section>
+</div>
 
-
-    <!-- NACHRICHTEN -->
-    <section id="messagesPage" class="hidden">
-
-        <button class="back-button" onclick="goHome()">
-            ← Zurück
-        </button>
-
-        <div class="header">
-            <h1>💌 Nachrichten</h1>
-            <p>Nur für uns beide ❤️</p>
-        </div>
-
-        <div class="card">
-
-            <div id="messages" class="messages">
-                <div class="empty">
-                    Nachrichten werden geladen...
-                </div>
-            </div>
-
-            <form id="messageForm" class="message-form">
-
-                <input
-                    id="messageInput"
-                    type="text"
-                    placeholder="Schreib etwas... ❤️"
-                    autocomplete="off"
-                    maxlength="1000"
-                >
-
-                <button class="send-button" type="submit">
-                    Senden
-                </button>
-
-            </form>
-
-        </div>
-
-    </section>
+</section>
 
 
-    <!-- BILDER -->
-    <section id="imagesPage" class="hidden">
+<!-- NACHRICHTEN -->
 
-        <button class="back-button" onclick="goHome()">
-            ← Zurück
-        </button>
+<section id="messagesPage" class="hidden">
 
-        <div class="header">
-            <h1>📸 Unsere Bilder</h1>
-            <p>Unsere schönsten Erinnerungen ❤️</p>
-        </div>
+<button class="back-button" onclick="goHome()">
+← Zurück
+</button>
 
-        <div class="card">
+<div class="header">
+<h1>💌 Nachrichten</h1>
+<p>Nur für uns beide ❤️</p>
+</div>
 
-            <div class="upload-area">
+<div class="card">
 
-                <label class="upload-label" for="imageInput">
-                    📷 Bild auswählen
-                </label>
+<div id="messages" class="messages">
+<div class="empty">Nachrichten werden geladen...</div>
+</div>
 
-                <input
-                    id="imageInput"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                >
+<form id="messageForm" class="message-form">
 
-                <div id="uploadStatus" class="upload-status"></div>
+<input
+id="messageInput"
+type="text"
+maxlength="1000"
+placeholder="Schreib etwas... ❤️"
+autocomplete="off"
+>
 
-            </div>
+<button class="send-button">
+Senden
+</button>
 
-            <div id="gallery" class="gallery">
-                <div class="empty">
-                    Bilder werden geladen...
-                </div>
-            </div>
+</form>
 
-        </div>
+</div>
 
-    </section>
+</section>
 
 
-    <!-- NOCH NICHT FERTIG -->
-    <section id="soonPage" class="hidden">
+<!-- BILDER -->
 
-        <button class="back-button" onclick="goHome()">
-            ← Zurück
-        </button>
+<section id="imagesPage" class="hidden">
 
-        <div class="card soon">
+<button class="back-button" onclick="goHome()">
+← Zurück
+</button>
 
-            <div class="soon-icon">
-                ✨
-            </div>
+<div class="header">
+<h1>📸 Unsere Bilder</h1>
+<p>Unsere schönsten Erinnerungen ❤️</p>
+</div>
 
-            <h2 id="soonTitle">
-                Bald verfügbar
-            </h2>
+<div class="card">
 
-            <p>
-                Dieser Bereich kommt noch. ❤️
-            </p>
+<div class="upload-area">
 
-        </div>
+<label class="upload-label" for="imageInput">
+📷 Bild auswählen
+</label>
 
-    </section>
+<input
+id="imageInput"
+type="file"
+accept="image/*"
+multiple
+>
+
+<div id="uploadStatus" class="upload-status"></div>
+
+</div>
+
+<div id="gallery" class="gallery">
+<div class="empty">Bilder werden geladen...</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- BALD VERFÜGBAR -->
+
+<section id="soonPage" class="hidden">
+
+<button class="back-button" onclick="goHome()">
+← Zurück
+</button>
+
+<div class="card soon">
+
+<div class="soon-icon">✨</div>
+
+<h2 id="soonTitle">Bald verfügbar</h2>
+
+<p>Dieser Bereich kommt noch. ❤️</p>
+
+</div>
+
+</section>
 
 </div>
 
 
-<!-- BILD-VORSCHAU -->
+<!-- LIGHTBOX -->
+
 <div id="lightbox" class="lightbox">
 
-    <button
-        id="closeLightboxButton"
-        class="close-lightbox"
-        aria-label="Bild schließen"
-    >
-        ×
-    </button>
+<button
+id="closeLightbox"
+class="close-lightbox">
+×
+</button>
 
-    <img id="lightboxImage" src="" alt="Großes Bild">
+<img id="lightboxImage" src="" alt="Großes Bild">
 
 </div>
 
 
 <script>
 
+/* ==========================
+   SUPABASE
+========================== */
+
 const SUPABASE_URL =
-    "https://mvlhbxtywabqsnfcfrzm.supabase.co";
+"https://mvlhbxtywabqsnfcfrzm.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_VWpohfk0SvSuK6eum-FZMQ_sbp-nPJy";
+"sb_publishable_VWpohfk0SvSuK6eum-FZMQ_sbp-nPJy";
 
 const supabaseClient =
-    supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
 const MESSAGE_TABLE = "message";
 const IMAGE_BUCKET = "bilder";
 
-let currentUser =
-    localStorage.getItem("unser_programm_user");
 
-
-/* -----------------------------
-   SEITEN
------------------------------ */
-
-function showPage(pageId) {
-
-    const pages = [
-        "homePage",
-        "identityPage",
-        "messagesPage",
-        "imagesPage",
-        "soonPage"
-    ];
-
-    pages.forEach(id => {
-
-        const page =
-            document.getElementById(id);
-
-        if (page) {
-
-            page.classList.toggle(
-                "hidden",
-                id !== pageId
-            );
-
-        }
-
-    });
-
-    window.scrollTo(0, 0);
-}
-
-
-function goHome() {
-
-    showPage("homePage");
-
-}
-
-
-function showComingSoon(name) {
-
-    document.getElementById(
-        "soonTitle"
-    ).textContent = name;
-
-    showPage("soonPage");
-
-}
-
-
-/* -----------------------------
+/* ==========================
    PERSON
------------------------------ */
+========================== */
+
+let currentUser =
+localStorage.getItem(
+"unser_programm_user"
+);
+
 
 function chooseIdentity(name) {
 
-    currentUser = name;
+currentUser = name;
 
-    localStorage.setItem(
-        "unser_programm_user",
-        name
-    );
+localStorage.setItem(
+"unser_programm_user",
+name
+);
 
-    updateUserText();
+updateUserText();
 
-    showPage("homePage");
+showPage("homePage");
 
 }
 
 
 function changeIdentity() {
 
-    showPage("identityPage");
+showPage("identityPage");
 
 }
 
 
 function updateUserText() {
 
-    const element =
-        document.getElementById(
-            "currentUserText"
-        );
+const element =
+document.getElementById(
+"currentUserText"
+);
 
-    if (!element || !currentUser) return;
+if (!element) return;
 
-    element.innerHTML =
-        "Du bist gerade als <strong>" +
-        escapeHtml(currentUser) +
-        "</strong> angemeldet ❤️";
+if (!currentUser) {
+
+element.textContent = "";
+
+return;
+
+}
+
+element.innerHTML =
+"Du bist gerade als <strong>" +
+escapeHtml(currentUser) +
+"</strong> angemeldet ❤️";
 
 }
 
 
-/* -----------------------------
-   NACHRICHTEN ÖFFNEN
------------------------------ */
+/* ==========================
+   SEITEN
+========================== */
+
+function showPage(id) {
+
+const pages = [
+"homePage",
+"identityPage",
+"messagesPage",
+"imagesPage",
+"soonPage"
+];
+
+pages.forEach(pageId => {
+
+const page =
+document.getElementById(pageId);
+
+if (page) {
+
+page.classList.toggle(
+"hidden",
+pageId !== id
+);
+
+}
+
+});
+
+window.scrollTo(0,0);
+
+}
+
+
+function goHome() {
+
+showPage("homePage");
+
+}
+
+
+function showComingSoon(name) {
+
+document.getElementById(
+"soonTitle"
+).textContent = name;
+
+showPage("soonPage");
+
+}
+
+
+/* ==========================
+   NACHRICHTEN
+========================== */
 
 function openMessages() {
 
-    if (!currentUser) {
+if (!currentUser) {
 
-        showPage("identityPage");
-        return;
-
-    }
-
-    showPage("messagesPage");
-
-    loadMessages();
+showPage("identityPage");
+return;
 
 }
 
+showPage("messagesPage");
 
-/* -----------------------------
-   BILDER ÖFFNEN
------------------------------ */
-
-function openImages() {
-
-    if (!currentUser) {
-
-        showPage("identityPage");
-        return;
-
-    }
-
-    showPage("imagesPage");
-
-    loadImages();
+loadMessages();
 
 }
 
-
-/* -----------------------------
-   NACHRICHTEN LADEN
------------------------------ */
 
 async function loadMessages() {
 
-    const container =
-        document.getElementById("messages");
+const container =
+document.getElementById(
+"messages"
+);
 
-    container.innerHTML =
-        '<div class="empty">Nachrichten werden geladen...</div>';
-
-
-    const result =
-        await supabaseClient
-            .from(MESSAGE_TABLE)
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: true
-                }
-            );
+container.innerHTML =
+'<div class="empty">Nachrichten werden geladen...</div>';
 
 
-    if (result.error) {
-
-        console.error(result.error);
-
-        container.innerHTML =
-            '<div class="empty">Fehler beim Laden der Nachrichten.</div>';
-
-        return;
-
-    }
+const result =
+await supabaseClient
+.from(MESSAGE_TABLE)
+.select("*")
+.order(
+"created_at",
+{ascending:true}
+);
 
 
-    const data = result.data || [];
+if (result.error) {
 
+console.error(result.error);
 
-    if (data.length === 0) {
+container.innerHTML =
+'<div class="empty">Fehler beim Laden der Nachrichten.</div>';
 
-        container.innerHTML =
-            '<div class="empty">Noch keine Nachrichten ❤️</div>';
-
-        return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    data.forEach(message => {
-
-        addMessageToScreen(message);
-
-    });
-
-
-    container.scrollTop =
-        container.scrollHeight;
+return;
 
 }
 
 
-/* -----------------------------
-   NACHRICHT ANZEIGEN
------------------------------ */
+if (!result.data ||
+result.data.length === 0) {
 
-function addMessageToScreen(message) {
+container.innerHTML =
+'<div class="empty">Noch keine Nachrichten ❤️</div>';
 
-    const container =
-        document.getElementById("messages");
-
-    if (!container) return;
-
-
-    const empty =
-        container.querySelector(".empty");
-
-    if (empty) {
-        empty.remove();
-    }
-
-
-    const div =
-        document.createElement("div");
-
-    div.className = "message";
-
-    div.dataset.messageId =
-        message.id;
-
-
-    if (message.sender === currentUser) {
-
-        div.classList.add("mine");
-
-    }
-
-
-    const date =
-        new Date(message.created_at);
-
-
-    const formattedDate =
-        date.toLocaleString(
-            "de-DE",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
-
-
-    div.innerHTML =
-
-        '<div class="message-name">' +
-        escapeHtml(message.sender) +
-        '</div>' +
-
-        '<div class="message-text">' +
-        escapeHtml(message.message) +
-        '</div>' +
-
-        '<div class="message-time">' +
-        formattedDate +
-        '</div>';
-
-
-    container.appendChild(div);
-
-
-    container.scrollTop =
-        container.scrollHeight;
+return;
 
 }
 
 
-/* -----------------------------
-   NACHRICHT SENDEN
------------------------------ */
+container.innerHTML = "";
+
+result.data.forEach(
+message => {
+
+addMessage(
+message
+);
+
+});
+
+}
+
+
+function addMessage(message) {
+
+const container =
+document.getElementById(
+"messages"
+);
+
+const div =
+document.createElement(
+"div"
+);
+
+div.className =
+"message";
+
+div.dataset.id =
+message.id;
+
+
+if (message.sender === currentUser) {
+
+div.classList.add("mine");
+
+}
+
+
+const date =
+new Date(
+message.created_at
+);
+
+const time =
+date.toLocaleString(
+"de-DE",
+{
+day:"2-digit",
+month:"2-digit",
+hour:"2-digit",
+minute:"2-digit"
+}
+);
+
+
+div.innerHTML =
+
+'<div class="message-name">' +
+escapeHtml(message.sender) +
+'</div>' +
+
+'<div class="message-text">' +
+escapeHtml(message.message) +
+'</div>' +
+
+'<div class="message-time">' +
+time +
+'</div>';
+
+
+container.appendChild(div);
+
+container.scrollTop =
+container.scrollHeight;
+
+}
+
 
 async function sendMessage(event) {
 
-    event.preventDefault();
+event.preventDefault();
+
+if (!currentUser) return;
 
 
-    if (!currentUser) {
+const input =
+document.getElementById(
+"messageInput"
+);
 
-        showPage("identityPage");
-        return;
+const text =
+input.value.trim();
 
-    }
-
-
-    const input =
-        document.getElementById(
-            "messageInput"
-        );
+if (!text) return;
 
 
-    const text =
-        input.value.trim();
+input.disabled = true;
 
 
-    if (!text) return;
+const result =
+await supabaseClient
+.from(MESSAGE_TABLE)
+.insert([
+{
+sender:currentUser,
+message:text
+}
+])
+.select()
+.single();
 
 
-    input.disabled = true;
+input.disabled = false;
 
 
-    const result =
-        await supabaseClient
-            .from(MESSAGE_TABLE)
-            .insert([
-                {
-                    sender: currentUser,
-                    message: text
-                }
-            ])
-            .select()
-            .single();
+if (result.error) {
 
+console.error(result.error);
 
-    input.disabled = false;
+alert(
+"Die Nachricht konnte nicht gesendet werden."
+);
 
-
-    if (result.error) {
-
-        console.error(result.error);
-
-        alert(
-            "Die Nachricht konnte nicht gesendet werden."
-        );
-
-        return;
-
-    }
-
-
-    input.value = "";
-
-
-    /*
-       Realtime übernimmt die Anzeige.
-       Falls Realtime kurz nicht reagiert,
-       wird die Nachricht trotzdem direkt angezeigt.
-    */
-
-    if (result.data) {
-
-        const existing =
-            document.querySelector(
-                '[data-message-id="' +
-                result.data.id +
-                '"]'
-            );
-
-        if (!existing) {
-
-            addMessageToScreen(
-                result.data
-            );
-
-        }
-
-    }
+return;
 
 }
 
 
-/* -----------------------------
-   REALTIME
------------------------------ */
-
-supabaseClient
-    .channel("message-realtime")
-    .on(
-        "postgres_changes",
-        {
-            event: "INSERT",
-            schema: "public",
-            table: MESSAGE_TABLE
-        },
-        payload => {
-
-            const message =
-                payload.new;
-
-            const existing =
-                document.querySelector(
-                    '[data-message-id="' +
-                    message.id +
-                    '"]'
-                );
-
-            if (!existing) {
-
-                addMessageToScreen(
-                    message
-                );
-
-            }
-
-        }
-    )
-    .subscribe();
+input.value = "";
 
 
-/* -----------------------------
-   BILDER LADEN
------------------------------ */
+const existing =
+document.querySelector(
+'[data-id="' +
+result.data.id +
+'"]'
+);
+
+if (!existing) {
+
+addMessage(
+result.data
+);
+
+}
+
+}
+
+
+/* ==========================
+   BILDER
+========================== */
+
+function openImages() {
+
+if (!currentUser) {
+
+showPage("identityPage");
+return;
+
+}
+
+showPage("imagesPage");
+
+loadImages();
+
+}
+
+
+/*
+   WICHTIG:
+   Wir erstellen die öffentliche URL
+   selbst aus dem Supabase-Bucket.
+*/
+
+function getImageUrl(fileName) {
+
+return (
+SUPABASE_URL +
+"/storage/v1/object/public/" +
+IMAGE_BUCKET +
+"/" +
+encodeURIComponent(fileName)
+);
+
+}
+
 
 async function loadImages() {
 
-    const gallery =
-        document.getElementById(
-            "gallery"
-        );
+const gallery =
+document.getElementById(
+"gallery"
+);
+
+gallery.innerHTML =
+'<div class="empty">Bilder werden geladen...</div>';
 
 
-    gallery.innerHTML =
-        '<div class="empty">Bilder werden geladen...</div>';
+const result =
+await supabaseClient
+.storage
+.from(IMAGE_BUCKET)
+.list(
+"",
+{
+limit:100,
+offset:0,
+sortBy:{
+column:"created_at",
+order:"desc"
+}
+}
+);
 
 
-    const result =
-        await supabaseClient
-            .storage
-            .from(IMAGE_BUCKET)
-            .list(
-                "",
-                {
-                    limit: 100,
-                    offset: 0,
-                    sortBy: {
-                        column: "created_at",
-                        order: "desc"
-                    }
-                }
-            );
+if (result.error) {
 
+console.error(
+result.error
+);
 
-    if (result.error) {
+gallery.innerHTML =
+'<div class="gallery-error">Fehler beim Laden der Bilder.</div>';
 
-        console.error(result.error);
-
-        gallery.innerHTML =
-            '<div class="empty">Fehler beim Laden der Bilder.</div>';
-
-        return;
-
-    }
-
-
-    const files =
-        (result.data || []).filter(
-            file =>
-                file.name &&
-                file.name !==
-                ".emptyFolderPlaceholder"
-        );
-
-
-    if (files.length === 0) {
-
-        gallery.innerHTML = `
-            <div class="empty"
-                 style="grid-column:1/-1;">
-                Noch keine Bilder ❤️<br>
-                Lade euer erstes Bild hoch!
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    gallery.innerHTML = "";
-
-
-    files.forEach(file => {
-
-        const publicResult =
-            supabaseClient
-                .storage
-                .from(IMAGE_BUCKET)
-                .getPublicUrl(
-                    file.name
-                );
-
-
-        const url =
-            publicResult.data.publicUrl;
-
-
-        if (!url) return;
-
-
-        const item =
-            document.createElement(
-                "div"
-            );
-
-        item.className =
-            "gallery-item";
-
-
-        const image =
-            document.createElement(
-                "img"
-            );
-
-        image.src = url;
-
-        image.alt =
-            "Unser Bild";
-
-        image.loading =
-            "lazy";
-
-
-        image.addEventListener(
-            "click",
-            () => openLightbox(url)
-        );
-
-
-        item.appendChild(image);
-
-        gallery.appendChild(item);
-
-    });
+return;
 
 }
 
 
-/* -----------------------------
+const files =
+(result.data || [])
+.filter(file =>
+file.name &&
+file.name !==
+".emptyFolderPlaceholder"
+);
+
+
+if (files.length === 0) {
+
+gallery.innerHTML =
+`
+<div class="empty">
+Noch keine Bilder ❤️<br>
+Lade euer erstes Bild hoch!
+</div>
+`;
+
+return;
+
+}
+
+
+gallery.innerHTML = "";
+
+
+files.forEach(file => {
+
+const url =
+getImageUrl(
+file.name
+);
+
+
+const item =
+document.createElement(
+"div"
+);
+
+item.className =
+"gallery-item";
+
+
+const image =
+document.createElement(
+"img"
+);
+
+image.src = url;
+
+image.alt =
+"Unser Bild";
+
+image.loading =
+"lazy";
+
+
+/*
+   Wenn das Bild nicht geladen werden kann,
+   zeigen wir einen Hinweis.
+*/
+
+image.onerror = () => {
+
+item.innerHTML =
+`
+<div class="gallery-error">
+Bild konnte nicht geladen werden.
+</div>
+`;
+
+};
+
+
+image.onclick = () => {
+
+openLightbox(url);
+
+};
+
+
+item.appendChild(
+image
+);
+
+gallery.appendChild(
+item
+);
+
+});
+
+}
+
+
+/* ==========================
    BILDER HOCHLADEN
------------------------------ */
+========================== */
 
 async function uploadImages(event) {
 
-    const files =
-        Array.from(
-            event.target.files || []
-        );
+const files =
+Array.from(
+event.target.files || []
+);
+
+if (files.length === 0)
+return;
 
 
-    if (files.length === 0) return;
+const status =
+document.getElementById(
+"uploadStatus"
+);
+
+status.textContent =
+"Bilder werden hochgeladen...";
 
 
-    const status =
-        document.getElementById(
-            "uploadStatus"
-        );
+let count = 0;
 
 
-    status.textContent =
-        "Bilder werden hochgeladen...";
+for (const file of files) {
+
+if (!file.type.startsWith("image/"))
+continue;
 
 
-    let successCount = 0;
+const extension =
+getExtension(
+file.name
+) || "jpg";
 
 
-    for (const file of files) {
-
-        if (!file.type.startsWith("image/")) {
-            continue;
-        }
-
-
-        const extension =
-            getFileExtension(
-                file.name
-            );
+const fileName =
+Date.now() +
+"-" +
+Math.random()
+.toString(36)
+.substring(2,10) +
+"." +
+extension;
 
 
-        const safeExtension =
-            extension || "jpg";
+const result =
+await supabaseClient
+.storage
+.from(IMAGE_BUCKET)
+.upload(
+fileName,
+file,
+{
+contentType:file.type,
+upsert:false
+}
+);
 
 
-        const fileName =
-            Date.now() +
-            "-" +
-            Math.random()
-                .toString(36)
-                .substring(2, 10) +
-            "." +
-            safeExtension;
+if (result.error) {
 
+console.error(
+"Upload Fehler:",
+result.error
+);
 
-        const result =
-            await supabaseClient
-                .storage
-                .from(IMAGE_BUCKET)
-                .upload(
-                    fileName,
-                    file,
-                    {
-                        contentType:
-                            file.type,
-                        upsert: false
-                    }
-                );
+} else {
 
+count++;
 
-        if (result.error) {
-
-            console.error(
-                "Upload Fehler:",
-                result.error
-            );
-
-        } else {
-
-            successCount++;
-
-        }
-
-    }
-
-
-    event.target.value = "";
-
-
-    if (successCount === 0) {
-
-        status.textContent =
-            "Kein Bild konnte hochgeladen werden.";
-
-    } else {
-
-        status.textContent =
-            successCount === 1
-                ? "1 Bild wurde hochgeladen ❤️"
-                : successCount +
-                  " Bilder wurden hochgeladen ❤️";
-
-    }
-
-
-    await loadImages();
-
-
-    setTimeout(() => {
-
-        status.textContent = "";
-
-    }, 3000);
+}
 
 }
 
 
-/* -----------------------------
-   DATEI-ENDUNG
------------------------------ */
-
-function getFileExtension(filename) {
-
-    const parts =
-        filename.split(".");
+event.target.value = "";
 
 
-    if (parts.length < 2) {
-        return "";
-    }
+if (count === 0) {
 
+status.textContent =
+"Kein Bild konnte hochgeladen werden.";
 
-    return parts
-        .pop()
-        .toLowerCase()
-        .replace(
-            /[^a-z0-9]/g,
-            ""
-        );
+} else {
+
+status.textContent =
+count === 1
+? "1 Bild wurde hochgeladen ❤️"
+: count +
+" Bilder wurden hochgeladen ❤️";
 
 }
 
 
-/* -----------------------------
+await loadImages();
+
+
+setTimeout(() => {
+
+status.textContent = "";
+
+},3000);
+
+}
+
+
+function getExtension(name) {
+
+const parts =
+name.split(".");
+
+if (parts.length < 2)
+return "";
+
+return parts
+.pop()
+.toLowerCase()
+.replace(
+/[^a-z0-9]/g,
+""
+);
+
+}
+
+
+/* ==========================
    LIGHTBOX
------------------------------ */
+========================== */
 
 function openLightbox(url) {
 
-    const lightbox =
-        document.getElementById(
-            "lightbox"
-        );
+const box =
+document.getElementById(
+"lightbox"
+);
 
+const image =
+document.getElementById(
+"lightboxImage"
+);
 
-    const image =
-        document.getElementById(
-            "lightboxImage"
-        );
+image.src = url;
 
-
-    image.src = url;
-
-    lightbox.classList.add(
-        "open"
-    );
+box.classList.add(
+"open"
+);
 
 }
 
 
 function closeLightbox() {
 
-    const lightbox =
-        document.getElementById(
-            "lightbox"
-        );
+const box =
+document.getElementById(
+"lightbox"
+);
 
+const image =
+document.getElementById(
+"lightboxImage"
+);
 
-    const image =
-        document.getElementById(
-            "lightboxImage"
-        );
+box.classList.remove(
+"open"
+);
 
-
-    lightbox.classList.remove(
-        "open"
-    );
-
-    image.src = "";
+image.src = "";
 
 }
 
 
-/* -----------------------------
-   HTML SICHER MACHEN
------------------------------ */
+/* ==========================
+   SICHERHEIT
+========================== */
 
 function escapeHtml(value) {
 
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+return String(value)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-/* -----------------------------
-   EVENT LISTENER
------------------------------ */
+/* ==========================
+   REALTIME NACHRICHTEN
+========================== */
+
+supabaseClient
+.channel("messages-live")
+.on(
+"postgres_changes",
+{
+event:"INSERT",
+schema:"public",
+table:MESSAGE_TABLE
+},
+payload => {
+
+const message =
+payload.new;
+
+const existing =
+document.querySelector(
+'[data-id="' +
+message.id +
+'"]'
+);
+
+if (!existing) {
+
+addMessage(
+message
+);
+
+}
+
+}
+)
+.subscribe();
+
+
+/* ==========================
+   EVENTS
+========================== */
 
 document
-    .getElementById("messageForm")
-    .addEventListener(
-        "submit",
-        sendMessage
-    );
-
-
-document
-    .getElementById("imageInput")
-    .addEventListener(
-        "change",
-        uploadImages
-    );
-
-
-document
-    .getElementById("closeLightboxButton")
-    .addEventListener(
-        "click",
-        closeLightbox
-    );
-
-
-document
-    .getElementById("lightbox")
-    .addEventListener(
-        "click",
-        event => {
-
-            if (
-                event.target.id ===
-                "lightbox"
-            ) {
-
-                closeLightbox();
-
-            }
-
-        }
-    );
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key ===
-            "Escape"
-        ) {
-
-            closeLightbox();
-
-        }
-
-    }
+.getElementById("messageForm")
+.addEventListener(
+"submit",
+sendMessage
 );
 
 
-/* -----------------------------
-   APP STARTEN
------------------------------ */
+document
+.getElementById("imageInput")
+.addEventListener(
+"change",
+uploadImages
+);
 
-function initializeApp() {
 
-    if (!currentUser) {
+document
+.getElementById("closeLightbox")
+.addEventListener(
+"click",
+closeLightbox
+);
 
-        showPage(
-            "identityPage"
-        );
 
-    } else {
+document
+.getElementById("lightbox")
+.addEventListener(
+"click",
+event => {
 
-        updateUserText();
+if (
+event.target.id ===
+"lightbox"
+) {
 
-        showPage(
-            "homePage"
-        );
-
-    }
+closeLightbox();
 
 }
 
+});
 
-initializeApp();
+
+document.addEventListener(
+"keydown",
+event => {
+
+if (
+event.key === "Escape"
+) {
+
+closeLightbox();
+
+}
+
+});
+
+
+/* ==========================
+   START
+========================== */
+
+if (currentUser) {
+
+updateUserText();
+
+showPage("homePage");
+
+} else {
+
+showPage("identityPage");
+
+}
 
 </script>
 
