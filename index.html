@@ -13,8 +13,7 @@
     box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -28,8 +27,7 @@ body {
     overflow-x: hidden;
 }
 
-button,
-input {
+button, input {
     font: inherit;
 }
 
@@ -160,14 +158,11 @@ button {
     font-weight: bold;
     color: #c02d62;
     font-size: 14px;
-    overflow-wrap: anywhere;
 }
 
 .message-text {
     margin-top: 4px;
     line-height: 1.4;
-    overflow-wrap: anywhere;
-    word-break: break-word;
 }
 
 .message-footer {
@@ -176,45 +171,33 @@ button {
     justify-content: space-between;
     gap: 8px;
     margin-top: 8px;
-    width: 100%;
-    min-width: 0;
 }
 
 .message-time {
-    min-width: 0;
     color: #8d6878;
     font-size: 11px;
     white-space: nowrap;
 }
 
 .delete-message-button {
-    flex-shrink: 0;
     border: none;
     border-radius: 8px;
     background: rgba(255,255,255,.8);
     color: #b52d5d;
     padding: 6px 9px;
     font-size: 12px;
-    line-height: 1.2;
     cursor: pointer;
-    white-space: nowrap;
-}
-
-.delete-message-button:hover {
-    background: white;
 }
 
 .message-form {
     display: flex;
-    align-items: stretch;
     gap: 10px;
     width: 100%;
     margin-top: 15px;
 }
 
 .message-form input {
-    flex: 1 1 auto;
-    width: 100%;
+    flex: 1;
     min-width: 0;
     border: 1px solid #edbfd0;
     border-radius: 14px;
@@ -223,12 +206,7 @@ button {
     background: #fffafb;
 }
 
-.message-form input:focus {
-    border-color: #d6336c;
-}
-
 .send-button {
-    flex: 0 0 auto;
     border: none;
     border-radius: 14px;
     background: #d6336c;
@@ -268,7 +246,6 @@ button {
     margin-top: 12px;
     color: #80566a;
     min-height: 20px;
-    overflow-wrap: anywhere;
 }
 
 .gallery {
@@ -293,11 +270,6 @@ button {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform .15s;
-}
-
-.gallery-item img:hover {
-    transform: scale(1.03);
 }
 
 .delete-image-button {
@@ -313,11 +285,6 @@ button {
     color: #b52d5d;
     font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 3px 10px rgba(0,0,0,.15);
-}
-
-.delete-image-button:hover {
-    background: white;
 }
 
 .empty {
@@ -326,7 +293,6 @@ button {
     text-align: center;
     color: #8d6878;
     padding: 35px 10px;
-    overflow-wrap: anywhere;
 }
 
 .gallery-error {
@@ -338,7 +304,6 @@ button {
     text-align: center;
     padding: 15px;
     color: #a33;
-    font-size: 14px;
 }
 
 /* ==========================
@@ -382,16 +347,339 @@ button {
 }
 
 /* ==========================
-   BALD
+   SPIEL
 ========================== */
 
-.soon {
-    text-align: center;
-    padding: 30px;
+.game-top {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
 }
 
-.soon-icon {
-    font-size: 50px;
+.game-stat {
+    background: #fff4f8;
+    border: 1px solid #f4d2df;
+    border-radius: 14px;
+    padding: 10px 6px;
+    text-align: center;
+}
+
+.game-stat span {
+    display: block;
+    font-size: 11px;
+    color: #8d6878;
+}
+
+.game-stat strong {
+    display: block;
+    margin-top: 3px;
+    color: #d6336c;
+    font-size: 17px;
+}
+
+.game-board {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    overflow: hidden;
+    border-radius: 22px;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.7), transparent 18%),
+        radial-gradient(circle at 80% 35%, rgba(255,255,255,.45), transparent 20%),
+        linear-gradient(160deg, #ffd8e7, #f5b7cf 50%, #d98eb0);
+    border: 3px solid rgba(255,255,255,.8);
+    box-shadow: inset 0 0 40px rgba(140,50,90,.12);
+    touch-action: none;
+}
+
+.game-board.sunset {
+    background:
+        radial-gradient(circle at 75% 18%, #fff3bb, transparent 13%),
+        linear-gradient(160deg, #ffc9a9, #ee9ba9 52%, #9e7299);
+}
+
+.game-board.night {
+    background:
+        radial-gradient(circle at 75% 18%, #fff5b0, transparent 9%),
+        radial-gradient(circle at 20% 30%, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle at 60% 45%, #ffffff 0 1px, transparent 2px),
+        radial-gradient(circle at 35% 75%, #ffffff 0 1px, transparent 2px),
+        linear-gradient(160deg, #42355f, #29244b, #17172e);
+}
+
+.game-board.magic {
+    background:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,.4), transparent 14%),
+        radial-gradient(circle at 80% 70%, rgba(255,180,230,.5), transparent 18%),
+        linear-gradient(160deg, #bda2ed, #d98ed0, #6d5ca8);
+}
+
+.player {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    user-select: none;
+    z-index: 10;
+    filter: drop-shadow(0 5px 5px rgba(80,20,50,.25));
+}
+
+.game-item {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    user-select: none;
+    z-index: 5;
+    animation: floatItem 1.5s ease-in-out infinite;
+}
+
+@keyframes floatItem {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-5px) scale(1.08);
+    }
+}
+
+.game-message {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+    color: white;
+    text-shadow: 0 3px 12px rgba(70,20,50,.4);
+    z-index: 30;
+    pointer-events: none;
+}
+
+.game-message h2 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.game-message p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.game-controls {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    justify-content: center;
+    gap: 7px;
+    margin-top: 14px;
+}
+
+.game-controls button {
+    width: 60px;
+    height: 50px;
+    border: none;
+    border-radius: 14px;
+    background: white;
+    color: #d6336c;
+    font-size: 22px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(100,40,70,.12);
+}
+
+.game-controls .empty-control {
+    visibility: hidden;
+}
+
+.game-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.game-info-box {
+    background: #fff7fa;
+    border-radius: 15px;
+    padding: 12px;
+}
+
+.game-info-box strong {
+    color: #d6336c;
+}
+
+.game-button {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 13px;
+    background: #d6336c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.game-button.secondary {
+    background: #f3c6d5;
+    color: #5d243b;
+}
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.shop-item {
+    background: #fff7fa;
+    border: 1px solid #f1cfdd;
+    border-radius: 16px;
+    padding: 14px;
+    text-align: center;
+}
+
+.shop-item .shop-icon {
+    font-size: 32px;
+}
+
+.shop-item h3 {
+    margin: 7px 0 5px;
+    font-size: 16px;
+}
+
+.shop-item p {
+    margin: 0 0 9px;
+    font-size: 12px;
+    color: #80566a;
+}
+
+.shop-item button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 9px;
+    background: #d6336c;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.shop-item button:disabled {
+    background: #d9c3cb;
+    color: #765c67;
+    cursor: default;
+}
+
+.world-list {
+    display: grid;
+    gap: 10px;
+}
+
+.world {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 13px;
+    border-radius: 15px;
+    background: #fff7fa;
+    border: 1px solid #f1cfdd;
+}
+
+.world-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.world-icon {
+    font-size: 30px;
+}
+
+.world button {
+    border: none;
+    border-radius: 10px;
+    padding: 9px 12px;
+    background: #d6336c;
+    color: white;
+    font-weight: bold;
+}
+
+.world.locked {
+    opacity: .55;
+}
+
+.mission {
+    padding: 12px;
+    border-radius: 14px;
+    background: #fff7fa;
+    margin-bottom: 8px;
+    border: 1px solid #f1cfdd;
+}
+
+.mission.done {
+    background: #f6e7ef;
+}
+
+.mission-title {
+    font-weight: bold;
+}
+
+.mission-progress {
+    font-size: 12px;
+    color: #80566a;
+    margin-top: 4px;
+}
+
+.progress-bar {
+    height: 8px;
+    border-radius: 99px;
+    background: #f0d8e1;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0;
+    background: #d6336c;
+    border-radius: 99px;
+}
+
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.score-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    padding: 11px;
+    border-radius: 13px;
+    background: #fff7fa;
+}
+
+.score-rank {
+    font-size: 22px;
+}
+
+.score-name {
+    font-weight: bold;
+}
+
+.score-value {
+    color: #d6336c;
+    font-weight: bold;
 }
 
 /* ==========================
@@ -400,13 +688,8 @@ button {
 
 @media (max-width: 600px) {
 
-    body {
-        background: linear-gradient(135deg, #fff3f7, #ffe6ef);
-    }
-
     .page {
         padding: 10px;
-        width: 100%;
     }
 
     .header {
@@ -419,7 +702,6 @@ button {
 
     .header p {
         font-size: 15px;
-        line-height: 1.4;
     }
 
     .card {
@@ -429,135 +711,48 @@ button {
     }
 
     .menu {
-        grid-template-columns: 1fr 1fr;
         gap: 9px;
     }
 
     .menu button {
         min-height: 75px;
-        padding: 8px 4px;
-        border-radius: 15px;
         font-size: 14px;
-    }
-
-    .identity-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .identity-buttons button {
-        width: 100%;
-        padding: 16px;
-    }
-
-    /* Nachrichten */
-
-    .messages {
-        max-height: 55vh;
-        padding: 3px;
     }
 
     .message {
         max-width: 94%;
-        padding: 10px 11px;
-        border-radius: 13px;
-    }
-
-    .message-name {
-        font-size: 13px;
-    }
-
-    .message-text {
-        font-size: 15px;
-        line-height: 1.35;
-    }
-
-    .message-footer {
-        margin-top: 8px;
-        gap: 6px;
-    }
-
-    .message-time {
-        font-size: 10px;
-    }
-
-    .delete-message-button {
-        padding: 6px 8px;
-        font-size: 11px;
-        border-radius: 7px;
     }
 
     .message-form {
-        flex-direction: row;
         gap: 7px;
-    }
-
-    .message-form input {
-        min-width: 0;
-        padding: 12px 11px;
-        border-radius: 12px;
-        font-size: 16px;
     }
 
     .send-button {
         padding: 0 13px;
-        border-radius: 12px;
-        font-size: 14px;
-    }
-
-    /* Bilder */
-
-    .upload-area {
-        padding: 16px 10px;
-    }
-
-    .upload-label {
-        width: 100%;
-        padding: 13px 10px;
     }
 
     .gallery {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
-        margin-top: 14px;
     }
 
-    .gallery-item {
-        border-radius: 12px;
+    .game-board {
+        height: 430px;
+        border-radius: 18px;
     }
 
-    .delete-image-button {
-        width: 35px;
-        height: 35px;
-        right: 6px;
-        top: 6px;
-        font-size: 16px;
-        border-radius: 9px;
+    .game-top {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .back-button {
-        padding: 10px 14px;
-        font-size: 14px;
+    .game-stat strong {
+        font-size: 15px;
     }
 
-    .lightbox {
-        padding: 10px;
-    }
-
-    .lightbox img {
-        max-width: 96vw;
-        max-height: 80vh;
-    }
-
-    .close-lightbox {
-        top: 10px;
-        right: 10px;
-        width: 42px;
-        height: 42px;
+    .shop-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }
-
-/* Sehr kleine Handys */
 
 @media (max-width: 380px) {
 
@@ -573,29 +768,9 @@ button {
         font-size: 24px;
     }
 
-    .menu {
-        gap: 7px;
-    }
-
     .menu button {
         min-height: 70px;
         font-size: 13px;
-    }
-
-    .message {
-        max-width: 97%;
-    }
-
-    .message-footer {
-        flex-wrap: wrap;
-    }
-
-    .message-time {
-        flex: 1 1 auto;
-    }
-
-    .delete-message-button {
-        font-size: 10px;
     }
 
     .message-form {
@@ -610,6 +785,23 @@ button {
         width: 100%;
         min-height: 44px;
     }
+
+    .game-board {
+        height: 390px;
+    }
+
+    .game-controls {
+        grid-template-columns: repeat(3, 55px);
+    }
+
+    .game-controls button {
+        width: 55px;
+        height: 48px;
+    }
+
+    .shop-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
@@ -618,7 +810,9 @@ button {
 
 <div class="page">
 
-<!-- STARTSEITE -->
+<!-- ==========================
+     STARTSEITE
+========================== -->
 
 <section id="homePage">
 
@@ -643,8 +837,8 @@ button {
 💕<br>Unsere Momente
 </button>
 
-<button onclick="showComingSoon('Spiele')">
-🎮<br>Spiele
+<button onclick="openGame()">
+🎮<br>Herzen sammeln
 </button>
 
 <button onclick="showComingSoon('Überraschung')">
@@ -673,7 +867,9 @@ button {
 </section>
 
 
-<!-- IDENTITÄT -->
+<!-- ==========================
+     IDENTITÄT
+========================== -->
 
 <section id="identityPage" class="hidden">
 
@@ -701,7 +897,9 @@ button {
 </section>
 
 
-<!-- NACHRICHTEN -->
+<!-- ==========================
+     NACHRICHTEN
+========================== -->
 
 <section id="messagesPage" class="hidden">
 
@@ -743,7 +941,9 @@ Senden
 </section>
 
 
-<!-- BILDER -->
+<!-- ==========================
+     BILDER
+========================== -->
 
 <section id="imagesPage" class="hidden">
 
@@ -788,7 +988,234 @@ Bilder werden geladen...
 </section>
 
 
-<!-- BALD VERFÜGBAR -->
+<!-- ==========================
+     SPIEL
+========================== -->
+
+<section id="gamePage" class="hidden">
+
+<button class="back-button" onclick="goHome()">
+← Zurück
+</button>
+
+<div class="header">
+<h1>❤️ Herzen sammeln</h1>
+<p>Sammle so viele Herzen wie möglich 💕</p>
+</div>
+
+<div class="card">
+
+<div class="game-top">
+
+<div class="game-stat">
+<span>❤️ Punkte</span>
+<strong id="gameScore">0</strong>
+</div>
+
+<div class="game-stat">
+<span>💕 Love Coins</span>
+<strong id="gameCoins">0</strong>
+</div>
+
+<div class="game-stat">
+<span>📈 Level</span>
+<strong id="gameLevel">1</strong>
+</div>
+
+<div class="game-stat">
+<span>⏱️ Zeit</span>
+<strong id="gameTime">60</strong>
+</div>
+
+</div>
+
+<div id="gameBoard" class="game-board">
+
+<div id="player" class="player">
+❤️
+</div>
+
+<div id="gameMessage" class="game-message">
+<h2>Bereit? ❤️</h2>
+<p>Sammle die Herzen!</p>
+</div>
+
+</div>
+
+<div class="game-controls">
+
+<button class="empty-control" type="button"></button>
+
+<button type="button" onclick="movePlayer(0,-1)">
+⬆️
+</button>
+
+<button class="empty-control" type="button"></button>
+
+<button type="button" onclick="movePlayer(-1,0)">
+⬅️
+</button>
+
+<button type="button" onclick="movePlayer(0,1)">
+⬇️
+</button>
+
+<button type="button" onclick="movePlayer(1,0)">
+➡️
+</button>
+
+</div>
+
+<button
+id="startGameButton"
+class="game-button"
+type="button"
+onclick="startGame()">
+❤️ Spiel starten
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🎯 Missionen</h2>
+
+<div id="missions"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🛍️ Love Shop</h2>
+
+<p>
+💕 Deine Love Coins:
+<strong id="shopCoins">0</strong>
+</p>
+
+<div class="shop-grid">
+
+<div class="shop-item">
+<div class="shop-icon">🧲</div>
+<h3>Herz-Magnet</h3>
+<p>Herzen werden kurz angezogen.</p>
+<button onclick="buyPowerup('magnet')">
+100 💕
+</button>
+</div>
+
+<div class="shop-item">
+<div class="shop-icon">⏱️</div>
+<h3>Zeitbonus</h3>
+<p>+10 Sekunden im nächsten Spiel.</p>
+<button onclick="buyPowerup('time')">
+150 💕
+</button>
+</div>
+
+<div class="shop-item">
+<div class="shop-icon">✨</div>
+<h3>Doppel-Punkte</h3>
+<p>2× Punkte für kurze Zeit.</p>
+<button onclick="buyPowerup('double')">
+200 💕
+</button>
+</div>
+
+<div class="shop-item">
+<div class="shop-icon">🛡️</div>
+<h3>Schutz</h3>
+<p>Das nächste Hindernis wird ignoriert.</p>
+<button onclick="buyPowerup('shield')">
+175 💕
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🗺️ Welten</h2>
+
+<div class="world-list">
+
+<div class="world">
+<div class="world-info">
+<div class="world-icon">🌸</div>
+<div>
+<strong>Romantischer Garten</strong>
+<br>
+<small>Startwelt</small>
+</div>
+</div>
+</div>
+
+<div id="worldSunset" class="world locked">
+<div class="world-info">
+<div class="world-icon">🌅</div>
+<div>
+<strong>Sonnenuntergang</strong>
+<br>
+<small>Ab 500 Punkten</small>
+</div>
+</div>
+<button onclick="selectWorld('sunset')">
+Freischalten
+</button>
+</div>
+
+<div id="worldNight" class="world locked">
+<div class="world-info">
+<div class="world-icon">🌙</div>
+<div>
+<strong>Sternenhimmel</strong>
+<br>
+<small>Ab 1500 Punkten</small>
+</div>
+</div>
+<button onclick="selectWorld('night')">
+Freischalten
+</button>
+</div>
+
+<div id="worldMagic" class="world locked">
+<div class="world-info">
+<div class="world-icon">✨</div>
+<div>
+<strong>Magische Nacht</strong>
+<br>
+<small>Ab 3000 Punkten</small>
+</div>
+</div>
+<button onclick="selectWorld('magic')">
+Freischalten
+</button>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>🏆 Bestenliste</h2>
+
+<div id="leaderboard" class="leaderboard"></div>
+
+</div>
+
+</section>
+
+
+<!-- ==========================
+     BALD VERFÜGBAR
+========================== -->
 
 <section id="soonPage" class="hidden">
 
@@ -796,9 +1223,9 @@ Bilder werden geladen...
 ← Zurück
 </button>
 
-<div class="card soon">
+<div class="card" style="text-align:center;padding:30px">
 
-<div class="soon-icon">
+<div style="font-size:50px">
 ✨
 </div>
 
@@ -896,9 +1323,7 @@ function updateUserText() {
     if (!element) return;
 
     if (!currentUser) {
-
         element.textContent = "";
-
         return;
     }
 
@@ -920,6 +1345,7 @@ function showPage(id) {
         "identityPage",
         "messagesPage",
         "imagesPage",
+        "gamePage",
         "soonPage"
     ];
 
@@ -941,6 +1367,7 @@ function showPage(id) {
 }
 
 function goHome() {
+    stopGame();
     showPage("homePage");
 }
 
@@ -963,15 +1390,12 @@ function openMessages() {
     if (!currentUser) {
 
         showPage("identityPage");
-
         return;
     }
 
     showPage("messagesPage");
-
     loadMessages();
 }
-
 
 async function loadMessages() {
 
@@ -1030,7 +1454,6 @@ async function loadMessages() {
     );
 }
 
-
 function addMessage(message) {
 
     const container =
@@ -1039,23 +1462,17 @@ function addMessage(message) {
         );
 
     const div =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     div.className = "message";
-
-    div.dataset.id =
-        message.id;
+    div.dataset.id = message.id;
 
     if (message.sender === currentUser) {
         div.classList.add("mine");
     }
 
     const date =
-        new Date(
-            message.created_at
-        );
+        new Date(message.created_at);
 
     const time =
         date.toLocaleString(
@@ -1086,8 +1503,7 @@ function addMessage(message) {
 
         '<button ' +
         'class="delete-message-button" ' +
-        'type="button" ' +
-        'title="Nachricht löschen">' +
+        'type="button">' +
         '🗑️ Löschen' +
         '</button>' +
 
@@ -1101,12 +1517,10 @@ function addMessage(message) {
     deleteButton.addEventListener(
         "click",
         () => {
-
             deleteMessage(
                 message.id,
                 div
             );
-
         }
     );
 
@@ -1116,38 +1530,28 @@ function addMessage(message) {
         container.scrollHeight;
 }
 
-
-/* ==========================
-   NACHRICHT LÖSCHEN
-========================== */
-
 async function deleteMessage(
     messageId,
     element
 ) {
 
-    const confirmed =
-        confirm(
+    if (
+        !confirm(
             "Möchtest du diese Nachricht wirklich löschen?"
-        );
-
-    if (!confirmed) return;
+        )
+    ) {
+        return;
+    }
 
     const result =
         await supabaseClient
             .from(MESSAGE_TABLE)
             .delete()
-            .eq(
-                "id",
-                messageId
-            );
+            .eq("id", messageId);
 
     if (result.error) {
 
-        console.error(
-            "Nachricht löschen:",
-            result.error
-        );
+        console.error(result.error);
 
         alert(
             "Die Nachricht konnte nicht gelöscht werden."
@@ -1159,24 +1563,7 @@ async function deleteMessage(
     if (element) {
         element.remove();
     }
-
-    const container =
-        document.getElementById(
-            "messages"
-        );
-
-    if (
-        container &&
-        container.children.length === 0
-    ) {
-
-        container.innerHTML =
-            '<div class="empty">' +
-            'Noch keine Nachrichten ❤️' +
-            '</div>';
-    }
 }
-
 
 async function sendMessage(event) {
 
@@ -1241,56 +1628,56 @@ async function sendMessage(event) {
 ========================== */
 
 supabaseClient
-    .channel("messages-live")
-    .on(
-        "postgres_changes",
-        {
-            event: "INSERT",
-            schema: "public",
-            table: MESSAGE_TABLE
-        },
-        payload => {
+.channel("messages-live")
+.on(
+    "postgres_changes",
+    {
+        event: "INSERT",
+        schema: "public",
+        table: MESSAGE_TABLE
+    },
+    payload => {
 
-            const message =
-                payload.new;
+        const message =
+            payload.new;
 
-            const existing =
-                document.querySelector(
-                    '[data-id="' +
-                    message.id +
-                    '"]'
-                );
+        const existing =
+            document.querySelector(
+                '[data-id="' +
+                message.id +
+                '"]'
+            );
 
-            if (!existing) {
-                addMessage(message);
-            }
+        if (!existing) {
+            addMessage(message);
         }
-    )
-    .on(
-        "postgres_changes",
-        {
-            event: "DELETE",
-            schema: "public",
-            table: MESSAGE_TABLE
-        },
-        payload => {
+    }
+)
+.on(
+    "postgres_changes",
+    {
+        event: "DELETE",
+        schema: "public",
+        table: MESSAGE_TABLE
+    },
+    payload => {
 
-            const messageId =
-                payload.old.id;
+        const messageId =
+            payload.old.id;
 
-            const element =
-                document.querySelector(
-                    '[data-id="' +
-                    messageId +
-                    '"]'
-                );
+        const element =
+            document.querySelector(
+                '[data-id="' +
+                messageId +
+                '"]'
+            );
 
-            if (element) {
-                element.remove();
-            }
+        if (element) {
+            element.remove();
         }
-    )
-    .subscribe();
+    }
+)
+.subscribe();
 
 
 /* ==========================
@@ -1302,15 +1689,12 @@ function openImages() {
     if (!currentUser) {
 
         showPage("identityPage");
-
         return;
     }
 
     showPage("imagesPage");
-
     loadImages();
 }
-
 
 async function loadImages() {
 
@@ -1342,10 +1726,7 @@ async function loadImages() {
 
     if (result.error) {
 
-        console.error(
-            "Storage-Liste Fehler:",
-            result.error
-        );
+        console.error(result.error);
 
         gallery.innerHTML =
             '<div class="gallery-error">' +
@@ -1357,11 +1738,11 @@ async function loadImages() {
 
     const files =
         (result.data || [])
-            .filter(file =>
-                file.name &&
-                file.name !==
-                ".emptyFolderPlaceholder"
-            );
+        .filter(file =>
+            file.name &&
+            file.name !==
+            ".emptyFolderPlaceholder"
+        );
 
     if (files.length === 0) {
 
@@ -1388,26 +1769,6 @@ async function loadImages() {
                 );
 
         if (signedResult.error) {
-
-            console.error(
-                "Signed URL Fehler:",
-                file.name,
-                signedResult.error
-            );
-
-            const errorBox =
-                document.createElement(
-                    "div"
-                );
-
-            errorBox.className =
-                "gallery-error";
-
-            errorBox.textContent =
-                "Bild konnte nicht geladen werden.";
-
-            gallery.appendChild(errorBox);
-
             continue;
         }
 
@@ -1415,20 +1776,13 @@ async function loadImages() {
             signedResult.data.signedUrl;
 
         const item =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
         item.className =
             "gallery-item";
 
-        item.dataset.filename =
-            file.name;
-
         const image =
-            document.createElement(
-                "img"
-            );
+            document.createElement("img");
 
         image.src = url;
         image.alt = "Unser Bild";
@@ -1436,30 +1790,16 @@ async function loadImages() {
 
         image.addEventListener(
             "click",
-            () => {
-                openLightbox(url);
-            }
-        );
-
-        image.addEventListener(
-            "error",
-            () => {
-
-                item.innerHTML =
-                    '<div class="gallery-error">' +
-                    'Bild konnte nicht geladen werden.' +
-                    '</div>';
-            }
+            () => openLightbox(url)
         );
 
         const deleteButton =
-            document.createElement(
-                "button"
-            );
+            document.createElement("button");
 
         deleteButton.type = "button";
         deleteButton.className =
             "delete-image-button";
+
         deleteButton.textContent = "🗑️";
         deleteButton.title = "Bild löschen";
 
@@ -1483,37 +1823,26 @@ async function loadImages() {
     }
 }
 
-
-/* ==========================
-   BILD LÖSCHEN
-========================== */
-
 async function deleteImage(
     fileName,
     element
 ) {
 
-    const confirmed =
-        confirm(
+    if (
+        !confirm(
             "Möchtest du dieses Bild wirklich löschen?"
-        );
-
-    if (!confirmed) return;
+        )
+    ) {
+        return;
+    }
 
     const result =
         await supabaseClient
             .storage
             .from(IMAGE_BUCKET)
-            .remove([
-                fileName
-            ]);
+            .remove([fileName]);
 
     if (result.error) {
-
-        console.error(
-            "Bild löschen:",
-            result.error
-        );
 
         alert(
             "Das Bild konnte nicht gelöscht werden."
@@ -1525,31 +1854,7 @@ async function deleteImage(
     if (element) {
         element.remove();
     }
-
-    const gallery =
-        document.getElementById(
-            "gallery"
-        );
-
-    if (
-        gallery &&
-        gallery.querySelector(
-            ".gallery-item"
-        ) === null
-    ) {
-
-        gallery.innerHTML =
-            '<div class="empty">' +
-            'Noch keine Bilder ❤️<br>' +
-            'Lade euer erstes Bild hoch!' +
-            '</div>';
-    }
 }
-
-
-/* ==========================
-   BILDER HOCHLADEN
-========================== */
 
 async function uploadImages(event) {
 
@@ -1558,7 +1863,7 @@ async function uploadImages(event) {
             event.target.files || []
         );
 
-    if (files.length === 0) return;
+    if (!files.length) return;
 
     const status =
         document.getElementById(
@@ -1581,16 +1886,15 @@ async function uploadImages(event) {
         }
 
         const extension =
-            getExtension(
-                file.name
-            ) || "jpg";
+            getExtension(file.name) ||
+            "jpg";
 
         const fileName =
             Date.now() +
             "-" +
             Math.random()
                 .toString(36)
-                .substring(2,10) +
+                .substring(2, 10) +
             "." +
             extension;
 
@@ -1608,34 +1912,18 @@ async function uploadImages(event) {
                     }
                 );
 
-        if (result.error) {
-
-            console.error(
-                "Upload Fehler:",
-                result.error
-            );
-
-        } else {
-
+        if (!result.error) {
             count++;
         }
     }
 
     event.target.value = "";
 
-    if (count === 0) {
-
-        status.textContent =
-            "Kein Bild konnte hochgeladen werden.";
-
-    } else {
-
-        status.textContent =
-            count === 1
-                ? "1 Bild wurde hochgeladen ❤️"
-                : count +
-                  " Bilder wurden hochgeladen ❤️";
-    }
+    status.textContent =
+        count === 1
+            ? "1 Bild wurde hochgeladen ❤️"
+            : count +
+              " Bilder wurden hochgeladen ❤️";
 
     await loadImages();
 
@@ -1647,13 +1935,14 @@ async function uploadImages(event) {
     );
 }
 
-
 function getExtension(name) {
 
     const parts =
         name.split(".");
 
-    if (parts.length < 2) return "";
+    if (parts.length < 2) {
+        return "";
+    }
 
     return parts
         .pop()
@@ -1686,7 +1975,6 @@ function openLightbox(url) {
     box.classList.add("open");
 }
 
-
 function closeLightbox() {
 
     const box =
@@ -1700,65 +1988,1364 @@ function closeLightbox() {
         );
 
     box.classList.remove("open");
-
     image.src = "";
 }
 
 
-/* ==========================
-   HTML SICHER MACHEN
-========================== */
+/* =====================================================
+   HERZEN-SAMMELSPIEL
+===================================================== */
 
-function escapeHtml(value) {
+const GAME_KEY =
+    "noah_emma_herzenspiel";
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+let gameData = {
+    coins: 0,
+    bestScore: 0,
+    totalScore: 0,
+    world: "garden",
+    unlocked: {
+        garden: true,
+        sunset: false,
+        night: false,
+        magic: false
+    },
+    powerups: {
+        magnet: 0,
+        time: 0,
+        double: 0,
+        shield: 0
+    },
+    missions: {
+        hearts: 0,
+        big: 0,
+        stars: 0
+    }
+};
+
+let gameRunning = false;
+let gameScore = 0;
+let gameTime = 60;
+let gameLevel = 1;
+let playerX = 50;
+let playerY = 75;
+let gameItems = [];
+let gameTimer = null;
+let spawnTimer = null;
+let animationFrame = null;
+let doublePointsUntil = 0;
+let magnetUntil = 0;
+let shieldActive = false;
+
+function loadGameData() {
+
+    try {
+
+        const saved =
+            JSON.parse(
+                localStorage.getItem(
+                    GAME_KEY
+                )
+            );
+
+        if (saved) {
+
+            gameData = {
+                ...gameData,
+                ...saved,
+                unlocked: {
+                    ...gameData.unlocked,
+                    ...(saved.unlocked || {})
+                },
+                powerups: {
+                    ...gameData.powerups,
+                    ...(saved.powerups || {})
+                },
+                missions: {
+                    ...gameData.missions,
+                    ...(saved.missions || {})
+                }
+            };
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Spielstand konnte nicht geladen werden:",
+            error
+        );
+    }
+}
+
+function saveGameData() {
+
+    localStorage.setItem(
+        GAME_KEY,
+        JSON.stringify(gameData)
+    );
+}
+
+function openGame() {
+
+    if (!currentUser) {
+
+        showPage("identityPage");
+        return;
+    }
+
+    showPage("gamePage");
+
+    loadGameData();
+    updateGameUI();
+    renderMissions();
+    renderLeaderboard();
+    updateWorlds();
+
+    if (!gameRunning) {
+        showGameMessage(
+            "Bereit? ❤️",
+            "Sammle die Herzen!"
+        );
+    }
+}
+
+function startGame() {
+
+    if (gameRunning) return;
+
+    stopGame();
+
+    gameRunning = true;
+    gameScore = 0;
+    gameLevel = 1;
+
+    gameTime =
+        60 +
+        (
+            gameData.powerups.time > 0
+                ? 10
+                : 0
+        );
+
+    if (gameData.powerups.time > 0) {
+        gameData.powerups.time--;
+    }
+
+    playerX = 50;
+    playerY = 75;
+
+    doublePointsUntil = 0;
+    magnetUntil = 0;
+
+    shieldActive =
+        gameData.powerups.shield > 0;
+
+    if (shieldActive) {
+        gameData.powerups.shield--;
+    }
+
+    clearGameItems();
+
+    placePlayer();
+
+    hideGameMessage();
+
+    document.getElementById(
+        "startGameButton"
+    ).textContent =
+        "🏃 Spiel läuft...";
+
+    gameTimer =
+        setInterval(
+            () => {
+
+                if (!gameRunning) return;
+
+                gameTime--;
+
+                updateGameUI();
+
+                if (gameTime <= 0) {
+                    endGame();
+                }
+
+            },
+            1000
+        );
+
+    spawnTimer =
+        setInterval(
+            spawnGameItem,
+            850
+        );
+
+    animationFrame =
+        requestAnimationFrame(
+            gameLoop
+        );
+
+    spawnGameItem();
+    spawnGameItem();
+}
+
+function stopGame() {
+
+    gameRunning = false;
+
+    if (gameTimer) {
+        clearInterval(gameTimer);
+        gameTimer = null;
+    }
+
+    if (spawnTimer) {
+        clearInterval(spawnTimer);
+        spawnTimer = null;
+    }
+
+    if (animationFrame) {
+        cancelAnimationFrame(
+            animationFrame
+        );
+        animationFrame = null;
+    }
+
+    clearGameItems();
+}
+
+function endGame() {
+
+    if (!gameRunning) return;
+
+    gameRunning = false;
+
+    if (gameTimer) {
+        clearInterval(gameTimer);
+        gameTimer = null;
+    }
+
+    if (spawnTimer) {
+        clearInterval(spawnTimer);
+        spawnTimer = null;
+    }
+
+    if (animationFrame) {
+        cancelAnimationFrame(
+            animationFrame
+        );
+        animationFrame = null;
+    }
+
+    clearGameItems();
+
+    const earnedCoins =
+        Math.max(
+            0,
+            Math.floor(
+                gameScore / 5
+            )
+        );
+
+    gameData.coins += earnedCoins;
+    gameData.totalScore += gameScore;
+
+    if (gameScore > gameData.bestScore) {
+        gameData.bestScore = gameScore;
+    }
+
+    checkWorldUnlocks();
+    saveGameData();
+
+    renderMissions();
+    renderLeaderboard();
+    updateGameUI();
+    updateWorlds();
+
+    showGameMessage(
+        "Runde vorbei ❤️",
+        gameScore +
+        " Punkte • +" +
+        earnedCoins +
+        " Love Coins"
+    );
+
+    document.getElementById(
+        "startGameButton"
+    ).textContent =
+        "❤️ Nochmal spielen";
+}
+
+function spawnGameItem() {
+
+    if (!gameRunning) return;
+
+    const board =
+        document.getElementById(
+            "gameBoard"
+        );
+
+    if (!board) return;
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "game-item";
+
+    const random =
+        Math.random();
+
+    let type = "heart";
+    let value = 1;
+
+    if (random > 0.92) {
+
+        type = "big";
+        value = 5;
+
+    } else if (random > 0.84) {
+
+        type = "star";
+        value = 10;
+
+    } else if (random > 0.76) {
+
+        type = "bad";
+        value = 0;
+    }
+
+    const icons = {
+        heart: "❤️",
+        big: "💖",
+        star: "✨",
+        bad: "💔"
+    };
+
+    item.textContent =
+        icons[type];
+
+    const x =
+        5 +
+        Math.random() * 90;
+
+    const y =
+        5 +
+        Math.random() * 86;
+
+    item.style.left =
+        x + "%";
+
+    item.style.top =
+        y + "%";
+
+    board.appendChild(item);
+
+    gameItems.push({
+        element: item,
+        x: x,
+        y: y,
+        type: type,
+        value: value
+    });
+
+    if (gameItems.length > 18) {
+
+        const old =
+            gameItems.shift();
+
+        if (old.element) {
+            old.element.remove();
+        }
+    }
+}
+
+function gameLoop() {
+
+    if (!gameRunning) return;
+
+    checkCollisions();
+    updateLevel();
+
+    animationFrame =
+        requestAnimationFrame(
+            gameLoop
+        );
+}
+
+function checkCollisions() {
+
+    const playerSize = 8;
+
+    for (
+        let i = gameItems.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const item =
+            gameItems[i];
+
+        let distanceX =
+            Math.abs(
+                playerX -
+                item.x
+            );
+
+        let distanceY =
+            Math.abs(
+                playerY -
+                item.y
+            );
+
+        if (
+            distanceX < playerSize &&
+            distanceY < playerSize
+        ) {
+
+            collectItem(
+                item
+            );
+
+            if (item.element) {
+                item.element.remove();
+            }
+
+            gameItems.splice(i, 1);
+        }
+
+        if (
+            gameData.powerups.magnet > 0 &&
+            Date.now() < magnetUntil
+        ) {
+
+            if (
+                distanceX < 18 &&
+                distanceY < 18
+            ) {
+
+                item.x +=
+                    (playerX - item.x) *
+                    0.08;
+
+                item.y +=
+                    (playerY - item.y) *
+                    0.08;
+
+                item.element.style.left =
+                    item.x + "%";
+
+                item.element.style.top =
+                    item.y + "%";
+            }
+        }
+    }
+}
+
+function collectItem(item) {
+
+    if (item.type === "bad") {
+
+        if (shieldActive) {
+
+            shieldActive = false;
+
+            showFloatingText(
+                "🛡️ Schutz!"
+            );
+
+            return;
+        }
+
+        gameScore =
+            Math.max(
+                0,
+                gameScore - 3
+            );
+
+        showFloatingText(
+            "💔 -3"
+        );
+
+        updateGameUI();
+
+        return;
+    }
+
+    let value =
+        item.value;
+
+    if (
+        Date.now() <
+        doublePointsUntil
+    ) {
+        value *= 2;
+    }
+
+    gameScore += value;
+
+    if (item.type === "heart") {
+        gameData.missions.hearts++;
+    }
+
+    if (item.type === "big") {
+        gameData.missions.big++;
+    }
+
+    if (item.type === "star") {
+        gameData.missions.stars++;
+    }
+
+    showFloatingText(
+        "+" + value
+    );
+
+    updateGameUI();
+    renderMissions();
+}
+
+function showFloatingText(text) {
+
+    const board =
+        document.getElementById(
+            "gameBoard"
+        );
+
+    const floating =
+        document.createElement(
+            "div"
+        );
+
+    floating.textContent =
+        text;
+
+    floating.style.position =
+        "absolute";
+
+    floating.style.left =
+        playerX + "%";
+
+    floating.style.top =
+        playerY + "%";
+
+    floating.style.color =
+        "#ffffff";
+
+    floating.style.fontWeight =
+        "bold";
+
+    floating.style.fontSize =
+        "20px";
+
+    floating.style.zIndex =
+        "50";
+
+    floating.style.pointerEvents =
+        "none";
+
+    floating.style.textShadow =
+        "0 2px 8px rgba(80,20,50,.5)";
+
+    board.appendChild(floating);
+
+    let opacity = 1;
+    let offset = 0;
+
+    const animation =
+        setInterval(
+            () => {
+
+                offset -= 2;
+                opacity -= .08;
+
+                floating.style.transform =
+                    "translate(-50%," +
+                    offset +
+                    "px)";
+
+                floating.style.opacity =
+                    opacity;
+
+                if (opacity <= 0) {
+
+                    clearInterval(animation);
+
+                    floating.remove();
+                }
+
+            },
+            30
+        );
+}
+
+function movePlayer(dx, dy) {
+
+    if (!gameRunning) return;
+
+    playerX += dx * 6;
+    playerY += dy * 6;
+
+    playerX =
+        Math.max(
+            4,
+            Math.min(
+                96,
+                playerX
+            )
+        );
+
+    playerY =
+        Math.max(
+            5,
+            Math.min(
+                92,
+                playerY
+            )
+        );
+
+    placePlayer();
+}
+
+function placePlayer() {
+
+    const player =
+        document.getElementById(
+            "player"
+        );
+
+    if (!player) return;
+
+    player.style.left =
+        "calc(" +
+        playerX +
+        "% - 29px)";
+
+    player.style.top =
+        "calc(" +
+        playerY +
+        "% - 29px)";
+}
+
+function updateLevel() {
+
+    const newLevel =
+        Math.max(
+            1,
+            Math.floor(
+                gameScore / 25
+            ) + 1
+        );
+
+    if (
+        newLevel !== gameLevel
+    ) {
+
+        gameLevel =
+            newLevel;
+
+        showFloatingText(
+            "📈 Level " +
+            gameLevel
+        );
+    }
+
+    updateGameUI();
+}
+
+function updateGameUI() {
+
+    const score =
+        document.getElementById(
+            "gameScore"
+        );
+
+    const coins =
+        document.getElementById(
+            "gameCoins"
+        );
+
+    const level =
+        document.getElementById(
+            "gameLevel"
+        );
+
+    const time =
+        document.getElementById(
+            "gameTime"
+        );
+
+    const shopCoins =
+        document.getElementById(
+            "shopCoins"
+        );
+
+    if (score) {
+        score.textContent =
+            gameScore;
+    }
+
+    if (coins) {
+        coins.textContent =
+            gameData.coins;
+    }
+
+    if (level) {
+        level.textContent =
+            gameLevel;
+    }
+
+    if (time) {
+        time.textContent =
+            Math.max(
+                0,
+                gameTime
+            );
+    }
+
+    if (shopCoins) {
+        shopCoins.textContent =
+            gameData.coins;
+    }
+}
+
+function showGameMessage(
+    title,
+    text
+) {
+
+    const box =
+        document.getElementById(
+            "gameMessage"
+        );
+
+    box.innerHTML =
+        "<h2>" +
+        escapeHtml(title) +
+        "</h2>" +
+        "<p>" +
+        escapeHtml(text) +
+        "</p>";
+
+    box.classList.remove(
+        "hidden"
+    );
+}
+
+function hideGameMessage() {
+
+    const box =
+        document.getElementById(
+            "gameMessage"
+        );
+
+    box.classList.add(
+        "hidden"
+    );
+}
+
+function clearGameItems() {
+
+    gameItems.forEach(
+        item => {
+
+            if (item.element) {
+                item.element.remove();
+            }
+        }
+    );
+
+    gameItems = [];
+
+    const board =
+        document.getElementById(
+            "gameBoard"
+        );
+
+    if (!board) return;
+
+    board
+        .querySelectorAll(
+            ".game-item"
+        )
+        .forEach(
+            item => item.remove()
+        );
 }
 
 
 /* ==========================
-   EVENTS
+   POWER-UPS
 ========================== */
 
-document
-    .getElementById("messageForm")
-    .addEventListener(
-        "submit",
-        sendMessage
-    );
+function buyPowerup(type) {
 
-document
-    .getElementById("imageInput")
-    .addEventListener(
-        "change",
-        uploadImages
-    );
+    const prices = {
+        magnet: 100,
+        time: 150,
+        double: 200,
+        shield: 175
+    };
 
-document
-    .getElementById("closeLightbox")
-    .addEventListener(
-        "click",
-        closeLightbox
-    );
+    const price =
+        prices[type];
 
-document
-    .getElementById("lightbox")
-    .addEventListener(
-        "click",
-        event => {
+    if (
+        gameData.coins <
+        price
+    ) {
+
+        alert(
+            "Du brauchst noch mehr Love Coins 💕"
+        );
+
+        return;
+    }
+
+    gameData.coins -= price;
+
+    gameData.powerups[type]++;
+
+    saveGameData();
+    updateGameUI();
+
+    alert(
+        "Power-up gekauft! ❤️"
+    );
+}
+
+function activatePowerup(
+    type
+) {
+
+    if (
+        gameData.powerups[type] <= 0
+    ) {
+        return;
+    }
+
+    gameData.powerups[type]--;
+
+    if (type === "magnet") {
+
+        magnetUntil =
+            Date.now() + 10000;
+
+    } else if (type === "double") {
+
+        doublePointsUntil =
+            Date.now() + 10000;
+
+    } else if (type === "shield") {
+
+        shieldActive = true;
+    }
+
+    saveGameData();
+}
+
+
+/* ==========================
+   WELTEN
+========================== */
+
+function checkWorldUnlocks() {
+
+    if (
+        gameData.bestScore >= 500
+    ) {
+        gameData.unlocked.sunset =
+            true;
+    }
+
+    if (
+        gameData.bestScore >= 1500
+    ) {
+        gameData.unlocked.night =
+            true;
+    }
+
+    if (
+        gameData.bestScore >= 3000
+    ) {
+        gameData.unlocked.magic =
+            true;
+    }
+
+    saveGameData();
+}
+
+function updateWorlds() {
+
+    const worlds = [
+        ["worldSunset", "sunset"],
+        ["worldNight", "night"],
+        ["worldMagic", "magic"]
+    ];
+
+    worlds.forEach(
+        ([id, world]) => {
+
+            const element =
+                document.getElementById(
+                    id
+                );
+
+            if (!element) return;
 
             if (
-                event.target.id ===
-                "lightbox"
+                gameData.unlocked[world]
             ) {
-                closeLightbox();
+
+                element.classList.remove(
+                    "locked"
+                );
+
+                const button =
+                    element.querySelector(
+                        "button"
+                    );
+
+                if (button) {
+                    button.textContent =
+                        gameData.world === world
+                            ? "Aktiv"
+                            : "Auswählen";
+                }
+
+            } else {
+
+                element.classList.add(
+                    "locked"
+                );
             }
         }
     );
+
+    applyWorld();
+}
+
+function selectWorld(world) {
+
+    if (
+        !gameData.unlocked[world]
+    ) {
+
+        alert(
+            "Diese Welt ist noch gesperrt ❤️"
+        );
+
+        return;
+    }
+
+    gameData.world =
+        world;
+
+    saveGameData();
+    updateWorlds();
+}
+
+function applyWorld() {
+
+    const board =
+        document.getElementById(
+            "gameBoard"
+        );
+
+    if (!board) return;
+
+    board.classList.remove(
+        "sunset",
+        "night",
+        "magic"
+    );
+
+    if (
+        gameData.world === "sunset"
+    ) {
+        board.classList.add(
+            "sunset"
+        );
+    }
+
+    if (
+        gameData.world === "night"
+    ) {
+        board.classList.add(
+            "night"
+        );
+    }
+
+    if (
+        gameData.world === "magic"
+    ) {
+        board.classList.add(
+            "magic"
+        );
+    }
+}
+
+
+/* ==========================
+   MISSIONEN
+========================== */
+
+function renderMissions() {
+
+    const container =
+        document.getElementById(
+            "missions"
+        );
+
+    if (!container) return;
+
+    const missions = [
+        {
+            title:
+                "❤️ Sammle 25 normale Herzen",
+            current:
+                gameData.missions.hearts,
+            target: 25
+        },
+        {
+            title:
+                "💖 Sammle 10 große Herzen",
+            current:
+                gameData.missions.big,
+            target: 10
+        },
+        {
+            title:
+                "✨ Sammle 5 Sterne",
+            current:
+                gameData.missions.stars,
+            target: 5
+        }
+    ];
+
+    container.innerHTML = "";
+
+    missions.forEach(
+        mission => {
+
+            const done =
+                mission.current >=
+                mission.target;
+
+            const current =
+                Math.min(
+                    mission.current,
+                    mission.target
+                );
+
+            const percentage =
+                (
+                    current /
+                    mission.target *
+                    100
+                );
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+            div.className =
+                "mission" +
+                (
+                    done
+                        ? " done"
+                        : ""
+                );
+
+            div.innerHTML =
+
+                '<div class="mission-title">' +
+                escapeHtml(
+                    mission.title
+                ) +
+                (
+                    done
+                        ? " ✅"
+                        : ""
+                ) +
+                '</div>' +
+
+                '<div class="mission-progress">' +
+                current +
+                " / " +
+                mission.target +
+                '</div>' +
+
+                '<div class="progress-bar">' +
+
+                '<div ' +
+                'class="progress-fill" ' +
+                'style="width:' +
+                percentage +
+                '%">' +
+                '</div>' +
+
+                '</div>';
+
+            container.appendChild(div);
+        }
+    );
+}
+
+
+/* ==========================
+   BESTENLISTE
+========================== */
+
+function getLeaderboard() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "noah_emma_leaderboard"
+            )
+        ) || [];
+
+    } catch {
+        return [];
+    }
+}
+
+function saveLeaderboard(list) {
+
+    localStorage.setItem(
+        "noah_emma_leaderboard",
+        JSON.stringify(list)
+    );
+}
+
+function addLeaderboardScore(
+    name,
+    score
+) {
+
+    if (score <= 0) return;
+
+    const list =
+        getLeaderboard();
+
+    list.push({
+        name: name,
+        score: score,
+        date: Date.now()
+    });
+
+    list.sort(
+        (a, b) =>
+            b.score -
+            a.score
+    );
+
+    saveLeaderboard(
+        list.slice(0, 10)
+    );
+}
+
+function renderLeaderboard() {
+
+    const container =
+        document.getElementById(
+            "leaderboard"
+        );
+
+    if (!container) return;
+
+    let list =
+        getLeaderboard();
+
+    if (list.length === 0) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            'Noch keine Scores ❤️<br>' +
+            'Spielt eure erste Runde!' +
+            '</div>';
+
+        return;
+    }
+
+    const medals = [
+        "🥇",
+        "🥈",
+        "🥉"
+    ];
+
+    container.innerHTML = "";
+
+    list.forEach(
+        (entry, index) => {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+            row.className =
+                "score-row";
+
+            const medal =
+                medals[index] ||
+                (
+                    index + 1
+                ) +
+                ".";
+
+            row.innerHTML =
+
+                '<div class="score-rank">' +
+                medal +
+                '</div>' +
+
+                '<div class="score-name">' +
+                escapeHtml(
+                    entry.name
+                ) +
+                '</div>' +
+
+                '<div class="score-value">' +
+                entry.score +
+                ' ❤️' +
+                '</div>';
+
+            container.appendChild(
+                row
+            );
+        }
+    );
+}
+
+
+/* ==========================
+   SCORE SPEICHERN
+========================== */
+
+const oldEndGame =
+    endGame;
+
+endGame = function() {
+
+    if (!gameRunning) return;
+
+    addLeaderboardScore(
+        currentUser,
+        gameScore
+    );
+
+    oldEndGame();
+};
+
+
+/* ==========================
+   TASTATUR
+========================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (!gameRunning) return;
+
+        const target =
+            event.target;
+
+        if (
+            target &&
+            (
+                target.tagName ===
+                "INPUT" ||
+                target.tagName ===
+                "TEXTAREA"
+            )
+        ) {
+            return;
+        }
+
+        if (
+            event.key === "ArrowUp" ||
+            event.key.toLowerCase() === "w"
+        ) {
+
+            event.preventDefault();
+
+            movePlayer(0,-1);
+        }
+
+        if (
+            event.key === "ArrowDown" ||
+            event.key.toLowerCase() === "s"
+        ) {
+
+            event.preventDefault();
+
+            movePlayer(0,1);
+        }
+
+        if (
+            event.key === "ArrowLeft" ||
+            event.key.toLowerCase() === "a"
+        ) {
+
+            event.preventDefault();
+
+            movePlayer(-1,0);
+        }
+
+        if (
+            event.key === "ArrowRight" ||
+            event.key.toLowerCase() === "d"
+        ) {
+
+            event.preventDefault();
+
+            movePlayer(1,0);
+        }
+    }
+);
+
+
+/* ==========================
+   SUPABASE / EVENTS
+========================== */
+
+document
+.getElementById("messageForm")
+.addEventListener(
+    "submit",
+    sendMessage
+);
+
+document
+.getElementById("imageInput")
+.addEventListener(
+    "change",
+    uploadImages
+);
+
+document
+.getElementById("closeLightbox")
+.addEventListener(
+    "click",
+    closeLightbox
+);
+
+document
+.getElementById("lightbox")
+.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target.id ===
+            "lightbox"
+        ) {
+            closeLightbox();
+        }
+    }
+);
 
 document.addEventListener(
     "keydown",
@@ -1775,10 +3362,11 @@ document.addEventListener(
    START
 ========================== */
 
+loadGameData();
+
 if (currentUser) {
 
     updateUserText();
-
     showPage("homePage");
 
 } else {
