@@ -1,5 +1,5 @@
-```html
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -9,810 +9,706 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
+body{
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#fff0f5,#ffe1eb);
+    color:#3b2430;
+    overflow-x:hidden;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #fff0f5, #ffe1eb);
-    color: #3b2430;
-    overflow-x: hidden;
+button,input{font:inherit}
+button{-webkit-tap-highlight-color:transparent}
+
+.page{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:20px;
 }
 
-button, input {
-    font: inherit;
+.header{
+    text-align:center;
+    padding:25px 10px 20px;
 }
 
-button {
-    -webkit-tap-highlight-color: transparent;
+.header h1{
+    margin:0;
+    font-size:34px;
+    color:#d6336c;
 }
 
-.page {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
-    padding: 20px;
+.header p{
+    margin:10px 0 0;
+    color:#80566a;
+    font-size:17px;
 }
 
-.header {
-    text-align: center;
-    padding: 25px 10px 20px;
+.card{
+    width:100%;
+    background:rgba(255,255,255,.95);
+    border-radius:22px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 8px 25px rgba(120,50,80,.12);
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 34px;
-    color: #d6336c;
-    line-height: 1.2;
+.menu{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
-.header p {
-    margin: 10px 0 0;
-    color: #80566a;
-    font-size: 17px;
+.menu button{
+    min-height:90px;
+    border:none;
+    border-radius:18px;
+    background:white;
+    color:#4a2736;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(100,40,70,.1);
 }
 
-.card {
-    width: 100%;
-    background: rgba(255,255,255,.95);
-    border-radius: 22px;
-    padding: 20px;
-    margin-bottom: 18px;
-    box-shadow: 0 8px 25px rgba(120,50,80,.12);
+.back-button{
+    border:none;
+    background:#f3c6d5;
+    color:#5d243b;
+    padding:11px 17px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.menu {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
+.identity-buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
 }
 
-.menu button {
-    min-height: 90px;
-    border: none;
-    border-radius: 18px;
-    background: white;
-    color: #4a2736;
-    font-size: 17px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(100,40,70,.1);
-    transition: transform .15s;
+.identity-buttons button{
+    border:none;
+    border-radius:16px;
+    background:white;
+    padding:18px 30px;
+    cursor:pointer;
+    font-size:18px;
+    box-shadow:0 5px 15px rgba(100,40,70,.12);
 }
 
-.menu button:hover {
-    transform: translateY(-2px);
+.hidden{display:none!important}
+
+/* NACHRICHTEN */
+
+.messages{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    width:100%;
+    max-height:500px;
+    overflow-y:auto;
+    padding:5px;
 }
 
-.back-button {
-    border: none;
-    background: #f3c6d5;
-    color: #5d243b;
-    padding: 11px 17px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: bold;
+.message{
+    width:fit-content;
+    max-width:80%;
+    padding:12px 15px;
+    border-radius:15px;
+    background:#f7dce6;
+    overflow-wrap:anywhere;
 }
 
-.identity-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
+.message.mine{
+    align-self:flex-end;
+    background:#ffd0df;
 }
 
-.identity-buttons button {
-    border: none;
-    border-radius: 16px;
-    background: white;
-    padding: 18px 30px;
-    cursor: pointer;
-    font-size: 18px;
-    box-shadow: 0 5px 15px rgba(100,40,70,.12);
+.message-name{
+    font-weight:bold;
+    color:#c02d62;
+    font-size:14px;
 }
 
-.hidden {
-    display: none !important;
+.message-text{
+    margin-top:4px;
+    line-height:1.4;
 }
 
-/* ==========================
-   NACHRICHTEN
-========================== */
-
-.messages {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-    max-height: 500px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 5px;
+.message-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    margin-top:8px;
 }
 
-.message {
-    width: fit-content;
-    max-width: 80%;
-    min-width: 0;
-    padding: 12px 15px;
-    border-radius: 15px;
-    background: #f7dce6;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+.message-time{
+    color:#8d6878;
+    font-size:11px;
 }
 
-.message.mine {
-    align-self: flex-end;
-    background: #ffd0df;
+.delete-message-button{
+    border:none;
+    border-radius:8px;
+    background:white;
+    color:#b52d5d;
+    padding:6px 9px;
+    font-size:12px;
+    cursor:pointer;
 }
 
-.message-name {
-    font-weight: bold;
-    color: #c02d62;
-    font-size: 14px;
+.message-form{
+    display:flex;
+    gap:10px;
+    width:100%;
+    margin-top:15px;
 }
 
-.message-text {
-    margin-top: 4px;
-    line-height: 1.4;
+.message-form input{
+    flex:1;
+    min-width:0;
+    border:1px solid #edbfd0;
+    border-radius:14px;
+    padding:13px 15px;
+    outline:none;
+    background:#fffafb;
 }
 
-.message-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    margin-top: 8px;
+.send-button{
+    border:none;
+    border-radius:14px;
+    background:#d6336c;
+    color:white;
+    padding:0 20px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.message-time {
-    color: #8d6878;
-    font-size: 11px;
-    white-space: nowrap;
+/* BILDER */
+
+.upload-area{
+    text-align:center;
+    padding:20px;
+    border:2px dashed #e7a9bf;
+    border-radius:18px;
+    background:#fff8fb;
 }
 
-.delete-message-button {
-    border: none;
-    border-radius: 8px;
-    background: rgba(255,255,255,.8);
-    color: #b52d5d;
-    padding: 6px 9px;
-    font-size: 12px;
-    cursor: pointer;
+.upload-label{
+    display:inline-block;
+    background:#d6336c;
+    color:white;
+    padding:13px 20px;
+    border-radius:14px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.message-form {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    margin-top: 15px;
+#imageInput{display:none}
+
+.upload-status{
+    margin-top:12px;
+    color:#80566a;
+    min-height:20px;
 }
 
-.message-form input {
-    flex: 1;
-    min-width: 0;
-    border: 1px solid #edbfd0;
-    border-radius: 14px;
-    padding: 13px 15px;
-    outline: none;
-    background: #fffafb;
+.gallery{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:20px;
 }
 
-.send-button {
-    border: none;
-    border-radius: 14px;
-    background: #d6336c;
-    color: white;
-    padding: 0 20px;
-    cursor: pointer;
-    font-weight: bold;
+.gallery-item{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:16px;
+    overflow:hidden;
+    background:#f6dbe5;
 }
 
-/* ==========================
-   BILDER
-========================== */
-
-.upload-area {
-    text-align: center;
-    padding: 20px;
-    border: 2px dashed #e7a9bf;
-    border-radius: 18px;
-    background: #fff8fb;
+.gallery-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    cursor:pointer;
 }
 
-.upload-label {
-    display: inline-block;
-    background: #d6336c;
-    color: white;
-    padding: 13px 20px;
-    border-radius: 14px;
-    cursor: pointer;
-    font-weight: bold;
+.delete-image-button{
+    position:absolute;
+    right:8px;
+    top:8px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:10px;
+    background:rgba(255,255,255,.92);
+    color:#b52d5d;
+    font-size:18px;
+    cursor:pointer;
+    z-index:5;
 }
 
-#imageInput {
-    display: none;
+.empty{
+    grid-column:1/-1;
+    text-align:center;
+    color:#8d6878;
+    padding:35px 10px;
 }
 
-.upload-status {
-    margin-top: 12px;
-    color: #80566a;
-    min-height: 20px;
+/* LIGHTBOX */
+
+.lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(20,10,15,.9);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:1000;
 }
 
-.gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 20px;
+.lightbox.open{display:flex}
+
+.lightbox img{
+    max-width:95vw;
+    max-height:85vh;
+    object-fit:contain;
+    border-radius:12px;
 }
 
-.gallery-item {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #f6dbe5;
-    cursor: pointer;
+.close-lightbox{
+    position:absolute;
+    top:18px;
+    right:20px;
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:50%;
+    background:white;
+    color:#5d243b;
+    font-size:25px;
+    cursor:pointer;
 }
 
-.gallery-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+/* =========================
+   ALTES SPIEL-DESIGN
+========================= */
+
+.game-top{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    margin-bottom:12px;
 }
 
-.delete-image-button {
-    position: absolute;
-    right: 8px;
-    top: 8px;
-    z-index: 5;
-    width: 38px;
-    height: 38px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(255,255,255,.92);
-    color: #b52d5d;
-    font-size: 18px;
-    cursor: pointer;
+.game-stat{
+    background:#fff4f8;
+    border:1px solid #f4d2df;
+    border-radius:14px;
+    padding:10px 6px;
+    text-align:center;
 }
 
-.empty {
-    grid-column: 1 / -1;
-    width: 100%;
-    text-align: center;
-    color: #8d6878;
-    padding: 35px 10px;
+.game-stat span{
+    display:block;
+    font-size:11px;
+    color:#8d6878;
 }
 
-.gallery-error {
-    width: 100%;
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 15px;
-    color: #a33;
+.game-stat strong{
+    display:block;
+    margin-top:3px;
+    color:#d6336c;
+    font-size:17px;
 }
 
-/* ==========================
-   LIGHTBOX
-========================== */
-
-.lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(20,10,15,.9);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    z-index: 1000;
-}
-
-.lightbox.open {
-    display: flex;
-}
-
-.lightbox img {
-    max-width: 95vw;
-    max-height: 85vh;
-    object-fit: contain;
-    border-radius: 12px;
-}
-
-.close-lightbox {
-    position: absolute;
-    top: 18px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    border: none;
-    border-radius: 50%;
-    background: white;
-    color: #5d243b;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-/* ==========================
-   SPIEL
-========================== */
-
-.game-top {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
-}
-
-.game-stat {
-    background: #fff4f8;
-    border: 1px solid #f4d2df;
-    border-radius: 14px;
-    padding: 10px 6px;
-    text-align: center;
-}
-
-.game-stat span {
-    display: block;
-    font-size: 11px;
-    color: #8d6878;
-}
-
-.game-stat strong {
-    display: block;
-    margin-top: 3px;
-    color: #d6336c;
-    font-size: 17px;
-}
-
-.game-board {
-    position: relative;
-    width: 100%;
-    height: 520px;
-    overflow: hidden;
-    border-radius: 22px;
+.game-board{
+    position:relative;
+    width:100%;
+    height:520px;
+    overflow:hidden;
+    border-radius:22px;
     background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,.7), transparent 18%),
-        radial-gradient(circle at 80% 35%, rgba(255,255,255,.45), transparent 20%),
-        linear-gradient(160deg, #ffd8e7, #f5b7cf 50%, #d98eb0);
-    border: 3px solid rgba(255,255,255,.8);
-    box-shadow: inset 0 0 40px rgba(140,50,90,.12);
-    touch-action: none;
+        radial-gradient(circle at 20% 20%,rgba(255,255,255,.7),transparent 18%),
+        radial-gradient(circle at 80% 35%,rgba(255,255,255,.45),transparent 20%),
+        linear-gradient(160deg,#ffd8e7,#f5b7cf 50%,#d98eb0);
+    border:3px solid rgba(255,255,255,.8);
+    box-shadow:inset 0 0 40px rgba(140,50,90,.12);
+    touch-action:none;
 }
 
-.game-board.sunset {
+.game-board.sunset{
     background:
-        radial-gradient(circle at 75% 18%, #fff3bb, transparent 13%),
-        linear-gradient(160deg, #ffc9a9, #ee9ba9 52%, #9e7299);
+        radial-gradient(circle at 75% 18%,#fff3bb,transparent 13%),
+        linear-gradient(160deg,#ffc9a9,#ee9ba9 52%,#9e7299);
 }
 
-.game-board.night {
+.game-board.night{
     background:
-        radial-gradient(circle at 75% 18%, #fff5b0, transparent 9%),
-        radial-gradient(circle at 20% 30%, #ffffff 0 1px, transparent 2px),
-        radial-gradient(circle at 60% 45%, #ffffff 0 1px, transparent 2px),
-        radial-gradient(circle at 35% 75%, #ffffff 0 1px, transparent 2px),
-        linear-gradient(160deg, #42355f, #29244b, #17172e);
+        radial-gradient(circle at 75% 18%,#fff5b0,transparent 9%),
+        radial-gradient(circle at 10% 15%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 25% 40%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 42% 18%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 60% 32%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 80% 55%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 35% 75%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 90% 20%,white 0 1px,transparent 2px),
+        linear-gradient(160deg,#42355f,#29244b,#17172e);
 }
 
-.game-board.magic {
+.game-board.magic{
     background:
-        radial-gradient(circle at 20% 25%, rgba(255,255,255,.4), transparent 14%),
-        radial-gradient(circle at 80% 70%, rgba(255,180,230,.5), transparent 18%),
-        linear-gradient(160deg, #bda2ed, #d98ed0, #6d5ca8);
+        radial-gradient(circle at 20% 25%,rgba(255,255,255,.4),transparent 14%),
+        radial-gradient(circle at 80% 70%,rgba(255,180,230,.5),transparent 18%),
+        linear-gradient(160deg,#bda2ed,#d98ed0,#6d5ca8);
 }
 
-.player {
-    position: absolute;
-    width: 58px;
-    height: 58px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 42px;
-    user-select: none;
-    z-index: 10;
-    filter: drop-shadow(0 5px 5px rgba(80,20,50,.25));
+/* HERZ ALS SPIELER – altes Design */
+
+.player{
+    position:absolute;
+    width:54px;
+    height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    user-select:none;
+    z-index:10;
+    filter:drop-shadow(0 5px 5px rgba(80,20,50,.25));
+    transition:left .06s linear,top .06s linear;
 }
 
-.game-item {
-    position: absolute;
-    width: 46px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 34px;
-    user-select: none;
-    z-index: 5;
-    animation: floatItem 1.5s ease-in-out infinite;
+/* HERZEN */
+
+.game-item{
+    position:absolute;
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    user-select:none;
+    z-index:5;
+    pointer-events:none;
 }
 
-@keyframes floatItem {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-    }
-    50% {
-        transform: translateY(-5px) scale(1.08);
-    }
+.game-item.special{
+    font-size:36px;
+    filter:drop-shadow(0 0 7px rgba(255,255,255,.8));
 }
 
-.game-message {
-    position: absolute;
-    left: 50%;
-    top: 45%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    text-align: center;
-    color: white;
-    text-shadow: 0 3px 12px rgba(70,20,50,.4);
-    z-index: 30;
-    pointer-events: none;
+.game-message{
+    position:absolute;
+    left:50%;
+    top:45%;
+    transform:translate(-50%,-50%);
+    width:90%;
+    text-align:center;
+    color:white;
+    text-shadow:0 3px 12px rgba(70,20,50,.4);
+    z-index:30;
+    pointer-events:none;
 }
 
-.game-message h2 {
-    margin: 0 0 8px;
-    font-size: 32px;
+.game-message h2{
+    margin:0 0 8px;
+    font-size:32px;
 }
 
-.game-message p {
-    margin: 0;
-    font-size: 16px;
+.game-message p{
+    margin:0;
+    font-size:16px;
 }
 
-.game-controls {
-    display: grid;
-    grid-template-columns: repeat(3, 60px);
-    justify-content: center;
-    gap: 7px;
-    margin-top: 14px;
+.game-controls{
+    display:grid;
+    grid-template-columns:repeat(3,60px);
+    justify-content:center;
+    gap:7px;
+    margin-top:14px;
 }
 
-.game-controls button {
-    width: 60px;
-    height: 50px;
-    border: none;
-    border-radius: 14px;
-    background: white;
-    color: #d6336c;
-    font-size: 22px;
-    font-weight: bold;
-    box-shadow: 0 4px 12px rgba(100,40,70,.12);
+.game-controls button{
+    width:60px;
+    height:50px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#d6336c;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 4px 12px rgba(100,40,70,.12);
+    cursor:pointer;
 }
 
-.game-controls .empty-control {
-    visibility: hidden;
+.empty-control{visibility:hidden}
+
+.game-button{
+    width:100%;
+    border:none;
+    border-radius:14px;
+    padding:13px;
+    background:#d6336c;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
 }
 
-.game-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 14px;
+/* SHOP */
+
+.shop-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
 }
 
-.game-info-box {
-    background: #fff7fa;
-    border-radius: 15px;
-    padding: 12px;
+.shop-item{
+    background:#fff7fa;
+    border:1px solid #f1cfdd;
+    border-radius:16px;
+    padding:14px;
+    text-align:center;
 }
 
-.game-info-box strong {
-    color: #d6336c;
+.shop-item .shop-icon{
+    font-size:32px;
 }
 
-.game-button {
-    width: 100%;
-    border: none;
-    border-radius: 14px;
-    padding: 13px;
-    background: #d6336c;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 10px;
+.shop-item h3{
+    margin:7px 0 5px;
+    font-size:16px;
 }
 
-.game-button.secondary {
-    background: #f3c6d5;
-    color: #5d243b;
+.shop-item p{
+    margin:0 0 9px;
+    font-size:12px;
+    color:#80566a;
 }
 
-.shop-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+.shop-item button{
+    width:100%;
+    border:none;
+    border-radius:10px;
+    padding:9px;
+    background:#d6336c;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.shop-item {
-    background: #fff7fa;
-    border: 1px solid #f1cfdd;
-    border-radius: 16px;
-    padding: 14px;
-    text-align: center;
+/* WELTEN */
+
+.world-list{
+    display:grid;
+    gap:10px;
 }
 
-.shop-item .shop-icon {
-    font-size: 32px;
+.world{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:13px;
+    border-radius:15px;
+    background:#fff7fa;
+    border:1px solid #f1cfdd;
 }
 
-.shop-item h3 {
-    margin: 7px 0 5px;
-    font-size: 16px;
+.world-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.shop-item p {
-    margin: 0 0 9px;
-    font-size: 12px;
-    color: #80566a;
+.world-icon{font-size:30px}
+
+.world button{
+    border:none;
+    border-radius:10px;
+    padding:9px 12px;
+    background:#d6336c;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.shop-item button {
-    width: 100%;
-    border: none;
-    border-radius: 10px;
-    padding: 9px;
-    background: #d6336c;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
+.world.locked{opacity:.55}
+
+/* MISSIONEN */
+
+.mission{
+    padding:12px;
+    border-radius:14px;
+    background:#fff7fa;
+    margin-bottom:8px;
+    border:1px solid #f1cfdd;
 }
 
-.shop-item button:disabled {
-    background: #d9c3cb;
-    color: #765c67;
-    cursor: default;
+.mission.done{
+    background:#f6e7ef;
 }
 
-.world-list {
-    display: grid;
-    gap: 10px;
+.mission-title{font-weight:bold}
+
+.mission-progress{
+    font-size:12px;
+    color:#80566a;
+    margin-top:4px;
 }
 
-.world {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 13px;
-    border-radius: 15px;
-    background: #fff7fa;
-    border: 1px solid #f1cfdd;
+.progress-bar{
+    height:8px;
+    border-radius:99px;
+    background:#f0d8e1;
+    overflow:hidden;
+    margin-top:8px;
 }
 
-.world-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.progress-fill{
+    height:100%;
+    background:#d6336c;
+    border-radius:99px;
 }
 
-.world-icon {
-    font-size: 30px;
+/* BESTENLISTE */
+
+.leaderboard{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
 }
 
-.world button {
-    border: none;
-    border-radius: 10px;
-    padding: 9px 12px;
-    background: #d6336c;
-    color: white;
-    font-weight: bold;
+.score-row{
+    display:grid;
+    grid-template-columns:40px 1fr auto;
+    align-items:center;
+    gap:8px;
+    padding:11px;
+    border-radius:13px;
+    background:#fff7fa;
 }
 
-.world.locked {
-    opacity: .55;
+.score-rank{font-size:22px}
+.score-name{font-weight:bold}
+.score-value{
+    color:#d6336c;
+    font-weight:bold;
 }
 
-.mission {
-    padding: 12px;
-    border-radius: 14px;
-    background: #fff7fa;
-    margin-bottom: 8px;
-    border: 1px solid #f1cfdd;
-}
+/* MOBILE */
 
-.mission.done {
-    background: #f6e7ef;
-}
+@media(max-width:600px){
 
-.mission-title {
-    font-weight: bold;
-}
+    .page{padding:10px}
 
-.mission-progress {
-    font-size: 12px;
-    color: #80566a;
-    margin-top: 4px;
-}
-
-.progress-bar {
-    height: 8px;
-    border-radius: 99px;
-    background: #f0d8e1;
-    overflow: hidden;
-    margin-top: 8px;
-}
-
-.progress-fill {
-    height: 100%;
-    width: 0;
-    background: #d6336c;
-    border-radius: 99px;
-}
-
-.leaderboard {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.score-row {
-    display: grid;
-    grid-template-columns: 40px 1fr auto;
-    align-items: center;
-    gap: 8px;
-    padding: 11px;
-    border-radius: 13px;
-    background: #fff7fa;
-}
-
-.score-rank {
-    font-size: 22px;
-}
-
-.score-name {
-    font-weight: bold;
-}
-
-.score-value {
-    color: #d6336c;
-    font-weight: bold;
-}
-
-/* ==========================
-   HANDY
-========================== */
-
-@media (max-width: 600px) {
-
-    .page {
-        padding: 10px;
+    .header{
+        padding:18px 5px 15px;
     }
 
-    .header {
-        padding: 18px 5px 15px;
+    .header h1{font-size:27px}
+
+    .header p{font-size:15px}
+
+    .card{
+        padding:14px;
+        border-radius:18px;
+        margin-bottom:12px;
     }
 
-    .header h1 {
-        font-size: 27px;
+    .menu{gap:9px}
+
+    .menu button{
+        min-height:75px;
+        font-size:14px;
     }
 
-    .header p {
-        font-size: 15px;
+    .message{max-width:94%}
+
+    .gallery{
+        grid-template-columns:repeat(2,1fr);
+        gap:8px;
     }
 
-    .card {
-        padding: 14px;
-        border-radius: 18px;
-        margin-bottom: 12px;
+    .game-board{
+        height:430px;
+        border-radius:18px;
     }
 
-    .menu {
-        gap: 9px;
+    .game-top{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .menu button {
-        min-height: 75px;
-        font-size: 14px;
-    }
-
-    .message {
-        max-width: 94%;
-    }
-
-    .message-form {
-        gap: 7px;
-    }
-
-    .send-button {
-        padding: 0 13px;
-    }
-
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-
-    .game-board {
-        height: 430px;
-        border-radius: 18px;
-    }
-
-    .game-top {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .game-stat strong {
-        font-size: 15px;
-    }
-
-    .shop-grid {
-        grid-template-columns: 1fr 1fr;
+    .shop-grid{
+        grid-template-columns:1fr 1fr;
     }
 }
 
-@media (max-width: 380px) {
+@media(max-width:380px){
 
-    .page {
-        padding: 8px;
+    .page{padding:8px}
+
+    .card{padding:11px}
+
+    .header h1{font-size:24px}
+
+    .menu button{
+        min-height:70px;
+        font-size:13px;
     }
 
-    .card {
-        padding: 11px;
+    .message-form{
+        flex-direction:column;
     }
 
-    .header h1 {
-        font-size: 24px;
+    .message-form input{
+        width:100%;
     }
 
-    .menu button {
-        min-height: 70px;
-        font-size: 13px;
+    .send-button{
+        width:100%;
+        min-height:44px;
     }
 
-    .message-form {
-        flex-direction: column;
+    .game-board{height:390px}
+
+    .game-controls{
+        grid-template-columns:repeat(3,55px);
     }
 
-    .message-form input {
-        width: 100%;
+    .game-controls button{
+        width:55px;
+        height:48px;
     }
 
-    .send-button {
-        width: 100%;
-        min-height: 44px;
-    }
-
-    .game-board {
-        height: 390px;
-    }
-
-    .game-controls {
-        grid-template-columns: repeat(3, 55px);
-    }
-
-    .game-controls button {
-        width: 55px;
-        height: 48px;
-    }
-
-    .shop-grid {
-        grid-template-columns: 1fr;
+    .shop-grid{
+        grid-template-columns:1fr;
     }
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="page">
 
-<!-- ==========================
-     STARTSEITE
-========================== -->
+<!-- STARTSEITE -->
 
 <section id="homePage">
 
@@ -825,31 +721,20 @@ button {
 
 <div class="menu">
 
-<button onclick="openMessages()">
-💌<br>Nachrichten
-</button>
+<button onclick="openMessages()">💌<br>Nachrichten</button>
 
-<button onclick="openImages()">
-📸<br>Unsere Bilder
-</button>
+<button onclick="openImages()">📸<br>Unsere Bilder</button>
 
-<button onclick="showComingSoon('Unsere Momente')">
-💕<br>Unsere Momente
-</button>
+<button onclick="showComingSoon('Unsere Momente')">💕<br>Unsere Momente</button>
 
-<button onclick="openGame()">
-🎮<br>Herzen sammeln
-</button>
+<button onclick="openGame()">🎮<br>Herzen sammeln</button>
 
-<button onclick="showComingSoon('Überraschung')">
-✨<br>Überraschung
-</button>
+<button onclick="showComingSoon('Überraschung')">✨<br>Überraschung</button>
 
-<button onclick="showComingSoon('Unsere Wünsche')">
-📝<br>Unsere Wünsche
-</button>
+<button onclick="showComingSoon('Unsere Wünsche')">📝<br>Unsere Wünsche</button>
 
 </div>
+
 </div>
 
 <div class="card" style="text-align:center">
@@ -866,10 +751,7 @@ button {
 
 </section>
 
-
-<!-- ==========================
-     IDENTITÄT
-========================== -->
+<!-- IDENTITÄT -->
 
 <section id="identityPage" class="hidden">
 
@@ -896,16 +778,11 @@ button {
 
 </section>
 
-
-<!-- ==========================
-     NACHRICHTEN
-========================== -->
+<!-- NACHRICHTEN -->
 
 <section id="messagesPage" class="hidden">
 
-<button class="back-button" onclick="goHome()">
-← Zurück
-</button>
+<button class="back-button" onclick="goHome()">← Zurück</button>
 
 <div class="header">
 <h1>💌 Nachrichten</h1>
@@ -915,9 +792,7 @@ button {
 <div class="card">
 
 <div id="messages" class="messages">
-<div class="empty">
-Nachrichten werden geladen...
-</div>
+<div class="empty">Nachrichten werden geladen...</div>
 </div>
 
 <form id="messageForm" class="message-form">
@@ -928,11 +803,10 @@ type="text"
 maxlength="1000"
 placeholder="Schreib etwas... ❤️"
 autocomplete="off"
+
 >
 
-<button class="send-button" type="submit">
-Senden
-</button>
+<button class="send-button" type="submit">Senden</button>
 
 </form>
 
@@ -940,16 +814,11 @@ Senden
 
 </section>
 
-
-<!-- ==========================
-     BILDER
-========================== -->
+<!-- BILDER -->
 
 <section id="imagesPage" class="hidden">
 
-<button class="back-button" onclick="goHome()">
-← Zurück
-</button>
+<button class="back-button" onclick="goHome()">← Zurück</button>
 
 <div class="header">
 <h1>📸 Unsere Bilder</h1>
@@ -964,39 +833,25 @@ Senden
 📷 Bild auswählen
 </label>
 
-<input
-id="imageInput"
-type="file"
-accept="image/*"
-multiple
->
+<input id="imageInput" type="file" accept="image/*" multiple>
 
 <div id="uploadStatus" class="upload-status"></div>
 
 </div>
 
 <div id="gallery" class="gallery">
-
-<div class="empty">
-Bilder werden geladen...
-</div>
-
+<div class="empty">Bilder werden geladen...</div>
 </div>
 
 </div>
 
 </section>
 
-
-<!-- ==========================
-     SPIEL
-========================== -->
+<!-- SPIEL -->
 
 <section id="gamePage" class="hidden">
 
-<button class="back-button" onclick="goHome()">
-← Zurück
-</button>
+<button class="back-button" onclick="goHome()">← Zurück</button>
 
 <div class="header">
 <h1>❤️ Herzen sammeln</h1>
@@ -1031,9 +886,7 @@ Bilder werden geladen...
 
 <div id="gameBoard" class="game-board">
 
-<div id="player" class="player">
-❤️
-</div>
+<div id="player" class="player">❤️</div>
 
 <div id="gameMessage" class="game-message">
 <h2>Bereit? ❤️</h2>
@@ -1046,23 +899,15 @@ Bilder werden geladen...
 
 <button class="empty-control" type="button"></button>
 
-<button type="button" onclick="movePlayer(0,-1)">
-⬆️
-</button>
+<button type="button" onclick="movePlayer(0,-1)">⬆️</button>
 
 <button class="empty-control" type="button"></button>
 
-<button type="button" onclick="movePlayer(-1,0)">
-⬅️
-</button>
+<button type="button" onclick="movePlayer(-1,0)">⬅️</button>
 
-<button type="button" onclick="movePlayer(0,1)">
-⬇️
-</button>
+<button type="button" onclick="movePlayer(0,1)">⬇️</button>
 
-<button type="button" onclick="movePlayer(1,0)">
-➡️
-</button>
+<button type="button" onclick="movePlayer(1,0)">➡️</button>
 
 </div>
 
@@ -1071,11 +916,11 @@ id="startGameButton"
 class="game-button"
 type="button"
 onclick="startGame()">
-❤️ Spiel starten
-</button>
+❤️ Spiel starten </button>
 
 </div>
 
+<!-- MISSIONEN -->
 
 <div class="card">
 
@@ -1085,58 +930,49 @@ onclick="startGame()">
 
 </div>
 
+<!-- SHOP -->
 
 <div class="card">
 
 <h2>🛍️ Love Shop</h2>
 
-<p>
-💕 Deine Love Coins:
-<strong id="shopCoins">0</strong>
-</p>
+<p>💕 Deine Love Coins: <strong id="shopCoins">0</strong></p>
 
 <div class="shop-grid">
 
 <div class="shop-item">
 <div class="shop-icon">🧲</div>
 <h3>Herz-Magnet</h3>
-<p>Herzen werden kurz angezogen.</p>
-<button onclick="buyPowerup('magnet')">
-100 💕
-</button>
+<p>Herzen werden im nächsten Spiel angezogen.</p>
+<button onclick="buyPowerup('magnet')">100 💕</button>
 </div>
 
 <div class="shop-item">
 <div class="shop-icon">⏱️</div>
 <h3>Zeitbonus</h3>
 <p>+10 Sekunden im nächsten Spiel.</p>
-<button onclick="buyPowerup('time')">
-150 💕
-</button>
+<button onclick="buyPowerup('time')">150 💕</button>
 </div>
 
 <div class="shop-item">
 <div class="shop-icon">✨</div>
 <h3>Doppel-Punkte</h3>
-<p>2× Punkte für kurze Zeit.</p>
-<button onclick="buyPowerup('double')">
-200 💕
-</button>
+<p>2× Punkte für 10 Sekunden.</p>
+<button onclick="buyPowerup('double')">200 💕</button>
 </div>
 
 <div class="shop-item">
 <div class="shop-icon">🛡️</div>
 <h3>Schutz</h3>
-<p>Das nächste Hindernis wird ignoriert.</p>
-<button onclick="buyPowerup('shield')">
-175 💕
-</button>
+<p>Ein 💔 wird ignoriert.</p>
+<button onclick="buyPowerup('shield')">175 💕</button>
 </div>
 
 </div>
 
 </div>
 
+<!-- WELTEN -->
 
 <div class="card">
 
@@ -1148,8 +984,7 @@ onclick="startGame()">
 <div class="world-info">
 <div class="world-icon">🌸</div>
 <div>
-<strong>Romantischer Garten</strong>
-<br>
+<strong>Romantischer Garten</strong><br>
 <small>Startwelt</small>
 </div>
 </div>
@@ -1159,48 +994,40 @@ onclick="startGame()">
 <div class="world-info">
 <div class="world-icon">🌅</div>
 <div>
-<strong>Sonnenuntergang</strong>
-<br>
+<strong>Sonnenuntergang</strong><br>
 <small>Ab 500 Punkten</small>
 </div>
 </div>
-<button onclick="selectWorld('sunset')">
-Freischalten
-</button>
+<button onclick="selectWorld('sunset')">Auswählen</button>
 </div>
 
 <div id="worldNight" class="world locked">
 <div class="world-info">
 <div class="world-icon">🌙</div>
 <div>
-<strong>Sternenhimmel</strong>
-<br>
+<strong>Sternenhimmel</strong><br>
 <small>Ab 1500 Punkten</small>
 </div>
 </div>
-<button onclick="selectWorld('night')">
-Freischalten
-</button>
+<button onclick="selectWorld('night')">Auswählen</button>
 </div>
 
 <div id="worldMagic" class="world locked">
 <div class="world-info">
 <div class="world-icon">✨</div>
 <div>
-<strong>Magische Nacht</strong>
-<br>
+<strong>Magische Nacht</strong><br>
 <small>Ab 3000 Punkten</small>
 </div>
 </div>
-<button onclick="selectWorld('magic')">
-Freischalten
-</button>
+<button onclick="selectWorld('magic')">Auswählen</button>
 </div>
 
 </div>
 
 </div>
 
+<!-- BESTENLISTE -->
 
 <div class="card">
 
@@ -1212,30 +1039,19 @@ Freischalten
 
 </section>
 
-
-<!-- ==========================
-     BALD VERFÜGBAR
-========================== -->
+<!-- BALD VERFÜGBAR -->
 
 <section id="soonPage" class="hidden">
 
-<button class="back-button" onclick="goHome()">
-← Zurück
-</button>
+<button class="back-button" onclick="goHome()">← Zurück</button>
 
 <div class="card" style="text-align:center;padding:30px">
 
-<div style="font-size:50px">
-✨
-</div>
+<div style="font-size:50px">✨</div>
 
-<h2 id="soonTitle">
-Bald verfügbar
-</h2>
+<h2 id="soonTitle">Bald verfügbar</h2>
 
-<p>
-Dieser Bereich kommt noch. ❤️
-</p>
+<p>Dieser Bereich kommt noch. ❤️</p>
 
 </div>
 
@@ -1243,26 +1059,15 @@ Dieser Bereich kommt noch. ❤️
 
 </div>
 
-
 <!-- LIGHTBOX -->
 
 <div id="lightbox" class="lightbox">
 
-<button
-id="closeLightbox"
-class="close-lightbox"
-aria-label="Bild schließen">
-×
-</button>
+<button id="closeLightbox" class="close-lightbox">×</button>
 
-<img
-id="lightboxImage"
-src=""
-alt="Großes Bild"
->
+<img id="lightboxImage" src="" alt="Großes Bild">
 
 </div>
-
 
 <script>
 
@@ -1270,34 +1075,42 @@ alt="Großes Bild"
    SUPABASE
 ========================== */
 
-const SUPABASE_URL =
-"https://mvlhbxtywabqsnfcfrzm.supabase.co";
+const SUPABASE_URL="https://mvlhbxtywabqsnfcfrzm.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_VWpohfk0SvSuK6eum-FZMQ_sbp-nPJy";
+const SUPABASE_KEY="sb_publishable_VWpohfk0SvSuK6eum-FZMQ_sbp-nPJy";
 
-const supabaseClient =
-supabase.createClient(
+const supabaseClient=supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 
-const MESSAGE_TABLE = "message";
-const IMAGE_BUCKET = "bilder";
+const MESSAGE_TABLE="message";
+const IMAGE_BUCKET="bilder";
+
+
+/* ==========================
+   HILFSFUNKTION
+========================== */
+
+function escapeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
 
 
 /* ==========================
    PERSON
 ========================== */
 
-let currentUser =
-localStorage.getItem(
-    "unser_programm_user"
-);
+let currentUser=localStorage.getItem("unser_programm_user");
 
-function chooseIdentity(name) {
+function chooseIdentity(name){
 
-    currentUser = name;
+    currentUser=name;
 
     localStorage.setItem(
         "unser_programm_user",
@@ -1305,31 +1118,27 @@ function chooseIdentity(name) {
     );
 
     updateUserText();
-
     showPage("homePage");
 }
 
-function changeIdentity() {
+function changeIdentity(){
     showPage("identityPage");
 }
 
-function updateUserText() {
+function updateUserText(){
 
-    const element =
-        document.getElementById(
-            "currentUserText"
-        );
+    const element=document.getElementById("currentUserText");
 
-    if (!element) return;
+    if(!element)return;
 
-    if (!currentUser) {
-        element.textContent = "";
+    if(!currentUser){
+        element.textContent="";
         return;
     }
 
-    element.innerHTML =
-        "Du bist gerade als <strong>" +
-        escapeHtml(currentUser) +
+    element.innerHTML=
+        "Du bist gerade als <strong>"+
+        escapeHtml(currentUser)+
         "</strong> angemeldet ❤️";
 }
 
@@ -1338,9 +1147,9 @@ function updateUserText() {
    SEITEN
 ========================== */
 
-function showPage(id) {
+function showPage(id){
 
-    const pages = [
+    const pages=[
         "homePage",
         "identityPage",
         "messagesPage",
@@ -1349,33 +1158,30 @@ function showPage(id) {
         "soonPage"
     ];
 
-    pages.forEach(pageId => {
+    pages.forEach(pageId=>{
 
-        const page =
-            document.getElementById(pageId);
+        const page=document.getElementById(pageId);
 
-        if (page) {
-
+        if(page){
             page.classList.toggle(
                 "hidden",
-                pageId !== id
+                pageId!==id
             );
         }
     });
 
-    window.scrollTo(0, 0);
+    window.scrollTo(0,0);
 }
 
-function goHome() {
+function goHome(){
+
     stopGame();
     showPage("homePage");
 }
 
-function showComingSoon(name) {
+function showComingSoon(name){
 
-    document.getElementById(
-        "soonTitle"
-    ).textContent = name;
+    document.getElementById("soonTitle").textContent=name;
 
     showPage("soonPage");
 }
@@ -1385,10 +1191,9 @@ function showComingSoon(name) {
    NACHRICHTEN
 ========================== */
 
-function openMessages() {
+function openMessages(){
 
-    if (!currentUser) {
-
+    if(!currentUser){
         showPage("identityPage");
         return;
     }
@@ -1397,258 +1202,164 @@ function openMessages() {
     loadMessages();
 }
 
-async function loadMessages() {
+async function loadMessages(){
 
-    const container =
-        document.getElementById(
-            "messages"
-        );
+    const container=document.getElementById("messages");
 
-    container.innerHTML =
-        '<div class="empty">' +
-        'Nachrichten werden geladen...' +
-        '</div>';
+    container.innerHTML=
+        '<div class="empty">Nachrichten werden geladen...</div>';
 
-    const result =
-        await supabaseClient
-            .from(MESSAGE_TABLE)
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending: true
-                }
-            );
+    const result=await supabaseClient
+        .from(MESSAGE_TABLE)
+        .select("*")
+        .order("created_at",{ascending:true});
 
-    if (result.error) {
+    if(result.error){
 
-        console.error(result.error);
-
-        container.innerHTML =
-            '<div class="empty">' +
-            'Fehler beim Laden der Nachrichten.' +
-            '</div>';
+        container.innerHTML=
+            '<div class="empty">Fehler beim Laden der Nachrichten.</div>';
 
         return;
     }
 
-    if (
-        !result.data ||
-        result.data.length === 0
-    ) {
+    if(!result.data || result.data.length===0){
 
-        container.innerHTML =
-            '<div class="empty">' +
-            'Noch keine Nachrichten ❤️' +
-            '</div>';
+        container.innerHTML=
+            '<div class="empty">Noch keine Nachrichten ❤️</div>';
 
         return;
     }
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
-    result.data.forEach(
-        message => {
-            addMessage(message);
-        }
-    );
+    result.data.forEach(addMessage);
 }
 
-function addMessage(message) {
+function addMessage(message){
 
-    const container =
-        document.getElementById(
-            "messages"
-        );
+    const container=document.getElementById("messages");
 
-    const div =
-        document.createElement("div");
+    if(!container)return;
 
-    div.className = "message";
-    div.dataset.id = message.id;
+    const div=document.createElement("div");
 
-    if (message.sender === currentUser) {
+    div.className="message";
+    div.dataset.id=message.id;
+
+    if(message.sender===currentUser){
         div.classList.add("mine");
     }
 
-    const date =
-        new Date(message.created_at);
+    const date=new Date(message.created_at);
 
-    const time =
-        date.toLocaleString(
-            "de-DE",
-            {
-                day: "2-digit",
-                month: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
-
-    div.innerHTML =
-
-        '<div class="message-name">' +
-        escapeHtml(message.sender) +
-        '</div>' +
-
-        '<div class="message-text">' +
-        escapeHtml(message.message) +
-        '</div>' +
-
-        '<div class="message-footer">' +
-
-        '<div class="message-time">' +
-        time +
-        '</div>' +
-
-        '<button ' +
-        'class="delete-message-button" ' +
-        'type="button">' +
-        '🗑️ Löschen' +
-        '</button>' +
-
-        '</div>';
-
-    const deleteButton =
-        div.querySelector(
-            ".delete-message-button"
-        );
-
-    deleteButton.addEventListener(
-        "click",
-        () => {
-            deleteMessage(
-                message.id,
-                div
-            );
+    const time=date.toLocaleString(
+        "de-DE",
+        {
+            day:"2-digit",
+            month:"2-digit",
+            hour:"2-digit",
+            minute:"2-digit"
         }
     );
 
+    div.innerHTML=
+        '<div class="message-name">'+
+        escapeHtml(message.sender)+
+        '</div>'+
+        '<div class="message-text">'+
+        escapeHtml(message.message)+
+        '</div>'+
+        '<div class="message-footer">'+
+        '<div class="message-time">'+time+'</div>'+
+        '<button class="delete-message-button" type="button">🗑️ Löschen</button>'+
+        '</div>';
+
+    div.querySelector(".delete-message-button")
+        .addEventListener("click",()=>{
+            deleteMessage(message.id,div);
+        });
+
     container.appendChild(div);
 
-    container.scrollTop =
-        container.scrollHeight;
+    container.scrollTop=container.scrollHeight;
 }
 
-async function deleteMessage(
-    messageId,
-    element
-) {
+async function deleteMessage(id,element){
 
-    if (
-        !confirm(
-            "Möchtest du diese Nachricht wirklich löschen?"
-        )
-    ) {
+    if(!confirm("Möchtest du diese Nachricht wirklich löschen?")){
         return;
     }
 
-    const result =
-        await supabaseClient
-            .from(MESSAGE_TABLE)
-            .delete()
-            .eq("id", messageId);
+    const result=await supabaseClient
+        .from(MESSAGE_TABLE)
+        .delete()
+        .eq("id",id);
 
-    if (result.error) {
-
-        console.error(result.error);
-
-        alert(
-            "Die Nachricht konnte nicht gelöscht werden."
-        );
-
+    if(result.error){
+        alert("Die Nachricht konnte nicht gelöscht werden.");
         return;
     }
 
-    if (element) {
-        element.remove();
-    }
+    if(element)element.remove();
 }
 
-async function sendMessage(event) {
+async function sendMessage(event){
 
     event.preventDefault();
 
-    if (!currentUser) return;
+    if(!currentUser)return;
 
-    const input =
-        document.getElementById(
-            "messageInput"
-        );
+    const input=document.getElementById("messageInput");
 
-    const text =
-        input.value.trim();
+    const text=input.value.trim();
 
-    if (!text) return;
+    if(!text)return;
 
-    input.disabled = true;
+    input.disabled=true;
 
-    const result =
-        await supabaseClient
-            .from(MESSAGE_TABLE)
-            .insert([
-                {
-                    sender: currentUser,
-                    message: text
-                }
-            ])
-            .select()
-            .single();
+    const result=await supabaseClient
+        .from(MESSAGE_TABLE)
+        .insert([
+            {
+                sender:currentUser,
+                message:text
+            }
+        ])
+        .select()
+        .single();
 
-    input.disabled = false;
+    input.disabled=false;
 
-    if (result.error) {
+    if(result.error){
 
-        console.error(result.error);
-
-        alert(
-            "Die Nachricht konnte nicht gesendet werden."
-        );
-
+        alert("Die Nachricht konnte nicht gesendet werden.");
         return;
     }
 
-    input.value = "";
+    input.value="";
 
-    const existing =
-        document.querySelector(
-            '[data-id="' +
-            result.data.id +
-            '"]'
-        );
-
-    if (!existing) {
+    if(!document.querySelector('[data-id="'+result.data.id+'"]')){
         addMessage(result.data);
     }
 }
 
 
-/* ==========================
-   REALTIME
-========================== */
+/* REALTIME */
 
 supabaseClient
 .channel("messages-live")
 .on(
     "postgres_changes",
     {
-        event: "INSERT",
-        schema: "public",
-        table: MESSAGE_TABLE
+        event:"INSERT",
+        schema:"public",
+        table:MESSAGE_TABLE
     },
-    payload => {
+    payload=>{
 
-        const message =
-            payload.new;
+        const message=payload.new;
 
-        const existing =
-            document.querySelector(
-                '[data-id="' +
-                message.id +
-                '"]'
-            );
-
-        if (!existing) {
+        if(!document.querySelector('[data-id="'+message.id+'"]')){
             addMessage(message);
         }
     }
@@ -1656,25 +1367,17 @@ supabaseClient
 .on(
     "postgres_changes",
     {
-        event: "DELETE",
-        schema: "public",
-        table: MESSAGE_TABLE
+        event:"DELETE",
+        schema:"public",
+        table:MESSAGE_TABLE
     },
-    payload => {
+    payload=>{
 
-        const messageId =
-            payload.old.id;
+        const element=document.querySelector(
+            '[data-id="'+payload.old.id+'"]'
+        );
 
-        const element =
-            document.querySelector(
-                '[data-id="' +
-                messageId +
-                '"]'
-            );
-
-        if (element) {
-            element.remove();
-        }
+        if(element)element.remove();
     }
 )
 .subscribe();
@@ -1684,10 +1387,9 @@ supabaseClient
    BILDER
 ========================== */
 
-function openImages() {
+function openImages(){
 
-    if (!currentUser) {
-
+    if(!currentUser){
         showPage("identityPage");
         return;
     }
@@ -1696,123 +1398,86 @@ function openImages() {
     loadImages();
 }
 
-async function loadImages() {
+async function loadImages(){
 
-    const gallery =
-        document.getElementById(
-            "gallery"
+    const gallery=document.getElementById("gallery");
+
+    gallery.innerHTML=
+        '<div class="empty">Bilder werden geladen...</div>';
+
+    const result=await supabaseClient
+        .storage
+        .from(IMAGE_BUCKET)
+        .list(
+            "",
+            {
+                limit:100,
+                offset:0,
+                sortBy:{
+                    column:"created_at",
+                    order:"desc"
+                }
+            }
         );
 
-    gallery.innerHTML =
-        '<div class="empty">' +
-        'Bilder werden geladen...' +
-        '</div>';
+    if(result.error){
 
-    const result =
-        await supabaseClient
+        gallery.innerHTML=
+            '<div class="empty">Fehler beim Laden der Bilder.</div>';
+
+        return;
+    }
+
+    const files=(result.data||[]).filter(
+        file=>file.name && file.name!==".emptyFolderPlaceholder"
+    );
+
+    if(files.length===0){
+
+        gallery.innerHTML=
+            '<div class="empty">Noch keine Bilder ❤️<br>Lade euer erstes Bild hoch!</div>';
+
+        return;
+    }
+
+    gallery.innerHTML="";
+
+    for(const file of files){
+
+        const signedResult=await supabaseClient
             .storage
             .from(IMAGE_BUCKET)
-            .list(
-                "",
-                {
-                    limit: 100,
-                    offset: 0,
-                    sortBy: {
-                        column: "created_at",
-                        order: "desc"
-                    }
-                }
-            );
+            .createSignedUrl(file.name,3600);
 
-    if (result.error) {
+        if(signedResult.error)continue;
 
-        console.error(result.error);
+        const url=signedResult.data.signedUrl;
 
-        gallery.innerHTML =
-            '<div class="gallery-error">' +
-            'Fehler beim Laden der Bilder.' +
-            '</div>';
+        const item=document.createElement("div");
+        item.className="gallery-item";
 
-        return;
-    }
+        const image=document.createElement("img");
 
-    const files =
-        (result.data || [])
-        .filter(file =>
-            file.name &&
-            file.name !==
-            ".emptyFolderPlaceholder"
-        );
-
-    if (files.length === 0) {
-
-        gallery.innerHTML =
-            '<div class="empty">' +
-            'Noch keine Bilder ❤️<br>' +
-            'Lade euer erstes Bild hoch!' +
-            '</div>';
-
-        return;
-    }
-
-    gallery.innerHTML = "";
-
-    for (const file of files) {
-
-        const signedResult =
-            await supabaseClient
-                .storage
-                .from(IMAGE_BUCKET)
-                .createSignedUrl(
-                    file.name,
-                    3600
-                );
-
-        if (signedResult.error) {
-            continue;
-        }
-
-        const url =
-            signedResult.data.signedUrl;
-
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "gallery-item";
-
-        const image =
-            document.createElement("img");
-
-        image.src = url;
-        image.alt = "Unser Bild";
-        image.loading = "lazy";
+        image.src=url;
+        image.alt="Unser Bild";
+        image.loading="lazy";
 
         image.addEventListener(
             "click",
-            () => openLightbox(url)
+            ()=>openLightbox(url)
         );
 
-        const deleteButton =
-            document.createElement("button");
+        const deleteButton=document.createElement("button");
 
-        deleteButton.type = "button";
-        deleteButton.className =
-            "delete-image-button";
-
-        deleteButton.textContent = "🗑️";
-        deleteButton.title = "Bild löschen";
+        deleteButton.type="button";
+        deleteButton.className="delete-image-button";
+        deleteButton.textContent="🗑️";
 
         deleteButton.addEventListener(
             "click",
-            event => {
-
+            event=>{
                 event.stopPropagation();
-
-                deleteImage(
-                    file.name,
-                    item
-                );
+                deleteImage(file.name,item);
             }
         );
 
@@ -1823,261 +1488,207 @@ async function loadImages() {
     }
 }
 
-async function deleteImage(
-    fileName,
-    element
-) {
+async function deleteImage(fileName,element){
 
-    if (
-        !confirm(
-            "Möchtest du dieses Bild wirklich löschen?"
-        )
-    ) {
+    if(!confirm("Möchtest du dieses Bild wirklich löschen?")){
         return;
     }
 
-    const result =
-        await supabaseClient
-            .storage
-            .from(IMAGE_BUCKET)
-            .remove([fileName]);
+    const result=await supabaseClient
+        .storage
+        .from(IMAGE_BUCKET)
+        .remove([fileName]);
 
-    if (result.error) {
+    if(result.error){
 
-        alert(
-            "Das Bild konnte nicht gelöscht werden."
-        );
-
+        alert("Das Bild konnte nicht gelöscht werden.");
         return;
     }
 
-    if (element) {
-        element.remove();
-    }
+    if(element)element.remove();
 }
 
-async function uploadImages(event) {
+async function uploadImages(event){
 
-    const files =
-        Array.from(
-            event.target.files || []
-        );
+    const files=Array.from(event.target.files||[]);
 
-    if (!files.length) return;
+    if(!files.length)return;
 
-    const status =
-        document.getElementById(
-            "uploadStatus"
-        );
+    const status=document.getElementById("uploadStatus");
 
-    status.textContent =
-        "Bilder werden hochgeladen...";
+    status.textContent="Bilder werden hochgeladen...";
 
-    let count = 0;
+    let count=0;
 
-    for (const file of files) {
+    for(const file of files){
 
-        if (
-            !file.type.startsWith(
-                "image/"
-            )
-        ) {
-            continue;
-        }
+        if(!file.type.startsWith("image/"))continue;
 
-        const extension =
-            getExtension(file.name) ||
-            "jpg";
+        const extension=getExtension(file.name)||"jpg";
 
-        const fileName =
-            Date.now() +
-            "-" +
-            Math.random()
-                .toString(36)
-                .substring(2, 10) +
-            "." +
+        const fileName=
+            Date.now()+
+            "-"+
+            Math.random().toString(36).substring(2,10)+
+            "."+
             extension;
 
-        const result =
-            await supabaseClient
-                .storage
-                .from(IMAGE_BUCKET)
-                .upload(
-                    fileName,
-                    file,
-                    {
-                        contentType:
-                            file.type,
-                        upsert: false
-                    }
-                );
+        const result=await supabaseClient
+            .storage
+            .from(IMAGE_BUCKET)
+            .upload(
+                fileName,
+                file,
+                {
+                    contentType:file.type,
+                    upsert:false
+                }
+            );
 
-        if (!result.error) {
-            count++;
-        }
+        if(!result.error)count++;
     }
 
-    event.target.value = "";
+    event.target.value="";
 
-    status.textContent =
-        count === 1
-            ? "1 Bild wurde hochgeladen ❤️"
-            : count +
-              " Bilder wurden hochgeladen ❤️";
+    status.textContent=
+        count===1
+        ?"1 Bild wurde hochgeladen ❤️"
+        :count+" Bilder wurden hochgeladen ❤️";
 
     await loadImages();
 
-    setTimeout(
-        () => {
-            status.textContent = "";
-        },
-        3000
-    );
+    setTimeout(()=>{
+        status.textContent="";
+    },3000);
 }
 
-function getExtension(name) {
+function getExtension(name){
 
-    const parts =
-        name.split(".");
+    const parts=name.split(".");
 
-    if (parts.length < 2) {
-        return "";
-    }
+    if(parts.length<2)return "";
 
     return parts
         .pop()
         .toLowerCase()
-        .replace(
-            /[^a-z0-9]/g,
-            ""
-        );
+        .replace(/[^a-z0-9]/g,"");
 }
 
 
-/* ==========================
-   LIGHTBOX
-========================== */
+/* LIGHTBOX */
 
-function openLightbox(url) {
+function openLightbox(url){
 
-    const box =
-        document.getElementById(
-            "lightbox"
-        );
+    document.getElementById("lightboxImage").src=url;
 
-    const image =
-        document.getElementById(
-            "lightboxImage"
-        );
-
-    image.src = url;
-
-    box.classList.add("open");
+    document.getElementById("lightbox")
+        .classList.add("open");
 }
 
-function closeLightbox() {
+function closeLightbox(){
 
-    const box =
-        document.getElementById(
-            "lightbox"
-        );
+    document.getElementById("lightbox")
+        .classList.remove("open");
 
-    const image =
-        document.getElementById(
-            "lightboxImage"
-        );
-
-    box.classList.remove("open");
-    image.src = "";
+    document.getElementById("lightboxImage").src="";
 }
 
 
 /* =====================================================
-   HERZEN-SAMMELSPIEL
+   NEUES HERZEN-SPIEL
 ===================================================== */
 
-const GAME_KEY =
-    "noah_emma_herzenspiel";
+const GAME_KEY="noah_emma_herzenspiel";
 
-let gameData = {
-    coins: 0,
-    bestScore: 0,
-    totalScore: 0,
-    world: "garden",
-    unlocked: {
-        garden: true,
-        sunset: false,
-        night: false,
-        magic: false
+let gameData={
+    coins:0,
+    bestScore:0,
+    totalScore:0,
+    world:"garden",
+
+    unlocked:{
+        garden:true,
+        sunset:false,
+        night:false,
+        magic:false
     },
-    powerups: {
-        magnet: 0,
-        time: 0,
-        double: 0,
-        shield: 0
+
+    powerups:{
+        magnet:0,
+        time:0,
+        double:0,
+        shield:0
     },
-    missions: {
-        hearts: 0,
-        big: 0,
-        stars: 0
+
+    missions:{
+        hearts:0,
+        big:0,
+        stars:0
     }
 };
 
-let gameRunning = false;
-let gameScore = 0;
-let gameTime = 60;
-let gameLevel = 1;
-let playerX = 50;
-let playerY = 75;
-let gameItems = [];
-let gameTimer = null;
-let spawnTimer = null;
-let animationFrame = null;
-let doublePointsUntil = 0;
-let magnetUntil = 0;
-let shieldActive = false;
+let gameRunning=false;
+let gameScore=0;
+let gameTime=60;
+let gameLevel=1;
 
-function loadGameData() {
+let playerX=50;
+let playerY=75;
 
-    try {
+let gameItems=[];
 
-        const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    GAME_KEY
-                )
-            );
+let gameTimer=null;
+let spawnTimer=null;
+let animationFrame=null;
 
-        if (saved) {
+let firstSpawnTimeout=null;
 
-            gameData = {
+let doublePointsUntil=0;
+let magnetUntil=0;
+
+let shieldActive=false;
+
+
+/* LADEN */
+
+function loadGameData(){
+
+    try{
+
+        const saved=JSON.parse(
+            localStorage.getItem(GAME_KEY)
+        );
+
+        if(saved){
+
+            gameData={
                 ...gameData,
                 ...saved,
-                unlocked: {
+
+                unlocked:{
                     ...gameData.unlocked,
-                    ...(saved.unlocked || {})
+                    ...(saved.unlocked||{})
                 },
-                powerups: {
+
+                powerups:{
                     ...gameData.powerups,
-                    ...(saved.powerups || {})
+                    ...(saved.powerups||{})
                 },
-                missions: {
+
+                missions:{
                     ...gameData.missions,
-                    ...(saved.missions || {})
+                    ...(saved.missions||{})
                 }
             };
         }
 
-    } catch (error) {
+    }catch(error){
 
-        console.error(
-            "Spielstand konnte nicht geladen werden:",
-            error
-        );
+        console.error(error);
     }
 }
 
-function saveGameData() {
+function saveGameData(){
 
     localStorage.setItem(
         GAME_KEY,
@@ -2085,9 +1696,12 @@ function saveGameData() {
     );
 }
 
-function openGame() {
 
-    if (!currentUser) {
+/* SPIEL ÖFFNEN */
+
+function openGame(){
+
+    if(!currentUser){
 
         showPage("identityPage");
         return;
@@ -2096,51 +1710,65 @@ function openGame() {
     showPage("gamePage");
 
     loadGameData();
+
     updateGameUI();
     renderMissions();
     renderLeaderboard();
     updateWorlds();
 
-    if (!gameRunning) {
+    if(!gameRunning){
+
         showGameMessage(
             "Bereit? ❤️",
-            "Sammle die Herzen!"
+            "Sammle die fallenden Herzen!"
         );
     }
 }
 
-function startGame() {
 
-    if (gameRunning) return;
+/* SPIEL START */
+
+function startGame(){
+
+    if(gameRunning)return;
 
     stopGame();
 
-    gameRunning = true;
-    gameScore = 0;
-    gameLevel = 1;
+    gameRunning=true;
 
-    gameTime =
-        60 +
+    gameScore=0;
+    gameLevel=1;
+
+    gameTime=
+        60+
         (
-            gameData.powerups.time > 0
-                ? 10
-                : 0
+            gameData.powerups.time>0
+            ?10
+            :0
         );
 
-    if (gameData.powerups.time > 0) {
+    if(gameData.powerups.time>0){
         gameData.powerups.time--;
     }
 
-    playerX = 50;
-    playerY = 75;
+    playerX=50;
+    playerY=82;
 
-    doublePointsUntil = 0;
-    magnetUntil = 0;
+    doublePointsUntil=0;
 
-    shieldActive =
-        gameData.powerups.shield > 0;
+    magnetUntil=
+        gameData.powerups.magnet>0
+        ?Date.now()+15000
+        :0;
 
-    if (shieldActive) {
+    if(gameData.powerups.magnet>0){
+        gameData.powerups.magnet--;
+    }
+
+    shieldActive=
+        gameData.powerups.shield>0;
+
+    if(shieldActive){
         gameData.powerups.shield--;
     }
 
@@ -2152,107 +1780,129 @@ function startGame() {
 
     document.getElementById(
         "startGameButton"
-    ).textContent =
-        "🏃 Spiel läuft...";
+    ).textContent="🏃 Spiel läuft...";
 
-    gameTimer =
-        setInterval(
-            () => {
+    gameTimer=setInterval(()=>{
 
-                if (!gameRunning) return;
+        if(!gameRunning)return;
 
-                gameTime--;
+        gameTime--;
 
-                updateGameUI();
+        updateGameUI();
 
-                if (gameTime <= 0) {
-                    endGame();
-                }
+        if(gameTime<=0){
+            endGame();
+        }
 
-            },
-            1000
-        );
+    },1000);
 
-    spawnTimer =
-        setInterval(
-            spawnGameItem,
-            850
-        );
 
-    animationFrame =
-        requestAnimationFrame(
-            gameLoop
-        );
+    /*
+       WENIGER HERZEN:
+       ungefähr ein Herz alle 1,7 Sekunden.
+    */
 
-    spawnGameItem();
-    spawnGameItem();
+    spawnTimer=setInterval(
+        spawnGameItem,
+        1700
+    );
+
+
+    /*
+       Nur ein erstes Herz sofort.
+    */
+
+    firstSpawnTimeout=setTimeout(
+        spawnGameItem,
+        500
+    );
+
+
+    animationFrame=
+        requestAnimationFrame(gameLoop);
 }
 
-function stopGame() {
 
-    gameRunning = false;
+/* STOP */
 
-    if (gameTimer) {
+function stopGame(){
+
+    gameRunning=false;
+
+    if(gameTimer){
         clearInterval(gameTimer);
-        gameTimer = null;
+        gameTimer=null;
     }
 
-    if (spawnTimer) {
+    if(spawnTimer){
         clearInterval(spawnTimer);
-        spawnTimer = null;
+        spawnTimer=null;
     }
 
-    if (animationFrame) {
-        cancelAnimationFrame(
-            animationFrame
-        );
-        animationFrame = null;
+    if(firstSpawnTimeout){
+        clearTimeout(firstSpawnTimeout);
+        firstSpawnTimeout=null;
+    }
+
+    if(animationFrame){
+        cancelAnimationFrame(animationFrame);
+        animationFrame=null;
     }
 
     clearGameItems();
 }
 
-function endGame() {
 
-    if (!gameRunning) return;
+/* ENDE */
 
-    gameRunning = false;
+function endGame(){
 
-    if (gameTimer) {
+    if(!gameRunning)return;
+
+    gameRunning=false;
+
+    if(gameTimer){
         clearInterval(gameTimer);
-        gameTimer = null;
+        gameTimer=null;
     }
 
-    if (spawnTimer) {
+    if(spawnTimer){
         clearInterval(spawnTimer);
-        spawnTimer = null;
+        spawnTimer=null;
     }
 
-    if (animationFrame) {
-        cancelAnimationFrame(
-            animationFrame
-        );
-        animationFrame = null;
+    if(firstSpawnTimeout){
+        clearTimeout(firstSpawnTimeout);
+        firstSpawnTimeout=null;
+    }
+
+    if(animationFrame){
+        cancelAnimationFrame(animationFrame);
+        animationFrame=null;
     }
 
     clearGameItems();
 
-    const earnedCoins =
-        Math.max(
-            0,
-            Math.floor(
-                gameScore / 5
-            )
-        );
+    const earnedCoins=Math.max(
+        0,
+        Math.floor(gameScore/5)
+    );
 
-    gameData.coins += earnedCoins;
-    gameData.totalScore += gameScore;
+    gameData.coins+=earnedCoins;
 
-    if (gameScore > gameData.bestScore) {
-        gameData.bestScore = gameScore;
+    gameData.totalScore+=gameScore;
+
+    if(gameScore>gameData.bestScore){
+        gameData.bestScore=gameScore;
     }
+
+    addLeaderboardScore(
+        currentUser,
+        gameScore
+    );
 
     checkWorldUnlocks();
+
     saveGameData();
 
     renderMissions();
@@ -2262,535 +1912,472 @@ function endGame() {
 
     showGameMessage(
         "Runde vorbei ❤️",
-        gameScore +
-        " Punkte • +" +
-        earnedCoins +
+        gameScore+
+        " Punkte • +"+
+        earnedCoins+
         " Love Coins"
     );
 
     document.getElementById(
         "startGameButton"
-    ).textContent =
-        "❤️ Nochmal spielen";
+    ).textContent="❤️ Nochmal spielen";
 }
 
-function spawnGameItem() {
 
-    if (!gameRunning) return;
+/* HERZ ERSTELLEN */
 
-    const board =
-        document.getElementById(
-            "gameBoard"
-        );
+function spawnGameItem(){
 
-    if (!board) return;
+    if(!gameRunning)return;
 
-    const item =
-        document.createElement("div");
+    const board=document.getElementById("gameBoard");
 
-    item.className =
-        "game-item";
+    if(!board)return;
 
-    const random =
-        Math.random();
 
-    let type = "heart";
-    let value = 1;
+    /*
+       Maximal 5 Herzen gleichzeitig.
+       Dadurch wird es nicht voll.
+    */
 
-    if (random > 0.92) {
+    if(gameItems.length>=5)return;
 
-        type = "big";
-        value = 5;
 
-    } else if (random > 0.84) {
+    const item=document.createElement("div");
 
-        type = "star";
-        value = 10;
+    item.className="game-item";
 
-    } else if (random > 0.76) {
+    const random=Math.random();
 
-        type = "bad";
-        value = 0;
+    let type="heart";
+    let value=1;
+
+    /*
+       Die meisten sind normale Herzen.
+       Seltene besondere Herzen.
+    */
+
+    if(random>0.94){
+
+        type="star";
+        value=10;
+
+    }else if(random>0.88){
+
+        type="big";
+        value=5;
+
+    }else if(random>0.82){
+
+        type="bad";
+        value=0;
     }
 
-    const icons = {
-        heart: "❤️",
-        big: "💖",
-        star: "✨",
-        bad: "💔"
+    const icons={
+        heart:"❤️",
+        big:"💖",
+        star:"✨",
+        bad:"💔"
     };
 
-    item.textContent =
-        icons[type];
+    item.textContent=icons[type];
 
-    const x =
-        5 +
-        Math.random() * 90;
+    if(type==="star"||type==="big"){
+        item.classList.add("special");
+    }
 
-    const y =
-        5 +
-        Math.random() * 86;
+    /*
+       Herzen erscheinen oben
+       und fallen nach unten.
+    */
 
-    item.style.left =
-        x + "%";
+    const x=6+Math.random()*88;
 
-    item.style.top =
-        y + "%";
+    const y=-5;
+
+    item.style.left=x+"%";
+    item.style.top=y+"%";
 
     board.appendChild(item);
 
     gameItems.push({
-        element: item,
-        x: x,
-        y: y,
-        type: type,
-        value: value
+        element:item,
+        x:x,
+        y:y,
+        type:type,
+        value:value,
+        speed:
+            0.18+
+            Math.random()*0.10+
+            Math.min(gameLevel*0.005,0.08)
     });
-
-    if (gameItems.length > 18) {
-
-        const old =
-            gameItems.shift();
-
-        if (old.element) {
-            old.element.remove();
-        }
-    }
 }
 
-function gameLoop() {
 
-    if (!gameRunning) return;
+/* GAME LOOP */
 
+function gameLoop(){
+
+    if(!gameRunning)return;
+
+    moveGameItems();
     checkCollisions();
     updateLevel();
 
-    animationFrame =
-        requestAnimationFrame(
-            gameLoop
-        );
+    animationFrame=
+        requestAnimationFrame(gameLoop);
 }
 
-function checkCollisions() {
 
-    const playerSize = 8;
+/* HERZEN FALLEN */
 
-    for (
-        let i = gameItems.length - 1;
-        i >= 0;
-        i--
-    ) {
+function moveGameItems(){
 
-        const item =
-            gameItems[i];
+    const board=document.getElementById("gameBoard");
 
-        let distanceX =
-            Math.abs(
-                playerX -
-                item.x
+    if(!board)return;
+
+    for(let i=gameItems.length-1;i>=0;i--){
+
+        const item=gameItems[i];
+
+        item.y+=item.speed;
+
+        /*
+           Magnet zieht Herzen
+           langsam zum Spieler.
+        */
+
+        if(
+            magnetUntil>0 &&
+            Date.now()<magnetUntil
+        ){
+
+            const dx=playerX-item.x;
+            const dy=playerY-item.y;
+
+            const distance=Math.sqrt(
+                dx*dx+dy*dy
             );
 
-        let distanceY =
-            Math.abs(
-                playerY -
-                item.y
-            );
+            if(distance<28){
 
-        if (
-            distanceX < playerSize &&
-            distanceY < playerSize
-        ) {
-
-            collectItem(
-                item
-            );
-
-            if (item.element) {
-                item.element.remove();
+                item.x+=dx*0.035;
+                item.y+=dy*0.035;
             }
-
-            gameItems.splice(i, 1);
         }
 
-        if (
-            gameData.powerups.magnet > 0 &&
-            Date.now() < magnetUntil
-        ) {
+        item.element.style.left=
+            item.x+"%";
 
-            if (
-                distanceX < 18 &&
-                distanceY < 18
-            ) {
+        item.element.style.top=
+            item.y+"%";
 
-                item.x +=
-                    (playerX - item.x) *
-                    0.08;
 
-                item.y +=
-                    (playerY - item.y) *
-                    0.08;
+        /*
+           Herz ist unten angekommen.
+        */
 
-                item.element.style.left =
-                    item.x + "%";
+        if(item.y>108){
 
-                item.element.style.top =
-                    item.y + "%";
-            }
+            item.element.remove();
+
+            gameItems.splice(i,1);
         }
     }
 }
 
-function collectItem(item) {
 
-    if (item.type === "bad") {
+/* KOLLISION */
 
-        if (shieldActive) {
+function checkCollisions(){
 
-            shieldActive = false;
+    for(
+        let i=gameItems.length-1;
+        i>=0;
+        i--
+    ){
 
-            showFloatingText(
-                "🛡️ Schutz!"
-            );
+        const item=gameItems[i];
+
+        const dx=Math.abs(
+            playerX-item.x
+        );
+
+        const dy=Math.abs(
+            playerY-item.y
+        );
+
+        /*
+           Etwas größere Trefferzone,
+           damit das Sammeln angenehmer ist.
+        */
+
+        if(
+            dx<7 &&
+            dy<7
+        ){
+
+            collectItem(item);
+
+            item.element.remove();
+
+            gameItems.splice(i,1);
+        }
+    }
+}
+
+
+/* SAMMELN */
+
+function collectItem(item){
+
+    if(item.type==="bad"){
+
+        if(shieldActive){
+
+            shieldActive=false;
+
+            showFloatingText("🛡️ Schutz!");
 
             return;
         }
 
-        gameScore =
-            Math.max(
-                0,
-                gameScore - 3
-            );
-
-        showFloatingText(
-            "💔 -3"
+        gameScore=Math.max(
+            0,
+            gameScore-3
         );
+
+        showFloatingText("💔 -3");
 
         updateGameUI();
 
         return;
     }
 
-    let value =
-        item.value;
+    let value=item.value;
 
-    if (
-        Date.now() <
-        doublePointsUntil
-    ) {
-        value *= 2;
+    /*
+       Doppel-Punkte
+    */
+
+    if(Date.now()<doublePointsUntil){
+        value*=2;
     }
 
-    gameScore += value;
+    gameScore+=value;
 
-    if (item.type === "heart") {
+    if(item.type==="heart"){
         gameData.missions.hearts++;
     }
 
-    if (item.type === "big") {
+    if(item.type==="big"){
         gameData.missions.big++;
     }
 
-    if (item.type === "star") {
+    if(item.type==="star"){
         gameData.missions.stars++;
     }
 
-    showFloatingText(
-        "+" + value
-    );
+    showFloatingText("+"+value);
 
     updateGameUI();
     renderMissions();
 }
 
-function showFloatingText(text) {
 
-    const board =
-        document.getElementById(
-            "gameBoard"
-        );
+/* TEXT ÜBER SPIELER */
 
-    const floating =
-        document.createElement(
-            "div"
-        );
+function showFloatingText(text){
 
-    floating.textContent =
-        text;
+    const board=document.getElementById("gameBoard");
 
-    floating.style.position =
-        "absolute";
+    const floating=document.createElement("div");
 
-    floating.style.left =
-        playerX + "%";
+    floating.textContent=text;
 
-    floating.style.top =
-        playerY + "%";
-
-    floating.style.color =
-        "#ffffff";
-
-    floating.style.fontWeight =
-        "bold";
-
-    floating.style.fontSize =
-        "20px";
-
-    floating.style.zIndex =
-        "50";
-
-    floating.style.pointerEvents =
-        "none";
-
-    floating.style.textShadow =
-        "0 2px 8px rgba(80,20,50,.5)";
+    floating.style.position="absolute";
+    floating.style.left=playerX+"%";
+    floating.style.top=playerY+"%";
+    floating.style.color="#ffffff";
+    floating.style.fontWeight="bold";
+    floating.style.fontSize="20px";
+    floating.style.zIndex="50";
+    floating.style.pointerEvents="none";
+    floating.style.textShadow="0 2px 8px rgba(80,20,50,.5)";
 
     board.appendChild(floating);
 
-    let opacity = 1;
-    let offset = 0;
+    let opacity=1;
+    let offset=0;
 
-    const animation =
-        setInterval(
-            () => {
+    const animation=setInterval(()=>{
 
-                offset -= 2;
-                opacity -= .08;
+        offset-=2;
+        opacity-=.08;
 
-                floating.style.transform =
-                    "translate(-50%," +
-                    offset +
-                    "px)";
+        floating.style.transform=
+            "translate(-50%,"+
+            offset+
+            "px)";
 
-                floating.style.opacity =
-                    opacity;
+        floating.style.opacity=opacity;
 
-                if (opacity <= 0) {
+        if(opacity<=0){
 
-                    clearInterval(animation);
+            clearInterval(animation);
 
-                    floating.remove();
-                }
+            floating.remove();
+        }
 
-            },
-            30
-        );
+    },30);
 }
 
-function movePlayer(dx, dy) {
 
-    if (!gameRunning) return;
+/* SPIELER */
 
-    playerX += dx * 6;
-    playerY += dy * 6;
+function movePlayer(dx,dy){
 
-    playerX =
-        Math.max(
-            4,
-            Math.min(
-                96,
-                playerX
-            )
-        );
+    if(!gameRunning)return;
 
-    playerY =
-        Math.max(
-            5,
-            Math.min(
-                92,
-                playerY
-            )
-        );
+    playerX+=dx*5;
+
+    playerY+=dy*5;
+
+    playerX=Math.max(
+        5,
+        Math.min(95,playerX)
+    );
+
+    playerY=Math.max(
+        8,
+        Math.min(90,playerY)
+    );
 
     placePlayer();
 }
 
-function placePlayer() {
+function placePlayer(){
 
-    const player =
-        document.getElementById(
-            "player"
-        );
+    const player=document.getElementById("player");
 
-    if (!player) return;
+    if(!player)return;
 
-    player.style.left =
-        "calc(" +
-        playerX +
-        "% - 29px)";
+    player.style.left=
+        "calc("+
+        playerX+
+        "% - 27px)";
 
-    player.style.top =
-        "calc(" +
-        playerY +
-        "% - 29px)";
+    player.style.top=
+        "calc("+
+        playerY+
+        "% - 27px)";
 }
 
-function updateLevel() {
 
-    const newLevel =
+/* LEVEL */
+
+function updateLevel(){
+
+    const newLevel=
         Math.max(
             1,
-            Math.floor(
-                gameScore / 25
-            ) + 1
+            Math.floor(gameScore/25)+1
         );
 
-    if (
-        newLevel !== gameLevel
-    ) {
+    if(newLevel!==gameLevel){
 
-        gameLevel =
-            newLevel;
+        gameLevel=newLevel;
 
         showFloatingText(
-            "📈 Level " +
-            gameLevel
+            "📈 Level "+gameLevel
         );
     }
 
     updateGameUI();
 }
 
-function updateGameUI() {
 
-    const score =
-        document.getElementById(
-            "gameScore"
-        );
+/* UI */
 
-    const coins =
-        document.getElementById(
-            "gameCoins"
-        );
+function updateGameUI(){
 
-    const level =
-        document.getElementById(
-            "gameLevel"
-        );
+    const score=document.getElementById("gameScore");
+    const coins=document.getElementById("gameCoins");
+    const level=document.getElementById("gameLevel");
+    const time=document.getElementById("gameTime");
+    const shopCoins=document.getElementById("shopCoins");
 
-    const time =
-        document.getElementById(
-            "gameTime"
-        );
+    if(score)score.textContent=gameScore;
+    if(coins)coins.textContent=gameData.coins;
+    if(level)level.textContent=gameLevel;
 
-    const shopCoins =
-        document.getElementById(
-            "shopCoins"
-        );
-
-    if (score) {
-        score.textContent =
-            gameScore;
+    if(time){
+        time.textContent=Math.max(0,gameTime);
     }
 
-    if (coins) {
-        coins.textContent =
-            gameData.coins;
-    }
-
-    if (level) {
-        level.textContent =
-            gameLevel;
-    }
-
-    if (time) {
-        time.textContent =
-            Math.max(
-                0,
-                gameTime
-            );
-    }
-
-    if (shopCoins) {
-        shopCoins.textContent =
-            gameData.coins;
+    if(shopCoins){
+        shopCoins.textContent=gameData.coins;
     }
 }
 
-function showGameMessage(
-    title,
-    text
-) {
 
-    const box =
-        document.getElementById(
-            "gameMessage"
-        );
+/* GAME MESSAGE */
 
-    box.innerHTML =
-        "<h2>" +
-        escapeHtml(title) +
-        "</h2>" +
-        "<p>" +
-        escapeHtml(text) +
+function showGameMessage(title,text){
+
+    const box=document.getElementById("gameMessage");
+
+    box.innerHTML=
+        "<h2>"+
+        escapeHtml(title)+
+        "</h2>"+
+        "<p>"+
+        escapeHtml(text)+
         "</p>";
 
-    box.classList.remove(
-        "hidden"
-    );
+    box.classList.remove("hidden");
 }
 
-function hideGameMessage() {
+function hideGameMessage(){
 
-    const box =
-        document.getElementById(
-            "gameMessage"
-        );
-
-    box.classList.add(
-        "hidden"
-    );
+    document.getElementById(
+        "gameMessage"
+    ).classList.add("hidden");
 }
 
-function clearGameItems() {
 
-    gameItems.forEach(
-        item => {
+/* CLEAR */
 
-            if (item.element) {
-                item.element.remove();
-            }
+function clearGameItems(){
+
+    gameItems.forEach(item=>{
+
+        if(item.element){
+            item.element.remove();
         }
-    );
+    });
 
-    gameItems = [];
-
-    const board =
-        document.getElementById(
-            "gameBoard"
-        );
-
-    if (!board) return;
-
-    board
-        .querySelectorAll(
-            ".game-item"
-        )
-        .forEach(
-            item => item.remove()
-        );
+    gameItems=[];
 }
 
 
 /* ==========================
-   POWER-UPS
+   POWERUPS
 ========================== */
 
-function buyPowerup(type) {
+function buyPowerup(type){
 
-    const prices = {
-        magnet: 100,
-        time: 150,
-        double: 200,
-        shield: 175
+    const prices={
+        magnet:100,
+        time:150,
+        double:200,
+        shield:175
     };
 
-    const price =
-        prices[type];
+    const price=prices[type];
 
-    if (
-        gameData.coins <
-        price
-    ) {
+    if(gameData.coins<price){
 
         alert(
             "Du brauchst noch mehr Love Coins 💕"
@@ -2799,46 +2386,14 @@ function buyPowerup(type) {
         return;
     }
 
-    gameData.coins -= price;
+    gameData.coins-=price;
 
     gameData.powerups[type]++;
 
     saveGameData();
     updateGameUI();
 
-    alert(
-        "Power-up gekauft! ❤️"
-    );
-}
-
-function activatePowerup(
-    type
-) {
-
-    if (
-        gameData.powerups[type] <= 0
-    ) {
-        return;
-    }
-
-    gameData.powerups[type]--;
-
-    if (type === "magnet") {
-
-        magnetUntil =
-            Date.now() + 10000;
-
-    } else if (type === "double") {
-
-        doublePointsUntil =
-            Date.now() + 10000;
-
-    } else if (type === "shield") {
-
-        shieldActive = true;
-    }
-
-    saveGameData();
+    alert("Power-up gekauft! ❤️");
 }
 
 
@@ -2846,87 +2401,63 @@ function activatePowerup(
    WELTEN
 ========================== */
 
-function checkWorldUnlocks() {
+function checkWorldUnlocks(){
 
-    if (
-        gameData.bestScore >= 500
-    ) {
-        gameData.unlocked.sunset =
-            true;
+    if(gameData.bestScore>=500){
+        gameData.unlocked.sunset=true;
     }
 
-    if (
-        gameData.bestScore >= 1500
-    ) {
-        gameData.unlocked.night =
-            true;
+    if(gameData.bestScore>=1500){
+        gameData.unlocked.night=true;
     }
 
-    if (
-        gameData.bestScore >= 3000
-    ) {
-        gameData.unlocked.magic =
-            true;
+    if(gameData.bestScore>=3000){
+        gameData.unlocked.magic=true;
     }
 
     saveGameData();
 }
 
-function updateWorlds() {
+function updateWorlds(){
 
-    const worlds = [
-        ["worldSunset", "sunset"],
-        ["worldNight", "night"],
-        ["worldMagic", "magic"]
+    const worlds=[
+        ["worldSunset","sunset"],
+        ["worldNight","night"],
+        ["worldMagic","magic"]
     ];
 
-    worlds.forEach(
-        ([id, world]) => {
+    worlds.forEach(([id,world])=>{
 
-            const element =
-                document.getElementById(
-                    id
-                );
+        const element=document.getElementById(id);
 
-            if (!element) return;
+        if(!element)return;
 
-            if (
-                gameData.unlocked[world]
-            ) {
+        if(gameData.unlocked[world]){
 
-                element.classList.remove(
-                    "locked"
-                );
+            element.classList.remove("locked");
 
-                const button =
-                    element.querySelector(
-                        "button"
-                    );
+            const button=element.querySelector("button");
 
-                if (button) {
-                    button.textContent =
-                        gameData.world === world
-                            ? "Aktiv"
-                            : "Auswählen";
-                }
+            if(button){
 
-            } else {
-
-                element.classList.add(
-                    "locked"
-                );
+                button.textContent=
+                    gameData.world===world
+                    ?"Aktiv"
+                    :"Auswählen";
             }
+
+        }else{
+
+            element.classList.add("locked");
         }
-    );
+    });
 
     applyWorld();
 }
 
-function selectWorld(world) {
+function selectWorld(world){
 
-    if (
-        !gameData.unlocked[world]
-    ) {
+    if(!gameData.unlocked[world]){
 
         alert(
             "Diese Welt ist noch gesperrt ❤️"
@@ -2935,21 +2466,18 @@ function selectWorld(world) {
         return;
     }
 
-    gameData.world =
-        world;
+    gameData.world=world;
 
     saveGameData();
+
     updateWorlds();
 }
 
-function applyWorld() {
+function applyWorld(){
 
-    const board =
-        document.getElementById(
-            "gameBoard"
-        );
+    const board=document.getElementById("gameBoard");
 
-    if (!board) return;
+    if(!board)return;
 
     board.classList.remove(
         "sunset",
@@ -2957,28 +2485,16 @@ function applyWorld() {
         "magic"
     );
 
-    if (
-        gameData.world === "sunset"
-    ) {
-        board.classList.add(
-            "sunset"
-        );
+    if(gameData.world==="sunset"){
+        board.classList.add("sunset");
     }
 
-    if (
-        gameData.world === "night"
-    ) {
-        board.classList.add(
-            "night"
-        );
+    if(gameData.world==="night"){
+        board.classList.add("night");
     }
 
-    if (
-        gameData.world === "magic"
-    ) {
-        board.classList.add(
-            "magic"
-        );
+    if(gameData.world==="magic"){
+        board.classList.add("magic");
     }
 }
 
@@ -2987,107 +2503,70 @@ function applyWorld() {
    MISSIONEN
 ========================== */
 
-function renderMissions() {
+function renderMissions(){
 
-    const container =
-        document.getElementById(
-            "missions"
-        );
+    const container=document.getElementById("missions");
 
-    if (!container) return;
+    if(!container)return;
 
-    const missions = [
+    const missions=[
         {
-            title:
-                "❤️ Sammle 25 normale Herzen",
-            current:
-                gameData.missions.hearts,
-            target: 25
+            title:"❤️ Sammle 25 normale Herzen",
+            current:gameData.missions.hearts,
+            target:25
         },
         {
-            title:
-                "💖 Sammle 10 große Herzen",
-            current:
-                gameData.missions.big,
-            target: 10
+            title:"💖 Sammle 10 große Herzen",
+            current:gameData.missions.big,
+            target:10
         },
         {
-            title:
-                "✨ Sammle 5 Sterne",
-            current:
-                gameData.missions.stars,
-            target: 5
+            title:"✨ Sammle 5 Sterne",
+            current:gameData.missions.stars,
+            target:5
         }
     ];
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
-    missions.forEach(
-        mission => {
+    missions.forEach(mission=>{
 
-            const done =
-                mission.current >=
-                mission.target;
+        const done=
+            mission.current>=mission.target;
 
-            const current =
-                Math.min(
-                    mission.current,
-                    mission.target
-                );
+        const current=
+            Math.min(
+                mission.current,
+                mission.target
+            );
 
-            const percentage =
-                (
-                    current /
-                    mission.target *
-                    100
-                );
+        const percentage=
+            current/mission.target*100;
 
-            const div =
-                document.createElement(
-                    "div"
-                );
+        const div=document.createElement("div");
 
-            div.className =
-                "mission" +
-                (
-                    done
-                        ? " done"
-                        : ""
-                );
+        div.className=
+            "mission"+
+            (done?" done":"");
 
-            div.innerHTML =
+        div.innerHTML=
+            '<div class="mission-title">'+
+            escapeHtml(mission.title)+
+            (done?" ✅":"")+
+            '</div>'+
+            '<div class="mission-progress">'+
+            current+
+            " / "+
+            mission.target+
+            '</div>'+
+            '<div class="progress-bar">'+
+            '<div class="progress-fill" style="width:'+
+            percentage+
+            '%"></div>'+
+            '</div>';
 
-                '<div class="mission-title">' +
-                escapeHtml(
-                    mission.title
-                ) +
-                (
-                    done
-                        ? " ✅"
-                        : ""
-                ) +
-                '</div>' +
-
-                '<div class="mission-progress">' +
-                current +
-                " / " +
-                mission.target +
-                '</div>' +
-
-                '<div class="progress-bar">' +
-
-                '<div ' +
-                'class="progress-fill" ' +
-                'style="width:' +
-                percentage +
-                '%">' +
-                '</div>' +
-
-                '</div>';
-
-            container.appendChild(div);
-        }
-    );
+        container.appendChild(div);
+    });
 }
 
 
@@ -3095,22 +2574,23 @@ function renderMissions() {
    BESTENLISTE
 ========================== */
 
-function getLeaderboard() {
+function getLeaderboard(){
 
-    try {
+    try{
 
         return JSON.parse(
             localStorage.getItem(
                 "noah_emma_leaderboard"
             )
-        ) || [];
+        )||[];
 
-    } catch {
+    }catch{
+
         return [];
     }
 }
 
-function saveLeaderboard(list) {
+function saveLeaderboard(list){
 
     localStorage.setItem(
         "noah_emma_leaderboard",
@@ -3118,125 +2598,74 @@ function saveLeaderboard(list) {
     );
 }
 
-function addLeaderboardScore(
-    name,
-    score
-) {
+function addLeaderboardScore(name,score){
 
-    if (score <= 0) return;
+    if(score<=0)return;
 
-    const list =
-        getLeaderboard();
+    const list=getLeaderboard();
 
     list.push({
-        name: name,
-        score: score,
-        date: Date.now()
+        name:name,
+        score:score,
+        date:Date.now()
     });
 
     list.sort(
-        (a, b) =>
-            b.score -
-            a.score
+        (a,b)=>b.score-a.score
     );
 
     saveLeaderboard(
-        list.slice(0, 10)
+        list.slice(0,10)
     );
 }
 
-function renderLeaderboard() {
+function renderLeaderboard(){
 
-    const container =
-        document.getElementById(
-            "leaderboard"
-        );
+    const container=document.getElementById("leaderboard");
 
-    if (!container) return;
+    if(!container)return;
 
-    let list =
-        getLeaderboard();
+    const list=getLeaderboard();
 
-    if (list.length === 0) {
+    if(list.length===0){
 
-        container.innerHTML =
-            '<div class="empty">' +
-            'Noch keine Scores ❤️<br>' +
-            'Spielt eure erste Runde!' +
+        container.innerHTML=
+            '<div class="empty">'+
+            'Noch keine Scores ❤️<br>'+
+            'Spielt eure erste Runde!'+
             '</div>';
 
         return;
     }
 
-    const medals = [
-        "🥇",
-        "🥈",
-        "🥉"
-    ];
+    const medals=["🥇","🥈","🥉"];
 
-    container.innerHTML = "";
+    container.innerHTML="";
 
-    list.forEach(
-        (entry, index) => {
+    list.forEach((entry,index)=>{
 
-            const row =
-                document.createElement(
-                    "div"
-                );
+        const row=document.createElement("div");
 
-            row.className =
-                "score-row";
+        row.className="score-row";
 
-            const medal =
-                medals[index] ||
-                (
-                    index + 1
-                ) +
-                ".";
+        const medal=
+            medals[index]||
+            (index+1)+".";
 
-            row.innerHTML =
+        row.innerHTML=
+            '<div class="score-rank">'+
+            medal+
+            '</div>'+
+            '<div class="score-name">'+
+            escapeHtml(entry.name)+
+            '</div>'+
+            '<div class="score-value">'+
+            entry.score+
+            ' ❤️</div>';
 
-                '<div class="score-rank">' +
-                medal +
-                '</div>' +
-
-                '<div class="score-name">' +
-                escapeHtml(
-                    entry.name
-                ) +
-                '</div>' +
-
-                '<div class="score-value">' +
-                entry.score +
-                ' ❤️' +
-                '</div>';
-
-            container.appendChild(
-                row
-            );
-        }
-    );
+        container.appendChild(row);
+    });
 }
-
-
-/* ==========================
-   SCORE SPEICHERN
-========================== */
-
-const oldEndGame =
-    endGame;
-
-endGame = function() {
-
-    if (!gameRunning) return;
-
-    addLeaderboardScore(
-        currentUser,
-        gameScore
-    );
-
-    oldEndGame();
-};
 
 
 /* ==========================
@@ -3245,70 +2674,61 @@ endGame = function() {
 
 document.addEventListener(
     "keydown",
-    event => {
+    event=>{
 
-        if (!gameRunning) return;
+        if(!gameRunning)return;
 
-        const target =
-            event.target;
+        const target=event.target;
 
-        if (
+        if(
             target &&
             (
-                target.tagName ===
-                "INPUT" ||
-                target.tagName ===
-                "TEXTAREA"
+                target.tagName==="INPUT"||
+                target.tagName==="TEXTAREA"
             )
-        ) {
+        ){
             return;
         }
 
-        if (
-            event.key === "ArrowUp" ||
-            event.key.toLowerCase() === "w"
-        ) {
+        const key=event.key.toLowerCase();
 
+        if(
+            event.key==="ArrowLeft"||
+            key==="a"
+        ){
             event.preventDefault();
-
-            movePlayer(0,-1);
-        }
-
-        if (
-            event.key === "ArrowDown" ||
-            event.key.toLowerCase() === "s"
-        ) {
-
-            event.preventDefault();
-
-            movePlayer(0,1);
-        }
-
-        if (
-            event.key === "ArrowLeft" ||
-            event.key.toLowerCase() === "a"
-        ) {
-
-            event.preventDefault();
-
             movePlayer(-1,0);
         }
 
-        if (
-            event.key === "ArrowRight" ||
-            event.key.toLowerCase() === "d"
-        ) {
-
+        if(
+            event.key==="ArrowRight"||
+            key==="d"
+        ){
             event.preventDefault();
-
             movePlayer(1,0);
+        }
+
+        if(
+            event.key==="ArrowUp"||
+            key==="w"
+        ){
+            event.preventDefault();
+            movePlayer(0,-1);
+        }
+
+        if(
+            event.key==="ArrowDown"||
+            key==="s"
+        ){
+            event.preventDefault();
+            movePlayer(0,1);
         }
     }
 );
 
 
 /* ==========================
-   SUPABASE / EVENTS
+   EVENTS
 ========================== */
 
 document
@@ -3336,12 +2756,9 @@ document
 .getElementById("lightbox")
 .addEventListener(
     "click",
-    event => {
+    event=>{
 
-        if (
-            event.target.id ===
-            "lightbox"
-        ) {
+        if(event.target.id==="lightbox"){
             closeLightbox();
         }
     }
@@ -3349,9 +2766,9 @@ document
 
 document.addEventListener(
     "keydown",
-    event => {
+    event=>{
 
-        if (event.key === "Escape") {
+        if(event.key==="Escape"){
             closeLightbox();
         }
     }
@@ -3364,12 +2781,12 @@ document.addEventListener(
 
 loadGameData();
 
-if (currentUser) {
+if(currentUser){
 
     updateUserText();
     showPage("homePage");
 
-} else {
+}else{
 
     showPage("identityPage");
 }
@@ -3378,4 +2795,3 @@ if (currentUser) {
 
 </body>
 </html>
-```
