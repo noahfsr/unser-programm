@@ -729,7 +729,7 @@ button{-webkit-tap-highlight-color:transparent}
 
 <button onclick="showComingSoon('Unsere Momente')">💕<br>Unsere Momente</button>
 
-<button onclick="openGame()">🎮<br>Herzen sammeln</button>
+<button onclick="showComingSoon('Unser Spiel')">🎮<br>Unser Spiel</button>
 
 <button onclick="showComingSoon('Überraschung')">✨<br>Überraschung</button>
 
@@ -745,7 +745,7 @@ button{-webkit-tap-highlight-color:transparent}
 
 <br><br>
 
-<button class="identity-switch-button" onclick="changeIdentity">
+<button class="identity-switch-button" onclick="changeIdentity()">
 👤 Person wechseln
 </button>
 
@@ -847,253 +847,6 @@ autocomplete="off">
 <div class="empty">Bilder werden geladen...</div>
 
 </div>
-
-</div>
-
-</section>
-
-
-<section id="gamePage" class="hidden">
-
-<button class="back-button" onclick="goHome()">← Zurück</button>
-
-<div class="header">
-
-<h1>❤️ Herzen sammeln</h1>
-
-<p>Sammle so viele Herzen wie möglich 💕</p>
-
-</div>
-
-<div class="card">
-
-<div class="game-top">
-
-<div class="game-stat">
-<span>❤️ Punkte</span>
-<strong id="gameScore">0</strong>
-</div>
-
-<div class="game-stat">
-<span>💕 Love Coins</span>
-<strong id="gameCoins">0</strong>
-</div>
-
-<div class="game-stat">
-<span>⏱️ Zeit</span>
-<strong id="gameTime">60</strong>
-</div>
-
-</div>
-
-<div id="gameBoard" class="game-board">
-
-<div id="player" class="player">
-❤️
-</div>
-
-<div id="gameMessage" class="game-message">
-
-<h2>Bereit? ❤️</h2>
-
-<p>Sammle die fallenden Herzen!</p>
-
-</div>
-
-</div>
-
-<div class="game-controls">
-
-<button type="button" id="leftControl" aria-label="Nach links">
-⬅️
-</button>
-
-<button type="button" id="rightControl" aria-label="Nach rechts">
-➡️
-</button>
-
-</div>
-
-<button id="startGameButton" class="game-button" type="button" onclick="startGame()">
-❤️ Spiel starten
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>🎯 Missionen</h2>
-
-<div id="missions"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🛍️ Love Shop</h2>
-
-<p>
-💕 Deine Love Coins:
-<strong id="shopCoins">0</strong>
-</p>
-
-<div class="shop-grid">
-
-<div class="shop-item">
-
-<div class="shop-icon">🧲</div>
-
-<h3>Herz-Magnet</h3>
-
-<p>Herzen werden im nächsten Spiel angezogen.</p>
-
-<button id="magnetBuyButton" onclick="buyPowerup('magnet')">
-100 💕
-</button>
-
-</div>
-
-
-<div class="shop-item">
-
-<div class="shop-icon">⏱️</div>
-
-<h3>Zeitbonus</h3>
-
-<p>+10 Sekunden im nächsten Spiel.</p>
-
-<button id="timeBuyButton" onclick="buyPowerup('time')">
-150 💕
-</button>
-
-</div>
-
-
-<div class="shop-item">
-
-<div class="shop-icon">✨</div>
-
-<h3>Doppel-Punkte</h3>
-
-<p>2× Punkte für 10 Sekunden.</p>
-
-<button id="doubleBuyButton" onclick="buyPowerup('double')">
-200 💕
-</button>
-
-</div>
-
-
-<div class="shop-item">
-
-<div class="shop-icon">🛡️</div>
-
-<h3>Schutz</h3>
-
-<p>Ein 💔 wird ignoriert.</p>
-
-<button id="shieldBuyButton" onclick="buyPowerup('shield')">
-175 💕
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🗺️ Welten</h2>
-
-<div class="world-list">
-
-<div class="world">
-
-<div class="world-info">
-
-<div class="world-icon">🌸</div>
-
-<div>
-<strong>Romantischer Garten</strong>
-<br>
-<small>Startwelt</small>
-</div>
-
-</div>
-
-</div>
-
-
-<div id="worldSunset" class="world locked">
-
-<div class="world-info">
-
-<div class="world-icon">🌅</div>
-
-<div>
-<strong>Sonnenuntergang</strong>
-<br>
-<small>Ab 500 Punkten</small>
-</div>
-
-</div>
-
-<button onclick="selectWorld('sunset')">Auswählen</button>
-
-</div>
-
-
-<div id="worldNight" class="world locked">
-
-<div class="world-info">
-
-<div class="world-icon">🌙</div>
-
-<div>
-<strong>Sternenhimmel</strong>
-<br>
-<small>Ab 1500 Punkten</small>
-</div>
-
-</div>
-
-<button onclick="selectWorld('night')">Auswählen</button>
-
-</div>
-
-
-<div id="worldMagic" class="world locked">
-
-<div class="world-info">
-
-<div class="world-icon">✨</div>
-
-<div>
-<strong>Magische Nacht</strong>
-<br>
-<small>Ab 3000 Punkten</small>
-</div>
-
-</div>
-
-<button onclick="selectWorld('magic')">Auswählen</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>🏆 Bestenliste</h2>
-
-<div id="leaderboard" class="leaderboard"></div>
 
 </div>
 
@@ -1217,7 +970,6 @@ function showPage(id){
         "identityPage",
         "messagesPage",
         "imagesPage",
-        "gamePage",
         "soonPage"
     ];
 
@@ -2012,34 +1764,8 @@ function saveGameData(){
 
 function openGame(){
 
-    if(!currentUser){
+    showComingSoon("Unser Spiel");
 
-        showPage("identityPage");
-
-        return;
-    }
-
-    showPage("gamePage");
-
-    loadGameData();
-
-    updateGameUI();
-
-    renderMissions();
-
-    renderLeaderboard();
-
-    updateWorlds();
-
-    updateShopButtons();
-
-    if(!gameRunning){
-
-        showGameMessage(
-            "Bereit? ❤️",
-            "Sammle die fallenden Herzen!"
-        );
-    }
 }
 
 
@@ -3371,3 +3097,5 @@ if(currentUser){
 
 </body>
 </html>
+```
+```html
