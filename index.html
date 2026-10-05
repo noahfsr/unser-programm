@@ -317,310 +317,133 @@ button{-webkit-tap-highlight-color:transparent}
 }
 
 /* SPIEL */
-
-.game-top{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-    margin-bottom:12px;
-}
-
-.game-stat{
-    background:#fff4f8;
-    border:1px solid #f4d2df;
-    border-radius:14px;
-    padding:10px 6px;
+.game-card{
     text-align:center;
 }
 
-.game-stat span{
-    display:block;
-    font-size:11px;
-    color:#8d6878;
+.game-top{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+    margin:18px 0;
+}
+
+.game-stat{
+    background:#fff7fa;
+    border:1px solid #f1cfdd;
+    border-radius:16px;
+    padding:12px 8px;
 }
 
 .game-stat strong{
     display:block;
-    margin-top:3px;
+    font-size:24px;
     color:#d6336c;
-    font-size:17px;
 }
 
-.game-board{
-    position:relative;
-    width:100%;
-    height:520px;
-    overflow:hidden;
-    border-radius:22px;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(255,255,255,.7),transparent 18%),
-        radial-gradient(circle at 80% 35%,rgba(255,255,255,.45),transparent 20%),
-        linear-gradient(160deg,#ffd8e7,#f5b7cf 50%,#d98eb0);
-    border:3px solid rgba(255,255,255,.8);
-    box-shadow:inset 0 0 40px rgba(140,50,90,.12);
-    touch-action:none;
-}
-
-.game-board.sunset{
-    background:
-        radial-gradient(circle at 75% 18%,#fff3bb,transparent 13%),
-        linear-gradient(160deg,#ffc9a9,#ee9ba9 52%,#9e7299);
-}
-
-.game-board.night{
-    background:
-        radial-gradient(circle at 75% 18%,#fff5b0,transparent 9%),
-        radial-gradient(circle at 10% 15%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 25% 40%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 42% 18%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 60% 32%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 80% 55%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 35% 75%,white 0 1px,transparent 2px),
-        linear-gradient(160deg,#42355f,#29244b,#17172e);
-}
-
-.game-board.magic{
-    background:
-        radial-gradient(circle at 20% 25%,rgba(255,255,255,.4),transparent 14%),
-        radial-gradient(circle at 80% 70%,rgba(255,180,230,.5),transparent 18%),
-        linear-gradient(160deg,#bda2ed,#d98ed0,#6d5ca8);
-}
-
-.player{
-    position:absolute;
-    width:54px;
-    height:54px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:42px;
-    user-select:none;
-    z-index:10;
-    filter:drop-shadow(0 5px 5px rgba(80,20,50,.25));
-    will-change:left;
-}
-
-.game-item{
-    position:absolute;
-    width:44px;
-    height:44px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:32px;
-    user-select:none;
-    z-index:5;
-    pointer-events:none;
-}
-
-.game-item.special{
-    font-size:36px;
-    filter:drop-shadow(0 0 7px rgba(255,255,255,.8));
-}
-
-.game-message{
-    position:absolute;
-    left:50%;
-    top:45%;
-    transform:translate(-50%,-50%);
-    width:90%;
-    text-align:center;
-    color:white;
-    text-shadow:0 3px 12px rgba(70,20,50,.4);
-    z-index:30;
-    pointer-events:none;
-}
-
-.game-message h2{
-    margin:0 0 8px;
-    font-size:32px;
-}
-
-.game-message p{
-    margin:0;
-    font-size:16px;
-}
-
-.game-controls{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:12px;
-    margin-top:14px;
-}
-
-.game-controls button{
-    width:70px;
-    height:52px;
-    border:none;
-    border-radius:14px;
-    background:white;
-    color:#d6336c;
-    font-size:22px;
-    font-weight:bold;
-    box-shadow:0 4px 12px rgba(100,40,70,.12);
-    cursor:pointer;
-    user-select:none;
-    touch-action:none;
-}
-
-.game-controls button:active{
-    transform:scale(.94);
-    background:#fff0f5;
-}
-
-.game-button{
-    width:100%;
-    border:none;
-    border-radius:14px;
-    padding:13px;
-    background:#d6336c;
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    margin-top:10px;
-}
-
-/* SHOP */
-
-.shop-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-.shop-item{
-    background:#fff7fa;
-    border:1px solid #f1cfdd;
-    border-radius:16px;
-    padding:14px;
-    text-align:center;
-}
-
-.shop-item .shop-icon{font-size:32px}
-
-.shop-item h3{
-    margin:7px 0 5px;
-    font-size:16px;
-}
-
-.shop-item p{
-    margin:0 0 9px;
+.game-stat span{
     font-size:12px;
     color:#80566a;
 }
 
-.shop-item button{
-    width:100%;
-    border:none;
-    border-radius:10px;
-    padding:9px;
-    background:#d6336c;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
+.game-input-area{
+    display:flex;
+    gap:8px;
+    margin-top:16px;
 }
 
-.shop-item button:disabled{
-    background:#c9a8b5;
+.game-input-area input{
+    flex:1;
+    min-width:0;
+    border:1px solid #e7bdce;
+    border-radius:14px;
+    padding:13px 14px;
+    outline:none;
+    background:white;
+}
+
+.game-input-area input:focus{
+    border-color:#d6336c;
+    box-shadow:0 0 0 3px rgba(214,51,108,.10);
+}
+
+.game-submit{
+    border:none;
+    border-radius:14px;
+    padding:13px 16px;
+    background:#d6336c;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.game-submit:disabled{
+    opacity:.5;
     cursor:not-allowed;
 }
 
-/* WELTEN */
-
-.world-list{
-    display:grid;
-    gap:10px;
-}
-
-.world{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    padding:13px;
-    border-radius:15px;
-    background:#fff7fa;
-    border:1px solid #f1cfdd;
-}
-
-.world-info{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.world-icon{font-size:30px}
-
-.world button{
+.game-start{
     border:none;
-    border-radius:10px;
-    padding:9px 12px;
+    border-radius:14px;
+    padding:13px 20px;
     background:#d6336c;
     color:white;
     font-weight:bold;
     cursor:pointer;
+    margin-top:12px;
 }
 
-.world.locked{opacity:.55}
+.game-hint{
+    color:#80566a;
+    font-size:13px;
+    margin:10px 0 0;
+}
 
-/* MISSIONEN */
-
-.mission{
-    padding:12px;
-    border-radius:14px;
-    background:#fff7fa;
-    margin-bottom:8px;
+.game-result{
+    margin-top:16px;
+    padding:16px;
+    border-radius:16px;
+    background:#fff0f5;
     border:1px solid #f1cfdd;
 }
 
-.mission.done{background:#f6e7ef}
+.game-result h3{
+    margin:0 0 6px;
+}
 
-.mission-title{font-weight:bold}
-
-.mission-progress{
-    font-size:12px;
+.game-status{
+    min-height:22px;
+    margin-top:10px;
+    font-size:13px;
     color:#80566a;
-    margin-top:4px;
 }
-
-.progress-bar{
-    height:8px;
-    border-radius:99px;
-    background:#f0d8e1;
-    overflow:hidden;
-    margin-top:8px;
-}
-
-.progress-fill{
-    height:100%;
-    background:#d6336c;
-    border-radius:99px;
-}
-
-/* BESTENLISTE */
 
 .leaderboard{
     display:flex;
     flex-direction:column;
     gap:8px;
+    margin-top:12px;
 }
 
 .score-row{
     display:grid;
-    grid-template-columns:40px 1fr auto;
+    grid-template-columns:42px 1fr auto;
     align-items:center;
     gap:8px;
     padding:11px;
     border-radius:13px;
     background:#fff7fa;
+    border:1px solid #f1cfdd;
 }
 
-.score-rank{font-size:22px}
+.score-rank{font-size:20px}
 .score-name{font-weight:bold}
-.score-value{
-    color:#d6336c;
-    font-weight:bold;
+.score-value{font-weight:bold;color:#d6336c}
+
+@media(max-width:600px){
+    .game-top{grid-template-columns:repeat(3,1fr)}
+    .game-input-area{flex-direction:column}
+    .game-submit{width:100%}
 }
 
 /* MOBIL */
@@ -729,7 +552,7 @@ button{-webkit-tap-highlight-color:transparent}
 
 <button onclick="showComingSoon('Unsere Momente')">💕<br>Unsere Momente</button>
 
-<button onclick="showComingSoon('Unser Spiel')">🎮<br>Unser Spiel</button>
+<button onclick="openGame()">🎮<br>Unser Spiel</button>
 
 <button onclick="showComingSoon('Überraschung')">✨<br>Überraschung</button>
 
@@ -853,6 +676,58 @@ autocomplete="off">
 </section>
 
 
+<section id="gamePage" class="hidden">
+
+<button class="back-button" onclick="goHome()">← Zurück</button>
+
+<div class="header">
+<h1>🎮 Unser Spiel</h1>
+<p>Wer schreibt in einer Minute mehr „Ich liebe dich“? ❤️</p>
+</div>
+
+<div class="card game-card">
+
+<div id="gameWelcome">
+    <h2>❤️ Bereit?</h2>
+    <p>Du hast 60 Sekunden. Schreibe so oft wie möglich:</p>
+    <p><strong>Ich liebe dich</strong></p>
+    <p class="game-hint">Jede korrekt abgeschickte Zeile zählt als 1 Punkt.</p>
+    <button class="game-start" id="gameStartButton" type="button">▶ Spiel starten</button>
+</div>
+
+<div id="gamePlay" class="hidden">
+    <div class="game-top">
+        <div class="game-stat"><strong id="gameScore">0</strong><span>❤️ Punkte</span></div>
+        <div class="game-stat"><strong id="gameTime">60</strong><span>⏱️ Sekunden</span></div>
+        <div class="game-stat"><strong id="personalBest">0</strong><span>🏆 Dein Bestwert</span></div>
+    </div>
+
+    <form id="gameForm" class="game-input-area">
+        <input id="loveInput" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="Ich liebe dich ❤️" disabled>
+        <button class="game-submit" id="gameSubmit" type="submit" disabled>❤️ Zählen</button>
+    </form>
+
+    <div id="gameStatus" class="game-status" aria-live="polite"></div>
+</div>
+
+<div id="gameResult" class="game-result hidden">
+    <h3 id="gameResultTitle">Zeit vorbei! ❤️</h3>
+    <p id="gameResultText"></p>
+    <button class="game-start" id="gameAgainButton" type="button">🔄 Nochmal spielen</button>
+</div>
+
+</div>
+
+<div class="card">
+    <h2 style="text-align:center;margin-top:0">🏆 Bestenliste</h2>
+    <p style="text-align:center;color:#80566a;font-size:13px">Die besten Ergebnisse von Noah und Emma bleiben gespeichert.</p>
+    <div id="gameLeaderboard" class="leaderboard">
+        <div class="empty">Bestenliste wird geladen...</div>
+    </div>
+</div>
+
+</section>
+
 <section id="soonPage" class="hidden">
 
 <button class="back-button" onclick="goHome()">← Zurück</button>
@@ -970,6 +845,7 @@ function showPage(id){
         "identityPage",
         "messagesPage",
         "imagesPage",
+        "gamePage",
         "soonPage"
     ];
 
@@ -1539,240 +1415,14 @@ function closeLightbox(){
 }
 
 
-/* SPIEL */
-
-const GAME_KEY=
-    "noah_emma_herzenspiel";
-
-const MAX_POWERUP_LEVEL=10;
-
-const POWERUP_BASE_PRICES={
-    magnet:100,
-    time:150,
-    double:200,
-    shield:175
-};
-
-const POWERUP_GROWTH=1.10;
-
-let gameData={
-    coins:0,
-    totalScore:0,
-    world:"garden",
-
-    unlocked:{
-        garden:true,
-        sunset:false,
-        night:false,
-        magic:false
-    },
-
-    powerups:{
-        magnet:0,
-        time:0,
-        double:0,
-        shield:0
-    },
-
-    missions:{
-        hearts:0,
-        big:0,
-        stars:0
-    }
-};
+/* SPIEL: 60 SEKUNDEN */
 
 let gameRunning=false;
-let roundScore=0;
-let gameTime=60;
-let playerX=50;
-const playerY=86;
-let playerVelocity=0;
-let playerTargetDirection=0;
-let gameItems=[];
+let gameScore=0;
+let gameSeconds=60;
 let gameTimer=null;
-let spawnTimer=null;
-let animationFrame=null;
-let firstSpawnTimeout=null;
-let lastFrameTime=0;
-let doublePointsUntil=0;
-let magnetUntil=0;
-let shieldActive=false;
-
-
-/* POWER-UP PREIS */
-
-function getPowerupPrice(type){
-
-    const base=
-        POWERUP_BASE_PRICES[type];
-
-    if(base===undefined){
-        return Infinity;
-    }
-
-    const level=
-        Math.max(
-            0,
-            Math.min(
-                MAX_POWERUP_LEVEL,
-                Number(gameData.powerups[type])||0
-            )
-        );
-
-    return Math.floor(
-        base*
-        Math.pow(
-            POWERUP_GROWTH,
-            level
-        )
-    );
-}
-
-function updateShopButtons(){
-
-    const types=[
-        "magnet",
-        "time",
-        "double",
-        "shield"
-    ];
-
-    types.forEach(type=>{
-
-        const button=
-            document.getElementById(
-                type+"BuyButton"
-            );
-
-        if(!button)return;
-
-        const level=
-            Math.max(
-                0,
-                Math.min(
-                    MAX_POWERUP_LEVEL,
-                    Number(gameData.powerups[type])||0
-                )
-            );
-
-        if(level>=MAX_POWERUP_LEVEL){
-
-            button.textContent=
-                "MAX. 10/10";
-
-            button.disabled=true;
-
-            return;
-        }
-
-        const price=
-            getPowerupPrice(type);
-
-        button.textContent=
-            price+
-            " 💕";
-
-        button.disabled=
-            gameData.coins<
-            price;
-    });
-}
-
-
-/* SPEICHERN */
-
-function loadGameData(){
-
-    try{
-
-        const saved=
-            JSON.parse(
-                localStorage.getItem(
-                    GAME_KEY
-                )
-            );
-
-        if(saved){
-
-            gameData={
-                ...gameData,
-                ...saved,
-
-                unlocked:{
-                    ...gameData.unlocked,
-                    ...(saved.unlocked||{})
-                },
-
-                powerups:{
-                    ...gameData.powerups,
-                    ...(saved.powerups||{})
-                },
-
-                missions:{
-                    ...gameData.missions,
-                    ...(saved.missions||{})
-                }
-            };
-
-            if(
-                (
-                    !gameData.totalScore||
-                    gameData.totalScore===0
-                )&&
-                saved.bestScore
-            ){
-
-                gameData.totalScore=
-                    saved.bestScore;
-            }
-
-            /* Alte/ungültige Power-up-Werte begrenzen */
-
-            Object.keys(
-                POWERUP_BASE_PRICES
-            ).forEach(type=>{
-
-                gameData.powerups[type]=
-                    Math.max(
-                        0,
-                        Math.min(
-                            MAX_POWERUP_LEVEL,
-                            Number(
-                                gameData.powerups[type]
-                            )||0
-                        )
-                    );
-            });
-        }
-
-    }catch(error){
-
-        console.error(error);
-    }
-}
-
-function saveGameData(){
-
-    localStorage.setItem(
-        GAME_KEY,
-        JSON.stringify(gameData)
-    );
-}
-
-
-/* SPIEL ÖFFNEN */
-
-function openGame(){
-
-    showComingSoon("Unser Spiel");
-
-}
-
-
-/* STOP */
 
 function stopGame(){
-
     gameRunning=false;
 
     if(gameTimer){
@@ -1780,1319 +1430,238 @@ function stopGame(){
         gameTimer=null;
     }
 
-    if(spawnTimer){
-        clearInterval(spawnTimer);
-        spawnTimer=null;
-    }
+    const input=document.getElementById("loveInput");
+    const submit=document.getElementById("gameSubmit");
 
-    if(firstSpawnTimeout){
-        clearTimeout(firstSpawnTimeout);
-        firstSpawnTimeout=null;
-    }
-
-    if(animationFrame){
-        cancelAnimationFrame(animationFrame);
-        animationFrame=null;
-    }
-
-    playerVelocity=0;
-    playerTargetDirection=0;
-
-    clearGameItems();
+    if(input) input.disabled=true;
+    if(submit) submit.disabled=true;
 }
 
+function getPersonalBest(){
+    return Number(localStorage.getItem("love_game_best_"+(currentUser||"guest")))||0;
+}
 
-/* SPIEL START */
+function setPersonalBest(score){
+    const key="love_game_best_"+(currentUser||"guest");
+    const old=getPersonalBest();
+    if(score>old){
+        localStorage.setItem(key,String(score));
+        return score;
+    }
+    return old;
+}
 
-function startGame(){
+function updateGameScreen(){
+    const score=document.getElementById("gameScore");
+    const time=document.getElementById("gameTime");
+    const best=document.getElementById("personalBest");
 
+    if(score) score.textContent=gameScore;
+    if(time) time.textContent=gameSeconds;
+    if(best) best.textContent=getPersonalBest();
+}
+
+function openGame(){
+    if(!currentUser){
+        showPage("identityPage");
+        return;
+    }
+
+    stopGame();
+    gameScore=0;
+    gameSeconds=60;
+
+    document.getElementById("gameWelcome").classList.remove("hidden");
+    document.getElementById("gamePlay").classList.add("hidden");
+    document.getElementById("gameResult").classList.add("hidden");
+    document.getElementById("gameStatus").textContent="";
+    updateGameScreen();
+
+    showPage("gamePage");
+    loadLeaderboard();
+}
+
+function startLoveGame(){
     if(gameRunning)return;
+
+    gameRunning=true;
+    gameScore=0;
+    gameSeconds=60;
+
+    document.getElementById("gameWelcome").classList.add("hidden");
+    document.getElementById("gamePlay").classList.remove("hidden");
+    document.getElementById("gameResult").classList.add("hidden");
+
+    const input=document.getElementById("loveInput");
+    const submit=document.getElementById("gameSubmit");
+
+    input.value="";
+    input.disabled=false;
+    submit.disabled=false;
+    input.focus();
+
+    updateGameScreen();
+
+    gameTimer=setInterval(()=>{
+        gameSeconds--;
+        updateGameScreen();
+
+        if(gameSeconds<=0){
+            finishLoveGame();
+        }
+    },1000);
+}
+
+function submitLove(event){
+    event.preventDefault();
+
+    if(!gameRunning)return;
+
+    const input=document.getElementById("loveInput");
+    const status=document.getElementById("gameStatus");
+    const value=input.value.trim().toLowerCase();
+
+    if(value==="ich liebe dich"){
+        gameScore++;
+        input.value="";
+        status.textContent="❤️ Gezählt!";
+        updateGameScreen();
+    }else{
+        status.textContent="Schreibe genau „Ich liebe dich“.";
+        input.select();
+    }
+}
+
+async function finishLoveGame(){
+    if(!gameRunning)return;
 
     stopGame();
 
-    gameRunning=true;
+    const best=setPersonalBest(gameScore);
+    updateGameScreen();
 
-    roundScore=0;
+    document.getElementById("gamePlay").classList.add("hidden");
+    document.getElementById("gameResult").classList.remove("hidden");
+    document.getElementById("gameResultText").textContent=
+        currentUser+" hat "+gameScore+"× „Ich liebe dich“ geschrieben. ❤️"+
+        (gameScore===best && gameScore>0 ? " Neuer persönlicher Bestwert! 🏆" : "");
 
-    playerX=50;
-    playerVelocity=0;
-    playerTargetDirection=0;
-
-    lastFrameTime=
-        performance.now();
-
-    gameTime=
-        60+
-        (
-            gameData.powerups.time>0
-            ?10
-            :0
-        );
-
-    if(gameData.powerups.time>0){
-        gameData.powerups.time--;
-    }
-
-    doublePointsUntil=0;
-
-    magnetUntil=
-        gameData.powerups.magnet>0
-        ?Date.now()+15000
-        :0;
-
-    if(gameData.powerups.magnet>0){
-        gameData.powerups.magnet--;
-    }
-
-    shieldActive=
-        gameData.powerups.shield>0;
-
-    if(shieldActive){
-        gameData.powerups.shield--;
-    }
-
-    clearGameItems();
-
-    placePlayer();
-
-    hideGameMessage();
-
-    document.getElementById(
-        "startGameButton"
-    ).textContent=
-        "🏃 Spiel läuft...";
-
-    updateGameUI();
-    updateShopButtons();
-
-    gameTimer=
-        setInterval(
-            ()=>{
-                if(!gameRunning)return;
-
-                gameTime--;
-
-                updateGameUI();
-
-                if(gameTime<=0){
-                    endGame();
-                }
-            },
-            1000
-        );
-
-    spawnTimer=
-        setInterval(
-            spawnGameItem,
-            1400
-        );
-
-    firstSpawnTimeout=
-        setTimeout(
-            spawnGameItem,
-            400
-        );
-
-    animationFrame=
-        requestAnimationFrame(
-            gameLoop
-        );
+    await saveGameScore(gameScore);
+    await loadLeaderboard();
 }
 
+async function saveGameScore(score){
+    if(!currentUser || score<=0)return;
 
-/* SPIEL ENDE */
+    const result=await supabaseClient
+        .from("game_scores")
+        .insert({
+            player:currentUser,
+            score:score
+        });
 
-function endGame(){
-
-    if(!gameRunning)return;
-
-    gameRunning=false;
-
-    if(gameTimer){
-        clearInterval(gameTimer);
-        gameTimer=null;
+    if(result.error){
+        console.warn("Bestenliste konnte nicht gespeichert werden:",result.error.message);
     }
-
-    if(spawnTimer){
-        clearInterval(spawnTimer);
-        spawnTimer=null;
-    }
-
-    if(firstSpawnTimeout){
-        clearTimeout(firstSpawnTimeout);
-        firstSpawnTimeout=null;
-    }
-
-    if(animationFrame){
-        cancelAnimationFrame(animationFrame);
-        animationFrame=null;
-    }
-
-    playerVelocity=0;
-    playerTargetDirection=0;
-
-    clearGameItems();
-
-    gameData.totalScore+=
-        roundScore;
-
-    const earnedCoins=
-        Math.max(
-            5,
-            Math.floor(roundScore/2)+5
-        );
-
-    gameData.coins+=earnedCoins;
-
-    saveGameData();
-
-    addLeaderboardScore(
-        currentUser,
-        roundScore
-    );
-
-    checkWorldUnlocks();
-
-    renderMissions();
-    renderLeaderboard();
-    updateGameUI();
-    updateShopButtons();
-    updateWorlds();
-
-    showGameMessage(
-        "Runde vorbei ❤️",
-        "+"+
-        roundScore+
-        " Punkte • +"+
-        earnedCoins+
-        " Love Coins"
-    );
-
-    document.getElementById(
-        "startGameButton"
-    ).textContent=
-        "❤️ Nochmal spielen";
 }
 
+async function loadLeaderboard(){
+    const box=document.getElementById("gameLeaderboard");
+    if(!box)return;
 
-/* ITEMS */
+    box.innerHTML='<div class="empty">Bestenliste wird geladen...</div>';
 
-function spawnGameItem(){
+    const result=await supabaseClient
+        .from("game_scores")
+        .select("player,score,created_at")
+        .order("score",{ascending:false})
+        .order("created_at",{ascending:true})
+        .limit(10);
 
-    if(!gameRunning)return;
-
-    const board=
-        document.getElementById(
-            "gameBoard"
-        );
-
-    if(!board)return;
-
-    if(gameItems.length>=6)return;
-
-    const item=
-        document.createElement("div");
-
-    item.className="game-item";
-
-    const random=Math.random();
-
-    let type="heart";
-    let value=1;
-
-    if(random>0.94){
-
-        type="star";
-        value=10;
-
-    }else if(random>0.87){
-
-        type="big";
-        value=5;
-
-    }else if(random>0.80){
-
-        type="bad";
-        value=0;
+    if(result.error){
+        box.innerHTML='<div class="empty">Bestenliste wird nach der Einrichtung angezeigt. ❤️</div>';
+        console.warn("Bestenliste konnte nicht geladen werden:",result.error.message);
+        return;
     }
 
-    const icons={
-        heart:"❤️",
-        big:"💖",
-        star:"✨",
-        bad:"💔"
-    };
+    const rows=result.data||[];
 
-    item.textContent=icons[type];
-
-    if(
-        type==="star"||
-        type==="big"
-    ){
-
-        item.classList.add("special");
+    if(!rows.length){
+        box.innerHTML='<div class="empty">Noch keine Ergebnisse. Sei der Erste! ❤️</div>';
+        return;
     }
 
-    const x=
-        6+
-        Math.random()*88;
+    box.innerHTML="";
 
-    const y=-5;
+    rows.forEach((row,index)=>{
+        const element=document.createElement("div");
+        element.className="score-row";
 
-    item.style.left=x+"%";
-    item.style.top=y+"%";
+        const rank=document.createElement("div");
+        rank.className="score-rank";
+        rank.textContent=index===0?"🥇":index===1?"🥈":index===2?"🥉":String(index+1)+".";
 
-    board.appendChild(item);
+        const name=document.createElement("div");
+        name.className="score-name";
+        name.textContent=row.player;
 
-    gameItems.push({
-        element:item,
-        x:x,
-        y:y,
-        type:type,
-        value:value,
-        speed:
-            0.18+
-            Math.random()*0.10
+        const score=document.createElement("div");
+        score.className="score-value";
+        score.textContent=row.score+" ❤️";
+
+        element.appendChild(rank);
+        element.appendChild(name);
+        element.appendChild(score);
+        box.appendChild(element);
     });
 }
-
-
-/* GAME LOOP */
-
-function gameLoop(timestamp){
-
-    if(!gameRunning)return;
-
-    const delta=
-        Math.min(
-            0.032,
-            Math.max(
-                0.001,
-                (
-                    timestamp-
-                    lastFrameTime
-                )/1000
-            )
-        );
-
-    lastFrameTime=timestamp;
-
-    updateSmoothPlayer(delta);
-    moveGameItems(delta);
-    checkCollisions();
-
-    animationFrame=
-        requestAnimationFrame(
-            gameLoop
-        );
-}
-
-
-/* SPIELER */
-
-function updateSmoothPlayer(delta){
-
-    const maxSpeed=110;
-    const acceleration=380;
-    const friction=420;
-
-    const target=
-        playerTargetDirection*
-        maxSpeed;
-
-    if(playerTargetDirection!==0){
-
-        if(playerVelocity<target){
-
-            playerVelocity=
-                Math.min(
-                    target,
-                    playerVelocity+
-                    acceleration*delta
-                );
-        }
-
-        if(playerVelocity>target){
-
-            playerVelocity=
-                Math.max(
-                    target,
-                    playerVelocity-
-                    acceleration*delta
-                );
-        }
-
-    }else{
-
-        if(playerVelocity>0){
-
-            playerVelocity=
-                Math.max(
-                    0,
-                    playerVelocity-
-                    friction*delta
-                );
-
-        }else if(playerVelocity<0){
-
-            playerVelocity=
-                Math.min(
-                    0,
-                    playerVelocity+
-                    friction*delta
-                );
-        }
-    }
-
-    playerX+=
-        playerVelocity*
-        delta/
-        5;
-
-    playerX=
-        Math.max(
-            5,
-            Math.min(
-                95,
-                playerX
-            )
-        );
-
-    if(
-        (
-            playerX<=5&&
-            playerVelocity<0
-        )||
-        (
-            playerX>=95&&
-            playerVelocity>0
-        )
-    ){
-
-        playerVelocity=0;
-    }
-
-    placePlayer();
-}
-
-
-/* ITEMS BEWEGEN */
-
-function moveGameItems(delta){
-
-    for(
-        let i=gameItems.length-1;
-        i>=0;
-        i--
-    ){
-
-        const item=
-            gameItems[i];
-
-        item.y+=
-            item.speed*
-            delta*
-            60;
-
-        if(
-            magnetUntil>0&&
-            Date.now()<magnetUntil
-        ){
-
-            const dx=
-                playerX-item.x;
-
-            const dy=
-                playerY-item.y;
-
-            const distance=
-                Math.sqrt(
-                    dx*dx+
-                    dy*dy
-                );
-
-            if(distance<35){
-
-                item.x+=dx*0.06;
-                item.y+=dy*0.06;
-            }
-        }
-
-        item.element.style.left=
-            item.x+"%";
-
-        item.element.style.top=
-            item.y+"%";
-
-        if(item.y>108){
-
-            item.element.remove();
-
-            gameItems.splice(i,1);
-        }
-    }
-}
-
-
-/* KOLLISION */
-
-function checkCollisions(){
-
-    for(
-        let i=gameItems.length-1;
-        i>=0;
-        i--
-    ){
-
-        const item=
-            gameItems[i];
-
-        const dx=
-            Math.abs(
-                playerX-item.x
-            );
-
-        const dy=
-            Math.abs(
-                playerY-item.y
-            );
-
-        if(
-            dx<7&&
-            dy<7
-        ){
-
-            collectItem(item);
-
-            item.element.remove();
-
-            gameItems.splice(i,1);
-        }
-    }
-}
-
-
-/* SAMMELN */
-
-function collectItem(item){
-
-    if(item.type==="bad"){
-
-        if(shieldActive){
-
-            shieldActive=false;
-
-            showFloatingText("🛡️ Schutz!");
-
-            return;
-        }
-
-        showFloatingText("💔");
-
-        return;
-    }
-
-    let value=
-        item.value;
-
-    if(
-        Date.now()<
-        doublePointsUntil
-    ){
-
-        value*=2;
-    }
-
-    roundScore+=value;
-
-    if(item.type==="heart"){
-        gameData.missions.hearts++;
-    }
-
-    if(item.type==="big"){
-        gameData.missions.big++;
-    }
-
-    if(item.type==="star"){
-        gameData.missions.stars++;
-    }
-
-    showFloatingText(
-        "+"+value
-    );
-
-    saveGameData();
-
-    updateGameUI();
-
-    renderMissions();
-
-    checkWorldUnlocks();
-}
-
-
-/* SCHWEBENDER TEXT */
-
-function showFloatingText(text){
-
-    const board=
-        document.getElementById(
-            "gameBoard"
-        );
-
-    const floating=
-        document.createElement("div");
-
-    floating.textContent=text;
-
-    floating.style.position="absolute";
-    floating.style.left=playerX+"%";
-    floating.style.top=playerY+"%";
-    floating.style.color="#ffffff";
-    floating.style.fontWeight="bold";
-    floating.style.fontSize="20px";
-    floating.style.zIndex="50";
-    floating.style.pointerEvents="none";
-    floating.style.textShadow=
-        "0 2px 8px rgba(80,20,50,.5)";
-
-    board.appendChild(floating);
-
-    let opacity=1;
-    let offset=0;
-
-    const animation=
-        setInterval(
-            ()=>{
-
-                offset-=2;
-                opacity-=.08;
-
-                floating.style.transform=
-                    "translate(-50%,"+
-                    offset+
-                    "px)";
-
-                floating.style.opacity=
-                    opacity;
-
-                if(opacity<=0){
-
-                    clearInterval(animation);
-
-                    floating.remove();
-                }
-
-            },
-            30
-        );
-}
-
-
-/* STEUERUNG */
-
-function movePlayer(direction){
-
-    if(!gameRunning)return;
-
-    playerTargetDirection=
-        Math.max(
-            -1,
-            Math.min(
-                1,
-                direction
-            )
-        );
-}
-
-function stopPlayerMovement(){
-    playerTargetDirection=0;
-}
-
-
-/* PLAYER POSITION */
-
-function placePlayer(){
-
-    const player=
-        document.getElementById(
-            "player"
-        );
-
-    if(!player)return;
-
-    player.style.left=
-        "calc("+
-        playerX+
-        "% - 27px)";
-
-    player.style.top=
-        "calc("+
-        playerY+
-        "% - 27px)";
-}
-
-
-/* UI */
-
-function updateGameUI(){
-
-    const score=
-        document.getElementById(
-            "gameScore"
-        );
-
-    const coins=
-        document.getElementById(
-            "gameCoins"
-        );
-
-    const time=
-        document.getElementById(
-            "gameTime"
-        );
-
-    const shopCoins=
-        document.getElementById(
-            "shopCoins"
-        );
-
-    if(score){
-
-        score.textContent=
-            roundScore;
-    }
-
-    if(coins){
-
-        coins.textContent=
-            gameData.coins;
-    }
-
-    if(time){
-
-        time.textContent=
-            Math.max(
-                0,
-                gameTime
-            );
-    }
-
-    if(shopCoins){
-
-        shopCoins.textContent=
-            gameData.coins;
-    }
-
-    updateShopButtons();
-}
-
-
-/* GAME MESSAGE */
-
-function showGameMessage(title,text){
-
-    const box=
-        document.getElementById(
-            "gameMessage"
-        );
-
-    box.innerHTML=
-        "<h2>"+
-        escapeHtml(title)+
-        "</h2>"+
-        "<p>"+
-        escapeHtml(text)+
-        "</p>";
-
-    box.classList.remove("hidden");
-}
-
-function hideGameMessage(){
-
-    document.getElementById(
-        "gameMessage"
-    ).classList.add("hidden");
-}
-
-
-/* ITEMS LÖSCHEN */
-
-function clearGameItems(){
-
-    gameItems.forEach(
-        item=>{
-
-            if(item.element){
-                item.element.remove();
-            }
-        }
-    );
-
-    gameItems=[];
-}
-
-
-/* SHOP */
-
-function buyPowerup(type){
-
-    if(
-        !POWERUP_BASE_PRICES.hasOwnProperty(type)
-    ){
-        return;
-    }
-
-    const currentLevel=
-        Math.max(
-            0,
-            Math.min(
-                MAX_POWERUP_LEVEL,
-                Number(gameData.powerups[type])||0
-            )
-        );
-
-    if(currentLevel>=MAX_POWERUP_LEVEL){
-
-        alert(
-            "Dieses Power-up ist bereits auf MAX. 10/10 ❤️"
-        );
-
-        updateShopButtons();
-
-        return;
-    }
-
-    const price=
-        getPowerupPrice(type);
-
-    if(
-        gameData.coins<
-        price
-    ){
-
-        alert(
-            "Du brauchst noch mehr Love Coins 💕"
-        );
-
-        return;
-    }
-
-    gameData.coins-=price;
-
-    gameData.powerups[type]=
-        currentLevel+1;
-
-    saveGameData();
-
-    updateGameUI();
-
-    updateShopButtons();
-
-    alert(
-        "Power-up gekauft! ❤️\n"+
-        "Stufe "+
-        gameData.powerups[type]+
-        "/10"
-    );
-}
-
-
-/* WELTEN */
-
-function checkWorldUnlocks(){
-
-    if(gameData.totalScore>=500){
-        gameData.unlocked.sunset=true;
-    }
-
-    if(gameData.totalScore>=1500){
-        gameData.unlocked.night=true;
-    }
-
-    if(gameData.totalScore>=3000){
-        gameData.unlocked.magic=true;
-    }
-
-    saveGameData();
-}
-
-function updateWorlds(){
-
-    const worlds=[
-        ["worldSunset","sunset"],
-        ["worldNight","night"],
-        ["worldMagic","magic"]
-    ];
-
-    worlds.forEach(
-        ([id,world])=>{
-
-            const element=
-                document.getElementById(id);
-
-            if(!element)return;
-
-            if(gameData.unlocked[world]){
-
-                element.classList.remove("locked");
-
-                const button=
-                    element.querySelector("button");
-
-                if(button){
-
-                    button.textContent=
-                        gameData.world===world
-                        ?"Aktiv"
-                        :"Auswählen";
-                }
-
-            }else{
-
-                element.classList.add("locked");
-            }
-        }
-    );
-
-    applyWorld();
-}
-
-function selectWorld(world){
-
-    if(!gameData.unlocked[world]){
-
-        alert(
-            "Diese Welt ist noch gesperrt ❤️"
-        );
-
-        return;
-    }
-
-    gameData.world=world;
-
-    saveGameData();
-
-    updateWorlds();
-}
-
-function applyWorld(){
-
-    const board=
-        document.getElementById(
-            "gameBoard"
-        );
-
-    if(!board)return;
-
-    board.classList.remove(
-        "sunset",
-        "night",
-        "magic"
-    );
-
-    if(gameData.world==="sunset"){
-        board.classList.add("sunset");
-    }
-
-    if(gameData.world==="night"){
-        board.classList.add("night");
-    }
-
-    if(gameData.world==="magic"){
-        board.classList.add("magic");
-    }
-}
-
-
-/* MISSIONEN */
-
-function renderMissions(){
-
-    const container=
-        document.getElementById(
-            "missions"
-        );
-
-    if(!container)return;
-
-    const missions=[
-        {
-            title:"❤️ Sammle 25 normale Herzen",
-            current:gameData.missions.hearts,
-            target:25
-        },
-        {
-            title:"💖 Sammle 10 große Herzen",
-            current:gameData.missions.big,
-            target:10
-        },
-        {
-            title:"✨ Sammle 5 Sterne",
-            current:gameData.missions.stars,
-            target:5
-        }
-    ];
-
-    container.innerHTML="";
-
-    missions.forEach(
-        mission=>{
-
-            const done=
-                mission.current>=
-                mission.target;
-
-            const current=
-                Math.min(
-                    mission.current,
-                    mission.target
-                );
-
-            const percentage=
-                current/
-                mission.target*
-                100;
-
-            const div=
-                document.createElement("div");
-
-            div.className=
-                "mission"+
-                (
-                    done
-                    ?" done"
-                    :""
-                );
-
-            div.innerHTML=
-                '<div class="mission-title">'+
-                escapeHtml(mission.title)+
-                (
-                    done
-                    ?" ✅"
-                    :""
-                )+
-                '</div>'+
-                '<div class="mission-progress">'+
-                current+
-                " / "+
-                mission.target+
-                '</div>'+
-                '<div class="progress-bar">'+
-                '<div class="progress-fill" style="width:'+
-                percentage+
-                '%"></div>'+
-                '</div>';
-
-            container.appendChild(div);
-        }
-    );
-}
-
-
-/* BESTENLISTE */
-
-function getLeaderboard(){
-
-    try{
-
-        return JSON.parse(
-            localStorage.getItem(
-                "noah_emma_leaderboard"
-            )
-        )||[];
-
-    }catch{
-
-        return [];
-    }
-}
-
-function saveLeaderboard(list){
-
-    localStorage.setItem(
-        "noah_emma_leaderboard",
-        JSON.stringify(list)
-    );
-}
-
-function addLeaderboardScore(name,score){
-
-    if(score<=0)return;
-
-    const list=
-        getLeaderboard();
-
-    list.push({
-        name:name,
-        score:score,
-        date:Date.now()
-    });
-
-    list.sort(
-        (a,b)=>
-            b.score-a.score
-    );
-
-    saveLeaderboard(
-        list.slice(0,10)
-    );
-}
-
-function renderLeaderboard(){
-
-    const container=
-        document.getElementById(
-            "leaderboard"
-        );
-
-    if(!container)return;
-
-    const list=
-        getLeaderboard();
-
-    if(list.length===0){
-
-        container.innerHTML=
-            '<div class="empty">'+
-            'Noch keine Scores ❤️<br>'+
-            'Spielt eure erste Runde!'+
-            '</div>';
-
-        return;
-    }
-
-    const medals=[
-        "🥇",
-        "🥈",
-        "🥉"
-    ];
-
-    container.innerHTML="";
-
-    list.forEach(
-        (entry,index)=>{
-
-            const row=
-                document.createElement("div");
-
-            row.className="score-row";
-
-            const medal=
-                medals[index]||
-                (index+1)+".";
-
-            row.innerHTML=
-                '<div class="score-rank">'+
-                medal+
-                '</div>'+
-                '<div class="score-name">'+
-                escapeHtml(entry.name)+
-                '</div>'+
-                '<div class="score-value">'+
-                entry.score+
-                ' ❤️</div>';
-
-            container.appendChild(row);
-        }
-    );
-}
-
-
-/* TASTATUR */
-
-document.addEventListener(
-    "keydown",
-    event=>{
-
-        if(!gameRunning)return;
-
-        const target=event.target;
-
-        if(
-            target&&
-            (
-                target.tagName==="INPUT"||
-                target.tagName==="TEXTAREA"
-            )
-        ){
-            return;
-        }
-
-        const key=
-            event.key.toLowerCase();
-
-        if(
-            event.key==="ArrowLeft"||
-            key==="a"
-        ){
-
-            event.preventDefault();
-
-            movePlayer(-1);
-        }
-
-        if(
-            event.key==="ArrowRight"||
-            key==="d"
-        ){
-
-            event.preventDefault();
-
-            movePlayer(1);
-        }
-    }
-);
-
-
-/* TASTATUR LOSLASSEN */
-
-document.addEventListener(
-    "keyup",
-    event=>{
-
-        if(
-            event.key==="ArrowLeft"||
-            event.key.toLowerCase()==="a"||
-            event.key==="ArrowRight"||
-            event.key.toLowerCase()==="d"
-        ){
-
-            stopPlayerMovement();
-        }
-    }
-);
-
-
-/* TOUCH */
-
-function setupControl(buttonId,direction){
-
-    const button=
-        document.getElementById(
-            buttonId
-        );
-
-    if(!button)return;
-
-    button.addEventListener(
-        "pointerdown",
-        event=>{
-
-            event.preventDefault();
-
-            if(!gameRunning)return;
-
-            button.setPointerCapture?.(
-                event.pointerId
-            );
-
-            movePlayer(direction);
-        }
-    );
-
-    const release=
-        event=>{
-
-            event.preventDefault();
-
-            stopPlayerMovement();
-        };
-
-    button.addEventListener(
-        "pointerup",
-        release
-    );
-
-    button.addEventListener(
-        "pointercancel",
-        release
-    );
-
-    button.addEventListener(
-        "pointerleave",
-        event=>{
-
-            if(event.buttons===0){
-                stopPlayerMovement();
-            }
-        }
-    );
-}
-
-setupControl(
-    "leftControl",
-    -1
-);
-
-setupControl(
-    "rightControl",
-    1
-);
 
 
 /* EVENTS */
 
 document
 .getElementById("messageForm")
-.addEventListener(
-    "submit",
-    sendMessage
-);
+.addEventListener("submit",sendMessage);
 
 document
 .getElementById("imageInput")
-.addEventListener(
-    "change",
-    uploadImages
-);
+.addEventListener("change",uploadImages);
 
 document
 .getElementById("closeLightbox")
-.addEventListener(
-    "click",
-    closeLightbox
-);
+.addEventListener("click",closeLightbox);
 
 document
 .getElementById("lightbox")
-.addEventListener(
-    "click",
-    event=>{
+.addEventListener("click",event=>{
+    if(event.target.id==="lightbox")closeLightbox();
+});
 
-        if(event.target.id==="lightbox"){
-            closeLightbox();
-        }
-    }
-);
+document
+.getElementById("gameStartButton")
+.addEventListener("click",startLoveGame);
 
-document.addEventListener(
-    "keydown",
-    event=>{
+document
+.getElementById("gameAgainButton")
+.addEventListener("click",startLoveGame);
 
-        if(event.key==="Escape"){
-            closeLightbox();
-        }
-    }
-);
+document
+.getElementById("gameForm")
+.addEventListener("submit",submitLove);
+
+document.addEventListener("keydown",event=>{
+    if(event.key==="Escape")closeLightbox();
+});
 
 
 /* START */
 
-loadGameData();
-
 if(currentUser){
-
     updateUserText();
-
     showPage("homePage");
-
 }else{
-
     showPage("identityPage");
 }
-
 </script>
 
 </body>
