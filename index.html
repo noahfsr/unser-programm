@@ -916,7 +916,6 @@ autocomplete="off">
 
 <div class="card">
 <h2>🏆 Gemeinsame Top 10</h2>
-<p class="leaderboard-subtitle">Die Bestenliste wird mit Supabase zwischen euren Geräten geteilt.</p>
 <div id="leaderboardStatus" class="leaderboard-status"></div>
 <div id="leaderboard" class="leaderboard"></div>
 </div>
@@ -1677,11 +1676,11 @@ async function addLeaderboardScore(name,score){
 async function renderLeaderboard(){
     const container=document.getElementById("leaderboard"),status=document.getElementById("leaderboardStatus");if(!container)return;if(status)status.textContent="Bestenliste wird geladen...";
     const result=await supabaseClient.from("game_scores").select("player, score, created_at").order("score",{ascending:false}).order("created_at",{ascending:true}).limit(10);
-    if(result.error){console.error("Leaderboard load error:",result.error);container.innerHTML='<div class="empty">Bestenliste konnte nicht geladen werden.<br><small>'+escapeHtml(result.error.message)+'</small></div>';if(status)status.textContent="Supabase-Fehler";return;}
+    if(result.error){console.error("Leaderboard load error:",result.error);container.innerHTML='<div class="empty">Bestenliste konnte nicht geladen werden.<br><small>'+escapeHtml(result.error.message)+'</small></div>';if(status)status.textContent="Fehler beim Laden";return;}
     const list=result.data||[];if(list.length===0){container.innerHTML='<div class="empty">Noch keine Scores ❤️<br>Spielt eure erste Runde!</div>';if(status)status.textContent="Noch keine Ergebnisse";return;}
     const medals=["🥇","🥈","🥉"];container.innerHTML="";
     list.forEach((entry,index)=>{const row=document.createElement("div");row.className="score-row";const rank=medals[index]||(index+1)+".";row.innerHTML='<div class="score-rank">'+rank+'</div><div class="score-name">'+escapeHtml(entry.player)+'</div><div class="score-value">'+Number(entry.score)+' ❤️</div>';container.appendChild(row);});
-    if(status)status.textContent="Gemeinsame Bestenliste · Supabase";
+    if(status)status.textContent="Gemeinsame Bestenliste";
 }
 function handleTypingKey(event){if(event.key==="Enter"){event.preventDefault();submitPhrase();}}
 const typingInputElement=document.getElementById("typingInput");if(typingInputElement)typingInputElement.addEventListener("keydown",handleTypingKey);
