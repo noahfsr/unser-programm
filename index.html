@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -317,133 +318,310 @@ button{-webkit-tap-highlight-color:transparent}
 }
 
 /* SPIEL */
-.game-card{
-    text-align:center;
-}
 
 .game-top{
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:10px;
-    margin:18px 0;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:12px;
 }
 
 .game-stat{
-    background:#fff7fa;
-    border:1px solid #f1cfdd;
-    border-radius:16px;
-    padding:12px 8px;
+    background:#fff4f8;
+    border:1px solid #f4d2df;
+    border-radius:14px;
+    padding:10px 6px;
+    text-align:center;
+}
+
+.game-stat span{
+    display:block;
+    font-size:11px;
+    color:#8d6878;
 }
 
 .game-stat strong{
     display:block;
-    font-size:24px;
+    margin-top:3px;
     color:#d6336c;
+    font-size:17px;
 }
 
-.game-stat span{
+.game-board{
+    position:relative;
+    width:100%;
+    height:520px;
+    overflow:hidden;
+    border-radius:22px;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(255,255,255,.7),transparent 18%),
+        radial-gradient(circle at 80% 35%,rgba(255,255,255,.45),transparent 20%),
+        linear-gradient(160deg,#ffd8e7,#f5b7cf 50%,#d98eb0);
+    border:3px solid rgba(255,255,255,.8);
+    box-shadow:inset 0 0 40px rgba(140,50,90,.12);
+    touch-action:none;
+}
+
+.game-board.sunset{
+    background:
+        radial-gradient(circle at 75% 18%,#fff3bb,transparent 13%),
+        linear-gradient(160deg,#ffc9a9,#ee9ba9 52%,#9e7299);
+}
+
+.game-board.night{
+    background:
+        radial-gradient(circle at 75% 18%,#fff5b0,transparent 9%),
+        radial-gradient(circle at 10% 15%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 25% 40%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 42% 18%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 60% 32%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 80% 55%,white 0 1px,transparent 2px),
+        radial-gradient(circle at 35% 75%,white 0 1px,transparent 2px),
+        linear-gradient(160deg,#42355f,#29244b,#17172e);
+}
+
+.game-board.magic{
+    background:
+        radial-gradient(circle at 20% 25%,rgba(255,255,255,.4),transparent 14%),
+        radial-gradient(circle at 80% 70%,rgba(255,180,230,.5),transparent 18%),
+        linear-gradient(160deg,#bda2ed,#d98ed0,#6d5ca8);
+}
+
+.player{
+    position:absolute;
+    width:54px;
+    height:54px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    user-select:none;
+    z-index:10;
+    filter:drop-shadow(0 5px 5px rgba(80,20,50,.25));
+    will-change:left;
+}
+
+.game-item{
+    position:absolute;
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    user-select:none;
+    z-index:5;
+    pointer-events:none;
+}
+
+.game-item.special{
+    font-size:36px;
+    filter:drop-shadow(0 0 7px rgba(255,255,255,.8));
+}
+
+.game-message{
+    position:absolute;
+    left:50%;
+    top:45%;
+    transform:translate(-50%,-50%);
+    width:90%;
+    text-align:center;
+    color:white;
+    text-shadow:0 3px 12px rgba(70,20,50,.4);
+    z-index:30;
+    pointer-events:none;
+}
+
+.game-message h2{
+    margin:0 0 8px;
+    font-size:32px;
+}
+
+.game-message p{
+    margin:0;
+    font-size:16px;
+}
+
+.game-controls{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    margin-top:14px;
+}
+
+.game-controls button{
+    width:70px;
+    height:52px;
+    border:none;
+    border-radius:14px;
+    background:white;
+    color:#d6336c;
+    font-size:22px;
+    font-weight:bold;
+    box-shadow:0 4px 12px rgba(100,40,70,.12);
+    cursor:pointer;
+    user-select:none;
+    touch-action:none;
+}
+
+.game-controls button:active{
+    transform:scale(.94);
+    background:#fff0f5;
+}
+
+.game-button{
+    width:100%;
+    border:none;
+    border-radius:14px;
+    padding:13px;
+    background:#d6336c;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+/* SHOP */
+
+.shop-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.shop-item{
+    background:#fff7fa;
+    border:1px solid #f1cfdd;
+    border-radius:16px;
+    padding:14px;
+    text-align:center;
+}
+
+.shop-item .shop-icon{font-size:32px}
+
+.shop-item h3{
+    margin:7px 0 5px;
+    font-size:16px;
+}
+
+.shop-item p{
+    margin:0 0 9px;
     font-size:12px;
     color:#80566a;
 }
 
-.game-input-area{
-    display:flex;
-    gap:8px;
-    margin-top:16px;
-}
-
-.game-input-area input{
-    flex:1;
-    min-width:0;
-    border:1px solid #e7bdce;
-    border-radius:14px;
-    padding:13px 14px;
-    outline:none;
-    background:white;
-}
-
-.game-input-area input:focus{
-    border-color:#d6336c;
-    box-shadow:0 0 0 3px rgba(214,51,108,.10);
-}
-
-.game-submit{
+.shop-item button{
+    width:100%;
     border:none;
-    border-radius:14px;
-    padding:13px 16px;
+    border-radius:10px;
+    padding:9px;
     background:#d6336c;
     color:white;
-    font-weight:bold;
     cursor:pointer;
+    font-weight:bold;
 }
 
-.game-submit:disabled{
-    opacity:.5;
+.shop-item button:disabled{
+    background:#c9a8b5;
     cursor:not-allowed;
 }
 
-.game-start{
+/* WELTEN */
+
+.world-list{
+    display:grid;
+    gap:10px;
+}
+
+.world{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:13px;
+    border-radius:15px;
+    background:#fff7fa;
+    border:1px solid #f1cfdd;
+}
+
+.world-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.world-icon{font-size:30px}
+
+.world button{
     border:none;
-    border-radius:14px;
-    padding:13px 20px;
+    border-radius:10px;
+    padding:9px 12px;
     background:#d6336c;
     color:white;
     font-weight:bold;
     cursor:pointer;
-    margin-top:12px;
 }
 
-.game-hint{
-    color:#80566a;
-    font-size:13px;
-    margin:10px 0 0;
-}
+.world.locked{opacity:.55}
 
-.game-result{
-    margin-top:16px;
-    padding:16px;
-    border-radius:16px;
-    background:#fff0f5;
+/* MISSIONEN */
+
+.mission{
+    padding:12px;
+    border-radius:14px;
+    background:#fff7fa;
+    margin-bottom:8px;
     border:1px solid #f1cfdd;
 }
 
-.game-result h3{
-    margin:0 0 6px;
+.mission.done{background:#f6e7ef}
+
+.mission-title{font-weight:bold}
+
+.mission-progress{
+    font-size:12px;
+    color:#80566a;
+    margin-top:4px;
 }
 
-.game-status{
-    min-height:22px;
-    margin-top:10px;
-    font-size:13px;
-    color:#80566a;
+.progress-bar{
+    height:8px;
+    border-radius:99px;
+    background:#f0d8e1;
+    overflow:hidden;
+    margin-top:8px;
 }
+
+.progress-fill{
+    height:100%;
+    background:#d6336c;
+    border-radius:99px;
+}
+
+/* BESTENLISTE */
 
 .leaderboard{
     display:flex;
     flex-direction:column;
     gap:8px;
-    margin-top:12px;
 }
 
 .score-row{
     display:grid;
-    grid-template-columns:42px 1fr auto;
+    grid-template-columns:40px 1fr auto;
     align-items:center;
     gap:8px;
     padding:11px;
     border-radius:13px;
     background:#fff7fa;
-    border:1px solid #f1cfdd;
 }
 
-.score-rank{font-size:20px}
+.score-rank{font-size:22px}
 .score-name{font-weight:bold}
-.score-value{font-weight:bold;color:#d6336c}
-
-@media(max-width:600px){
-    .game-top{grid-template-columns:repeat(3,1fr)}
-    .game-input-area{flex-direction:column}
-    .game-submit{width:100%}
+.score-value{
+    color:#d6336c;
+    font-weight:bold;
 }
 
 /* MOBIL */
@@ -528,6 +706,32 @@ button{-webkit-tap-highlight-color:transparent}
         grid-template-columns:1fr;
     }
 }
+
+/* TYPING-SPIEL */
+.typing-game-card{text-align:center}
+.typing-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.typing-stat{background:#fff5f8;border:1px solid #f2cfdb;border-radius:16px;padding:13px 8px}
+.typing-stat span{display:block;color:#8d6878;font-size:13px;margin-bottom:5px}
+.typing-stat strong{display:block;color:#d6336c;font-size:25px}
+.typing-instructions{background:#fff8fb;border:1px solid #f0d1dc;border-radius:15px;padding:14px;line-height:1.5;margin-bottom:15px;color:#6f4a5a}
+.typing-form{display:flex;gap:10px;width:100%;margin-bottom:10px}
+.typing-form input{flex:1;min-width:0;border:1px solid #edbfd0;border-radius:14px;padding:14px 15px;outline:none;background:#fffafb;color:#3b2430}
+.typing-form input:focus{border-color:#d6336c;box-shadow:0 0 0 3px rgba(214,51,108,.10)}
+.typing-form input:disabled{opacity:.6}
+.game-button{border:none;border-radius:14px;background:#d6336c;color:white;padding:13px 18px;cursor:pointer;font-weight:bold;min-height:46px}
+.game-button:disabled{opacity:.55;cursor:not-allowed}
+.start-typing-button{width:100%;margin-top:2px}
+.typing-result{display:none;background:#fff0f5;border:1px solid #edbfd0;border-radius:16px;padding:16px;margin-bottom:15px}
+.typing-result.show{display:block}
+.typing-result h2{margin:0 0 8px;color:#d6336c}
+.typing-result p{margin:5px 0}
+.leaderboard-subtitle{color:#80566a;margin-top:-5px}
+.leaderboard-status{min-height:20px;text-align:center;color:#8d6878;font-size:13px;margin:8px 0}
+.score-row{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:10px;background:#fff7fa;border:1px solid #f0d1dc;border-radius:13px;padding:11px 13px}
+.score-rank{font-size:20px;text-align:center}
+.score-name{font-weight:bold;color:#5d243b}
+.score-value{font-weight:bold;color:#d6336c}
+@media(max-width:600px){.typing-form{flex-direction:column}.typing-form input,.typing-form .game-button{width:100%;min-height:48px}.typing-stats{gap:7px}.typing-stat{padding:11px 5px}.typing-stat strong{font-size:21px}}
 </style>
 </head>
 
@@ -552,7 +756,7 @@ button{-webkit-tap-highlight-color:transparent}
 
 <button onclick="showComingSoon('Unsere Momente')">💕<br>Unsere Momente</button>
 
-<button onclick="openGame()">🎮<br>Unser Spiel</button>
+<button onclick="openGame()">🎮<br>Herzen sammeln</button>
 
 <button onclick="showComingSoon('Überraschung')">✨<br>Überraschung</button>
 
@@ -681,52 +885,44 @@ autocomplete="off">
 <button class="back-button" onclick="goHome()">← Zurück</button>
 
 <div class="header">
-<h1>🎮 Unser Spiel</h1>
-<p>Wer schreibt in einer Minute mehr „Ich liebe dich“? ❤️</p>
+<h1>❤️ Wer schreibt mehr?</h1>
+<p>Wer schafft in 1 Minute die meisten „Ich liebe dich“? 💕</p>
 </div>
 
-<div class="card game-card">
-
-<div id="gameWelcome">
-    <h2>❤️ Bereit?</h2>
-    <p>Du hast 60 Sekunden. Schreibe so oft wie möglich:</p>
-    <p><strong>Ich liebe dich</strong></p>
-    <p class="game-hint">Jede korrekt abgeschickte Zeile zählt als 1 Punkt.</p>
-    <button class="game-start" id="gameStartButton" type="button">▶ Spiel starten</button>
+<div class="card typing-game-card">
+<div class="typing-stats">
+<div class="typing-stat"><span>⏱️ Zeit</span><strong id="gameTime">60</strong></div>
+<div class="typing-stat"><span>❤️ Punkte</span><strong id="gameScore">0</strong></div>
+<div class="typing-stat"><span>🏆 Rekord</span><strong id="personalBest">0</strong></div>
 </div>
 
-<div id="gamePlay" class="hidden">
-    <div class="game-top">
-        <div class="game-stat"><strong id="gameScore">0</strong><span>❤️ Punkte</span></div>
-        <div class="game-stat"><strong id="gameTime">60</strong><span>⏱️ Sekunden</span></div>
-        <div class="game-stat"><strong id="personalBest">0</strong><span>🏆 Dein Bestwert</span></div>
-    </div>
-
-    <form id="gameForm" class="game-input-area">
-        <input id="loveInput" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="Ich liebe dich ❤️" disabled>
-        <button class="game-submit" id="gameSubmit" type="submit" disabled>❤️ Zählen</button>
-    </form>
-
-    <div id="gameStatus" class="game-status" aria-live="polite"></div>
+<div id="resultBox" class="typing-result">
+<h2>Runde beendet ❤️</h2>
+<p>Du hast <strong id="resultScore">0</strong> Punkte geschafft.</p>
+<p id="resultBest">Dein Rekord: 0 ❤️</p>
 </div>
 
-<div id="gameResult" class="game-result hidden">
-    <h3 id="gameResultTitle">Zeit vorbei! ❤️</h3>
-    <p id="gameResultText"></p>
-    <button class="game-start" id="gameAgainButton" type="button">🔄 Nochmal spielen</button>
+<div class="typing-instructions">
+<strong>So funktioniert es:</strong> Schreibe genau <b>Ich liebe dich</b> und drücke Enter oder „Punkt zählen“.
 </div>
 
+<div class="typing-form">
+<input id="typingInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Ich liebe dich ❤️" disabled>
+<button id="submitPhraseButton" class="game-button" type="button" onclick="submitPhrase()" disabled>Punkt zählen ❤️</button>
+</div>
+
+<button id="startGameButton" class="game-button start-typing-button" type="button" onclick="startGame()">❤️ Spiel starten</button>
 </div>
 
 <div class="card">
-    <h2 style="text-align:center;margin-top:0">🏆 Bestenliste</h2>
-    <p style="text-align:center;color:#80566a;font-size:13px">Die besten Ergebnisse von Noah und Emma bleiben gespeichert.</p>
-    <div id="gameLeaderboard" class="leaderboard">
-        <div class="empty">Bestenliste wird geladen...</div>
-    </div>
+<h2>🏆 Gemeinsame Top 10</h2>
+<p class="leaderboard-subtitle">Die Bestenliste wird mit Supabase zwischen euren Geräten geteilt.</p>
+<div id="leaderboardStatus" class="leaderboard-status"></div>
+<div id="leaderboard" class="leaderboard"></div>
 </div>
 
 </section>
+
 
 <section id="soonPage" class="hidden">
 
@@ -1415,256 +1611,141 @@ function closeLightbox(){
 }
 
 
-/* SPIEL: 60 SEKUNDEN */
+/* TYPING-SPIEL */
 
 let gameRunning=false;
-let gameScore=0;
-let gameSeconds=60;
+let roundScore=0;
+let gameTime=60;
 let gameTimer=null;
 
-function stopGame(){
-    gameRunning=false;
-
-    if(gameTimer){
-        clearInterval(gameTimer);
-        gameTimer=null;
-    }
-
-    const input=document.getElementById("loveInput");
-    const submit=document.getElementById("gameSubmit");
-
-    if(input) input.disabled=true;
-    if(submit) submit.disabled=true;
+function normalizePhrase(value){
+    return String(value||"").trim().replace(/\s+/g," ").toLowerCase();
 }
-
 function getPersonalBest(){
-    return Number(localStorage.getItem("love_game_best_"+(currentUser||"guest")))||0;
+    return Number(localStorage.getItem("ich_liebe_dich_best_"+(currentUser||"guest")))||0;
 }
-
 function setPersonalBest(score){
-    const key="love_game_best_"+(currentUser||"guest");
-    const old=getPersonalBest();
-    if(score>old){
-        localStorage.setItem(key,String(score));
-        return score;
-    }
-    return old;
+    localStorage.setItem("ich_liebe_dich_best_"+(currentUser||"guest"),String(score));
 }
-
-function updateGameScreen(){
+function updateTypingUI(){
     const score=document.getElementById("gameScore");
     const time=document.getElementById("gameTime");
     const best=document.getElementById("personalBest");
-
-    if(score) score.textContent=gameScore;
-    if(time) time.textContent=gameSeconds;
-    if(best) best.textContent=getPersonalBest();
+    if(score)score.textContent=roundScore;
+    if(time)time.textContent=Math.max(0,gameTime);
+    if(best)best.textContent=getPersonalBest();
 }
-
-function openGame(){
-    if(!currentUser){
-        showPage("identityPage");
-        return;
-    }
-
-    stopGame();
-    gameScore=0;
-    gameSeconds=60;
-
-    document.getElementById("gameWelcome").classList.remove("hidden");
-    document.getElementById("gamePlay").classList.add("hidden");
-    document.getElementById("gameResult").classList.add("hidden");
-    document.getElementById("gameStatus").textContent="";
-    updateGameScreen();
-
-    showPage("gamePage");
-    loadLeaderboard();
+async function openGame(){
+    if(!currentUser){showPage("identityPage");return;}
+    stopGame();showPage("gamePage");roundScore=0;gameTime=60;updateTypingUI();
+    const input=document.getElementById("typingInput"),submit=document.getElementById("submitPhraseButton"),start=document.getElementById("startGameButton"),result=document.getElementById("resultBox");
+    if(input){input.value="";input.disabled=true;} if(submit)submit.disabled=true; if(start){start.disabled=false;start.textContent="❤️ Spiel starten";} if(result)result.classList.remove("show");
+    await renderLeaderboard();
 }
-
-function startLoveGame(){
-    if(gameRunning)return;
-
-    gameRunning=true;
-    gameScore=0;
-    gameSeconds=60;
-
-    document.getElementById("gameWelcome").classList.add("hidden");
-    document.getElementById("gamePlay").classList.remove("hidden");
-    document.getElementById("gameResult").classList.add("hidden");
-
-    const input=document.getElementById("loveInput");
-    const submit=document.getElementById("gameSubmit");
-
-    input.value="";
-    input.disabled=false;
-    submit.disabled=false;
-    input.focus();
-
-    updateGameScreen();
-
-    gameTimer=setInterval(()=>{
-        gameSeconds--;
-        updateGameScreen();
-
-        if(gameSeconds<=0){
-            finishLoveGame();
-        }
-    },1000);
+function startGame(){
+    if(gameRunning||!currentUser)return;
+    stopGame();gameRunning=true;roundScore=0;gameTime=60;updateTypingUI();
+    const input=document.getElementById("typingInput"),submit=document.getElementById("submitPhraseButton"),start=document.getElementById("startGameButton"),result=document.getElementById("resultBox");
+    if(input){input.disabled=false;input.value="";input.focus();} if(submit)submit.disabled=false; if(start){start.disabled=true;start.textContent="⏱️ Runde läuft...";} if(result)result.classList.remove("show");
+    gameTimer=setInterval(()=>{if(!gameRunning)return;gameTime--;updateTypingUI();if(gameTime<=0)endGame();},1000);
 }
-
-function submitLove(event){
-    event.preventDefault();
-
+function submitPhrase(){
     if(!gameRunning)return;
-
-    const input=document.getElementById("loveInput");
-    const status=document.getElementById("gameStatus");
-    const value=input.value.trim().toLowerCase();
-
-    if(value==="ich liebe dich"){
-        gameScore++;
-        input.value="";
-        status.textContent="❤️ Gezählt!";
-        updateGameScreen();
-    }else{
-        status.textContent="Schreibe genau „Ich liebe dich“.";
-        input.select();
-    }
+    const input=document.getElementById("typingInput");if(!input)return;
+    if(normalizePhrase(input.value)==="ich liebe dich"){roundScore++;updateTypingUI();input.value="";}else{input.select();}input.focus();
 }
-
-async function finishLoveGame(){
-    if(!gameRunning)return;
-
-    stopGame();
-
-    const best=setPersonalBest(gameScore);
-    updateGameScreen();
-
-    document.getElementById("gamePlay").classList.add("hidden");
-    document.getElementById("gameResult").classList.remove("hidden");
-    document.getElementById("gameResultText").textContent=
-        currentUser+" hat "+gameScore+"× „Ich liebe dich“ geschrieben. ❤️"+
-        (gameScore===best && gameScore>0 ? " Neuer persönlicher Bestwert! 🏆" : "");
-
-    await saveGameScore(gameScore);
-    await loadLeaderboard();
+async function endGame(){
+    if(!gameRunning)return;gameRunning=false;if(gameTimer){clearInterval(gameTimer);gameTimer=null;}
+    const input=document.getElementById("typingInput"),submit=document.getElementById("submitPhraseButton"),start=document.getElementById("startGameButton"),result=document.getElementById("resultBox");
+    if(input)input.disabled=true;if(submit)submit.disabled=true;if(start){start.disabled=false;start.textContent="🔄 Nochmal spielen";}
+    if(roundScore>getPersonalBest())setPersonalBest(roundScore);updateTypingUI();
+    const resultScore=document.getElementById("resultScore"),resultBest=document.getElementById("resultBest");
+    if(resultScore)resultScore.textContent=roundScore;if(resultBest)resultBest.textContent="Dein Rekord: "+getPersonalBest()+" ❤️";if(result)result.classList.add("show");
+    await addLeaderboardScore(currentUser,roundScore);
 }
-
-async function saveGameScore(score){
-    if(!currentUser || score<=0)return;
-
-    const result=await supabaseClient
-        .from("game_scores")
-        .insert({
-            player:currentUser,
-            score:score
-        });
-
-    if(result.error){
-        console.warn("Bestenliste konnte nicht gespeichert werden:",result.error.message);
-    }
+function stopGame(){
+    gameRunning=false;if(gameTimer){clearInterval(gameTimer);gameTimer=null;}
+    const input=document.getElementById("typingInput"),submit=document.getElementById("submitPhraseButton");if(input)input.disabled=true;if(submit)submit.disabled=true;
 }
-
-async function loadLeaderboard(){
-    const box=document.getElementById("gameLeaderboard");
-    if(!box)return;
-
-    box.innerHTML='<div class="empty">Bestenliste wird geladen...</div>';
-
-    const result=await supabaseClient
-        .from("game_scores")
-        .select("player,score,created_at")
-        .order("score",{ascending:false})
-        .order("created_at",{ascending:true})
-        .limit(10);
-
-    if(result.error){
-        box.innerHTML='<div class="empty">Bestenliste wird nach der Einrichtung angezeigt. ❤️</div>';
-        console.warn("Bestenliste konnte nicht geladen werden:",result.error.message);
-        return;
-    }
-
-    const rows=result.data||[];
-
-    if(!rows.length){
-        box.innerHTML='<div class="empty">Noch keine Ergebnisse. Sei der Erste! ❤️</div>';
-        return;
-    }
-
-    box.innerHTML="";
-
-    rows.forEach((row,index)=>{
-        const element=document.createElement("div");
-        element.className="score-row";
-
-        const rank=document.createElement("div");
-        rank.className="score-rank";
-        rank.textContent=index===0?"🥇":index===1?"🥈":index===2?"🥉":String(index+1)+".";
-
-        const name=document.createElement("div");
-        name.className="score-name";
-        name.textContent=row.player;
-
-        const score=document.createElement("div");
-        score.className="score-value";
-        score.textContent=row.score+" ❤️";
-
-        element.appendChild(rank);
-        element.appendChild(name);
-        element.appendChild(score);
-        box.appendChild(element);
-    });
+async function addLeaderboardScore(name,score){
+    if(!name||score<=0){await renderLeaderboard();return;}
+    const status=document.getElementById("leaderboardStatus");if(status)status.textContent="Score wird gespeichert...";
+    const result=await supabaseClient.from("game_scores").insert({player:name,score:Number(score)});
+    if(result.error){console.error("Leaderboard insert error:",result.error);if(status)status.textContent="Fehler beim Speichern: "+result.error.message;return;}
+    await renderLeaderboard();
 }
-
+async function renderLeaderboard(){
+    const container=document.getElementById("leaderboard"),status=document.getElementById("leaderboardStatus");if(!container)return;if(status)status.textContent="Bestenliste wird geladen...";
+    const result=await supabaseClient.from("game_scores").select("player, score, created_at").order("score",{ascending:false}).order("created_at",{ascending:true}).limit(10);
+    if(result.error){console.error("Leaderboard load error:",result.error);container.innerHTML='<div class="empty">Bestenliste konnte nicht geladen werden.<br><small>'+escapeHtml(result.error.message)+'</small></div>';if(status)status.textContent="Supabase-Fehler";return;}
+    const list=result.data||[];if(list.length===0){container.innerHTML='<div class="empty">Noch keine Scores ❤️<br>Spielt eure erste Runde!</div>';if(status)status.textContent="Noch keine Ergebnisse";return;}
+    const medals=["🥇","🥈","🥉"];container.innerHTML="";
+    list.forEach((entry,index)=>{const row=document.createElement("div");row.className="score-row";const rank=medals[index]||(index+1)+".";row.innerHTML='<div class="score-rank">'+rank+'</div><div class="score-name">'+escapeHtml(entry.player)+'</div><div class="score-value">'+Number(entry.score)+' ❤️</div>';container.appendChild(row);});
+    if(status)status.textContent="Gemeinsame Bestenliste · Supabase";
+}
+function handleTypingKey(event){if(event.key==="Enter"){event.preventDefault();submitPhrase();}}
+const typingInputElement=document.getElementById("typingInput");if(typingInputElement)typingInputElement.addEventListener("keydown",handleTypingKey);
 
 /* EVENTS */
 
 document
 .getElementById("messageForm")
-.addEventListener("submit",sendMessage);
+.addEventListener(
+    "submit",
+    sendMessage
+);
 
 document
 .getElementById("imageInput")
-.addEventListener("change",uploadImages);
+.addEventListener(
+    "change",
+    uploadImages
+);
 
 document
 .getElementById("closeLightbox")
-.addEventListener("click",closeLightbox);
+.addEventListener(
+    "click",
+    closeLightbox
+);
 
 document
 .getElementById("lightbox")
-.addEventListener("click",event=>{
-    if(event.target.id==="lightbox")closeLightbox();
-});
+.addEventListener(
+    "click",
+    event=>{
 
-document
-.getElementById("gameStartButton")
-.addEventListener("click",startLoveGame);
+        if(event.target.id==="lightbox"){
+            closeLightbox();
+        }
+    }
+);
 
-document
-.getElementById("gameAgainButton")
-.addEventListener("click",startLoveGame);
+document.addEventListener(
+    "keydown",
+    event=>{
 
-document
-.getElementById("gameForm")
-.addEventListener("submit",submitLove);
-
-document.addEventListener("keydown",event=>{
-    if(event.key==="Escape")closeLightbox();
-});
+        if(event.key==="Escape"){
+            closeLightbox();
+        }
+    }
+);
 
 
 /* START */
 
 if(currentUser){
+
     updateUserText();
+
     showPage("homePage");
+
 }else{
+
     showPage("identityPage");
 }
+
 </script>
 
 </body>
 </html>
-```
-```html
