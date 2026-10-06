@@ -210,42 +210,6 @@ button{-webkit-tap-highlight-color:transparent}
     font-weight:bold;
 }
 
-/* ZENTRALE LIVE-SYNCHRONISATION */
-
-function liveReload(pageId, loader){
-    return function(){
-        if(document.getElementById(pageId) && !document.getElementById(pageId).classList.contains("hidden")){
-            loader();
-        }
-    };
-}
-
-function setupLiveSync(){
-    const subscriptions=[
-        {name:"live-message",table:MESSAGE_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("messagesPage",loadMessages)},
-        {name:"live-todo",table:TODO_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("todoPage",loadTodos)},
-        {name:"live-memory",table:MEMORY_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("memoriesPage",loadMemories)},
-        {name:"live-daily-updates",table:DAILY_UPDATES_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("dailyUpdatesPage",loadDailyUpdates)},
-        {name:"live-game-scores",table:"game_scores",schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("gamePage",renderLeaderboard)},
-        {name:"live-images",table:"objects",schema:"storage",events:["INSERT","UPDATE","DELETE"],reload:liveReload("imagesPage",loadImages),filter:"bucket_id=eq.bilder"}
-    ];
-
-    subscriptions.forEach(config=>{
-        let channel=supabaseClient.channel(config.name);
-        config.events.forEach(event=>{
-            const filter={event,schema:config.schema,table:config.table};
-            if(config.filter)filter.filter=config.filter;
-            channel=channel.on("postgres_changes",filter,config.reload);
-        });
-        channel.subscribe(status=>{
-            if(status!=="SUBSCRIBED")console.log(config.name+" status:",status);
-        });
-    });
-}
-
-setupLiveSync();
-
-
 /* BILDER */
 
 .upload-area{
@@ -700,19 +664,6 @@ setupLiveSync();
 .memory-status{text-align:center;color:#8d6878;font-size:13px;min-height:20px;margin-top:4px}
 @media(max-width:600px){.memory-date-row{grid-template-columns:1fr}.memory-card-image{max-height:280px}}
 
-/* LOGIN */
-.login-card{text-align:center;max-width:520px;margin:40px auto}
-.login-icon{font-size:58px;margin-bottom:8px}
-.login-card h1{margin:0;color:#d6336c;font-size:32px}
-.login-card p{color:#80566a;line-height:1.5}
-.login-form{display:flex;flex-direction:column;gap:12px;margin-top:20px}
-.login-form input{width:100%;border:1px solid #edbfd0;border-radius:14px;padding:14px 15px;outline:none;background:#fffafb;color:#3b2430;font-size:16px}
-.login-form input:focus{border-color:#d6336c;box-shadow:0 0 0 3px rgba(214,51,108,.10)}
-.login-button{width:100%;border:none;border-radius:14px;background:#d6336c;color:white;padding:14px;cursor:pointer;font-weight:bold;min-height:48px}
-.login-button:disabled{opacity:.6;cursor:not-allowed}
-.login-status{min-height:22px;margin-top:10px;color:#b52d5d;font-size:13px}
-.logout-button{width:100%;margin-top:10px;border:none;border-radius:14px;background:#f3c6d5;color:#5d243b;padding:12px 16px;cursor:pointer;font-weight:bold}
-
 /* MOBIL */
 
 @media(max-width:600px){
@@ -796,40 +747,6 @@ setupLiveSync();
     }
 }
 
-/* TAGES-UPDATES */
-.streak-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.streak-card{background:#fff5f8;border:1px solid #f2cfdb;border-radius:16px;padding:15px;text-align:center}
-.streak-card span{display:block;color:#8d6878;font-size:13px;margin-bottom:5px}
-.streak-card strong{display:block;color:#d6336c;font-size:25px;margin-bottom:3px}
-.streak-card small{color:#80566a}
-.daily-today-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:15px}
-.daily-today-head h2{color:#5d243b}
-.daily-muted{color:#8d6878;font-size:14px;margin:6px 0 0}
-.daily-badge{border-radius:999px;padding:7px 11px;background:#fff0f5;color:#d6336c;font-size:12px;font-weight:bold;white-space:nowrap}
-.daily-badge.done{background:#eaf8ef;color:#2d7a4b}
-.daily-form{display:flex;flex-direction:column;gap:10px}
-.daily-form textarea{width:100%;min-height:130px;resize:vertical;border:1px solid #edbfd0;border-radius:14px;padding:13px 14px;outline:none;background:#fffafb;color:#3b2430;font-family:inherit}
-.daily-form textarea:focus{border-color:#d6336c;box-shadow:0 0 0 3px rgba(214,51,108,.10)}
-.daily-form input[type=file]{display:none}
-.daily-update-list{display:flex;flex-direction:column;gap:12px}
-.daily-update-item{background:#fff8fb;border:1px solid #f0d1dc;border-radius:16px;padding:15px}
-.daily-update-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.daily-update-date{font-weight:bold;color:#5d243b}
-.daily-update-author{color:#d6336c;font-size:13px;font-weight:bold}
-.daily-update-text{white-space:pre-wrap;line-height:1.55;color:#6f4a5a;margin:10px 0}
-.daily-update-images{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}
-.daily-update-images img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:12px;cursor:pointer;border:1px solid #f0d1dc}
-.daily-update-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;color:#8d6878;font-size:12px;margin-top:10px}
-.daily-delete{border:0;background:#fff0f5;color:#b52d5c;border-radius:10px;padding:7px 9px;cursor:pointer}
-@media(max-width:600px){
-    .streak-grid{grid-template-columns:1fr 1fr}
-    .daily-update-images{grid-template-columns:repeat(2,1fr)}
-    .daily-today-head{flex-direction:column}
-}
-@media(max-width:380px){
-    .streak-grid{grid-template-columns:1fr}
-}
-
 /* TYPING-SPIEL */
 .typing-game-card{text-align:center}
 .typing-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
@@ -856,169 +773,36 @@ setupLiveSync();
 .score-value{font-weight:bold;color:#d6336c}
 @media(max-width:600px){.typing-form{flex-direction:column}.typing-form input,.typing-form .game-button{width:100%;min-height:48px}.typing-stats{gap:7px}.typing-stat{padding:11px 5px}.typing-stat strong{font-size:21px}}
 
-/* DARK MODE - nur Farben, Layout bleibt unverändert */
-body.dark-mode{background:#121218;color:#f2edf0}
-body.dark-mode .card{background:#1d1b22;border-color:#3a3540}
-body.dark-mode .header h1,body.dark-mode h1,body.dark-mode h2{color:#f7dbe5}
-body.dark-mode .header p,body.dark-mode p{color:#c7bcc3}
-body.dark-mode .menu button,body.dark-mode button{color:#f4e9ee}
-body.dark-mode input,body.dark-mode textarea,body.dark-mode select{background:#25222b;color:#f4e9ee;border-color:#4a4350}
-body.dark-mode input::placeholder,body.dark-mode textarea::placeholder{color:#9f949c}
-body.dark-mode .messages,.dark-mode .empty,body.dark-mode .todo-item,body.dark-mode .memory-card,body.dark-mode .update-card,body.dark-mode .score-row{background:#24212a;border-color:#403945}
-body.dark-mode .login-card{background:#1d1b22}
-body.dark-mode .back-button,body.dark-mode .identity-switch-button,body.dark-mode .logout-button{background:#29252e;border-color:#4a4350;color:#f4e9ee}
-body.dark-mode .typing-result{background:#2a2026;border-color:#563746}
-.dark-mode-button{border:1px solid #e0c2ce;background:#fff0f5;color:#6d2944;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:bold;margin-top:10px}
-body.dark-mode .dark-mode-button{background:#29252e;color:#f7dbe5;border-color:#5a4c55}
+/* LOGIN + PUSH */
+.login-overlay{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#fff0f5,#ffe1eb)}
+.login-card{width:min(420px,100%);background:white;border-radius:24px;padding:26px;box-shadow:0 15px 45px rgba(100,40,70,.18);text-align:center}
+.login-card h1{margin:0 0 8px;color:#d6336c}.login-card p{color:#80566a;line-height:1.5}
+.login-card input{width:100%;padding:14px;border:1px solid #edbfd0;border-radius:14px;outline:none;margin:10px 0;background:#fffafb}
+.login-card input:focus{border-color:#d6336c;box-shadow:0 0 0 3px rgba(214,51,108,.10)}
+.login-button,.push-button{width:100%;border:0;border-radius:14px;padding:13px;background:#d6336c;color:white;font-weight:bold;cursor:pointer;margin-top:8px}
+.login-status{min-height:22px;color:#b52d5d;font-size:13px;margin-top:10px}
+.push-card{margin-top:18px;background:#fff8fb;border:1px solid #f0d1dc;border-radius:16px;padding:14px}
+.push-button{background:#7b4bb7;margin-top:10px}
+body.locked{overflow:hidden}
+
 </style>
-
-<style id="dark-mode-button-fix">
-body.dark-mode .menu button,
-body.dark-mode .game-button,
-body.dark-mode .send-button,
-body.dark-mode .login-button,
-body.dark-mode .identity-buttons button,
-body.dark-mode .identity-switch-button,
-body.dark-mode .logout-button,
-body.dark-mode .back-button,
-body.dark-mode .todo-add-button,
-body.dark-mode .memory-add-button,
-body.dark-mode .image-upload-button,
-body.dark-mode .delete-button {
-    background: #24202a !important;
-    color: #f5edf3 !important;
-    border-color: #4b414e !important;
-}
-
-body.dark-mode .menu button:hover,
-body.dark-mode .game-button:hover,
-body.dark-mode .send-button:hover,
-body.dark-mode .login-button:hover,
-body.dark-mode .identity-buttons button:hover,
-body.dark-mode .identity-switch-button:hover,
-body.dark-mode .logout-button:hover,
-body.dark-mode .back-button:hover,
-body.dark-mode .todo-add-button:hover,
-body.dark-mode .memory-add-button:hover,
-body.dark-mode .image-upload-button:hover,
-body.dark-mode .delete-button:hover {
-    background: #302a37 !important;
-}
-</style>
-
-
-<style id="dark-mode-deeper">
-body.dark-mode {
-    background: #151219 !important;
-    color: #eee7ed !important;
-}
-
-body.dark-mode .page,
-body.dark-mode .card,
-body.dark-mode .header,
-body.dark-mode section {
-    color: #eee7ed;
-}
-
-body.dark-mode .card {
-    background: #1d1921 !important;
-    border-color: #342d38 !important;
-}
-
-body.dark-mode .header h1,
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3 {
-    color: #f3eaf0 !important;
-}
-
-body.dark-mode p,
-body.dark-mode .empty,
-body.dark-mode .login-status,
-body.dark-mode .leaderboard-status,
-body.dark-mode .leaderboard-subtitle {
-    color: #b9aeb8 !important;
-}
-
-body.dark-mode input,
-body.dark-mode textarea,
-body.dark-mode select {
-    background: #211d25 !important;
-    color: #eee7ed !important;
-    border-color: #443a47 !important;
-}
-
-body.dark-mode input::placeholder,
-body.dark-mode textarea::placeholder {
-    color: #8f858e !important;
-}
-
-body.dark-mode .menu button,
-body.dark-mode .game-button,
-body.dark-mode .send-button,
-body.dark-mode .login-button,
-body.dark-mode .identity-buttons button,
-body.dark-mode .identity-switch-button,
-body.dark-mode .logout-button,
-body.dark-mode .back-button,
-body.dark-mode .todo-add-button,
-body.dark-mode .memory-add-button,
-body.dark-mode .image-upload-button,
-body.dark-mode .delete-button {
-    background: #242029 !important;
-    color: #eee7ed !important;
-    border-color: #443b47 !important;
-}
-
-body.dark-mode .menu button:hover,
-body.dark-mode .game-button:hover,
-body.dark-mode .send-button:hover,
-body.dark-mode .login-button:hover,
-body.dark-mode .identity-buttons button:hover,
-body.dark-mode .identity-switch-button:hover,
-body.dark-mode .logout-button:hover,
-body.dark-mode .back-button:hover,
-body.dark-mode .todo-add-button:hover,
-body.dark-mode .memory-add-button:hover,
-body.dark-mode .image-upload-button:hover,
-body.dark-mode .delete-button:hover {
-    background: #302936 !important;
-}
-
-body.dark-mode .message,
-body.dark-mode .todo-item,
-body.dark-mode .memory-item,
-body.dark-mode .score-row,
-body.dark-mode .typing-result,
-body.dark-mode .typing-stat {
-    background: #211d25 !important;
-    border-color: #3c3440 !important;
-    color: #eee7ed !important;
-}
-</style>
-
 </head>
 
-<body>
+<body class="locked">
 
-<div class="page">
-
-<section id="loginPage">
-
-<div class="card login-card">
-<div class="login-icon">🔐❤️</div>
-<h1>Willkommen</h1>
-<p>Diese Website ist nur für Noah & Emma.<br>Gib euer gemeinsames Passwort ein.</p>
-
-<form id="loginForm" class="login-form">
-<input id="loginPassword" type="password" autocomplete="current-password" placeholder="Gemeinsames Passwort" required>
-<button id="loginButton" class="login-button" type="submit">🔐 Einloggen</button>
-</form>
-<div id="loginStatus" class="login-status"></div>
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-card">
+    <div style="font-size:48px">❤️</div>
+    <h1>Noah & Emma</h1>
+    <p>Bitte meldet euch an, damit eure gemeinsame Seite geschützt bleibt.</p>
+    <input id="loginPassword" type="password" placeholder="Passwort" autocomplete="current-password">
+    <button id="loginButton" class="login-button" type="button">🔐 Einloggen</button>
+    <div id="loginStatus" class="login-status"></div>
+  </div>
 </div>
 
-</section>
 
+<div class="page">
 
 <section id="homePage">
 
@@ -1041,8 +825,6 @@ body.dark-mode .typing-stat {
 
 <button onclick="openMemories()">📖<br>Unsere Erinnerungen</button>
 
-<button onclick="openDailyUpdates()">📅<br>Tages-Updates</button>
-
 <button onclick="showComingSoon('Unsere Wünsche')">📝<br>Unsere Wünsche</button>
 
 </div>
@@ -1059,11 +841,11 @@ body.dark-mode .typing-stat {
 👤 Person wechseln
 </button>
 
-<button class="logout-button" type="button" onclick="logout()">
-🔒 Ausloggen
-</button>
-
-<button class="dark-mode-button" type="button" onclick="toggleDarkMode()" id="darkModeButton">🌙 Dark Mode</button>
+<div class="push-card">
+  <strong>🔔 Benachrichtigungen</strong>
+  <div style="font-size:13px;color:#80566a;margin-top:5px">Benachrichtige mich auch, wenn die Website geschlossen ist.</div>
+  <button class="push-button" type="button" onclick="enablePushNotifications()">🔔 Benachrichtigungen aktivieren</button>
+</div>
 
 </div>
 
@@ -1074,7 +856,7 @@ body.dark-mode .typing-stat {
 
 <div class="header">
 <h1>❤️ Hallo!</h1>
-<p>Wer bist du auf dieser Website?</p>
+<p>Wer bist du?</p>
 </div>
 
 <div class="card">
@@ -1201,61 +983,6 @@ autocomplete="off">
 </section>
 
 
-<section id="dailyUpdatesPage" class="hidden">
-
-<button class="back-button" onclick="goHome()">← Zurück</button>
-
-<div class="header">
-<h1>📅 Tages-Updates</h1>
-<p>Jeden Tag ein kleines Update – und daraus wird eure Streak ❤️</p>
-</div>
-
-<div class="card">
-<div class="streak-grid">
-<div class="streak-card">
-<span>🔥 Deine Streak</span>
-<strong id="myStreak">0 Tage</strong>
-<small id="myStreakName">Noch kein Update</small>
-</div>
-<div class="streak-card">
-<span>💕 Deine längste</span>
-<strong id="myBestStreak">0 Tage</strong>
-<small>Persönlicher Rekord</small>
-</div>
-</div>
-</div>
-
-<div class="card">
-<div class="daily-today-head">
-<div>
-<h2 style="margin:0">☀️ Heutiges Update</h2>
-<p id="dailyTodayHint" class="daily-muted">Noch kein Update für heute.</p>
-</div>
-<div id="dailyTodayBadge" class="daily-badge">OFFEN</div>
-</div>
-
-<form id="dailyUpdateForm" class="daily-form">
-<textarea id="dailyUpdateText" maxlength="2000" placeholder="Wie war dein Tag? Was hast du gemacht? ❤️"></textarea>
-
-<label class="memory-file-label" for="dailyUpdateImages">🖼️ Bilder auswählen</label>
-<input id="dailyUpdateImages" type="file" accept="image/*" multiple>
-<div id="dailyUpdateFileName" class="memory-file-name"></div>
-
-<button id="dailyUpdateButton" class="send-button" type="submit">❤️ Tages-Update speichern</button>
-</form>
-<div id="dailyUpdateStatus" class="memory-status"></div>
-</div>
-
-<div class="card">
-<h2>📆 Unsere letzten Tage</h2>
-<div id="dailyUpdateList" class="daily-update-list">
-<div class="empty">Tages-Updates werden geladen...</div>
-</div>
-</div>
-
-</section>
-
-
 <section id="todoPage" class="hidden">
 
 <button class="back-button" onclick="goHome()">← Zurück</button>
@@ -1354,7 +1081,7 @@ autocomplete="off">
 <script>
 
 const SUPABASE_URL=
-"https://mvlhbxtywabqsnfcfrzm.supabase.co";
+"https://mvlhbxtywabqsnfrzm.supabase.co";
 
 const SUPABASE_KEY=
 "sb_publishable_VWpohfk0SvSuK6eum-FZMQ_sbp-nPJy";
@@ -1370,7 +1097,107 @@ const IMAGE_BUCKET="bilder";
 
 const TODO_TABLE="todo_items";
 const MEMORY_TABLE="memories";
-const DAILY_UPDATES_TABLE="daily_updates";
+
+const SHARED_LOGIN_EMAIL="noahfischer818@gmail.com";
+const VAPID_PUBLIC_KEY="DEIN_NEUER_PUBLIC_KEY_HIER";
+const PUSH_FUNCTION_URL="https://mvlhbxtywabqsnfrzm.supabase.co/functions/v1/push-notify";
+let authSession=null;
+
+function urlBase64ToUint8Array(base64String){
+    const padding="=".repeat((4-base64String.length%4)%4);
+    const base64=(base64String+padding).replace(/-/g,"+").replace(/_/g,"/");
+    const rawData=atob(base64);
+    return Uint8Array.from([...rawData].map(char=>char.charCodeAt(0)));
+}
+
+async function registerPushServiceWorker(){
+    if(!('serviceWorker' in navigator)) return null;
+    try{
+        return await navigator.serviceWorker.register('/unser-programm/sw.js');
+    }catch(error){
+        console.error('Service Worker Fehler:',error);
+        return null;
+    }
+}
+
+async function enablePushNotifications(){
+    if(!authSession){alert('Bitte zuerst einloggen.');return;}
+    if(!('Notification' in window)){alert('Dieser Browser unterstützt keine Benachrichtigungen.');return;}
+    if(!('serviceWorker' in navigator)||!('PushManager' in window)){alert('Push-Benachrichtigungen werden von diesem Browser nicht unterstützt.');return;}
+    if(VAPID_PUBLIC_KEY==='DEIN_NEUER_PUBLIC_KEY_HIER'){alert('Trage zuerst deinen neuen öffentlichen VAPID-Key in index.html ein.');return;}
+    try{
+        const permission=await Notification.requestPermission();
+        if(permission!=='granted'){alert('Benachrichtigungen wurden nicht erlaubt.');return;}
+        const registration=await registerPushServiceWorker();
+        if(!registration){alert('Der Service Worker konnte nicht gestartet werden.');return;}
+        let subscription=await registration.pushManager.getSubscription();
+        if(!subscription){
+            subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC_KEY)});
+        }
+        const json=subscription.toJSON();
+        const result=await supabaseClient.from('push_subscriptions').upsert({
+            user_id:authSession.user.id,identity:currentUser,endpoint:subscription.endpoint,
+            p256dh:json.keys.p256dh,auth:json.keys.auth,updated_at:new Date().toISOString()
+        },{onConflict:'endpoint'});
+        if(result.error){console.error(result.error);alert('Die Benachrichtigungen konnten nicht gespeichert werden.\n\n'+result.error.message);return;}
+        alert('🔔 Benachrichtigungen sind jetzt aktiviert!');
+    }catch(error){
+        console.error('Push Fehler:',error);
+        alert('Die Benachrichtigungen konnten nicht aktiviert werden.\n\n'+(error.message||error));
+    }
+}
+
+async function sendPushNotification(title,message){
+    try{
+        if(!authSession?.access_token)return;
+        const response=await fetch(PUSH_FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+authSession.access_token},body:JSON.stringify({title,message,url:'https://noahfsr.github.io/unser-programm/'})});
+        const data=await response.json().catch(()=>({}));
+        if(!response.ok)console.error('Push-Fehler:',data);
+        else console.log('Push gesendet:',data);
+    }catch(error){console.error('Push-Aufruf fehlgeschlagen:',error);}
+}
+
+async function loginUser(){
+    const password=document.getElementById('loginPassword');
+    const status=document.getElementById('loginStatus');
+    const button=document.getElementById('loginButton');
+    if(!password||!password.value.trim())return;
+    button.disabled=true;
+    status.textContent='Anmeldung wird geprüft...';
+    const result=await supabaseClient.auth.signInWithPassword({email:SHARED_LOGIN_EMAIL,password:password.value});
+    button.disabled=false;
+    if(result.error){status.textContent='Falsches Passwort oder Anmeldung fehlgeschlagen.';console.error(result.error);return;}
+    password.value='';
+    await finishAuthentication(result.data.session);
+}
+
+async function finishAuthentication(session){
+    authSession=session;
+    document.getElementById('loginOverlay').style.display='none';
+    document.body.classList.remove('locked');
+    updateUserText();
+    if(currentUser)showPage('homePage');else showPage('identityPage');
+    await registerPushServiceWorker();
+}
+
+async function initializeAuthentication(){
+    const overlay=document.getElementById('loginOverlay');
+    const password=document.getElementById('loginPassword');
+    document.getElementById('loginButton').addEventListener('click',loginUser);
+    password.addEventListener('keydown',event=>{if(event.key==='Enter')loginUser();});
+    const result=await supabaseClient.auth.getSession();
+    if(result.data?.session){
+        await finishAuthentication(result.data.session);
+    }else{
+        overlay.style.display='flex';
+        document.body.classList.add('locked');
+    }
+    supabaseClient.auth.onAuthStateChange(async(_event,session)=>{
+        if(session){await finishAuthentication(session);}
+        else{authSession=null;overlay.style.display='flex';document.body.classList.add('locked');}
+    });
+}
+
 
 function openMemories(){
     if(!currentUser){
@@ -1453,6 +1280,7 @@ async function addMemory(event){
     }
     document.getElementById("memoryForm").reset();
     document.getElementById("memoryFileName").textContent="";
+    await sendPushNotification("📖 Neue Erinnerung",currentUser+" hat eine neue Erinnerung gespeichert: "+title);
     if(status)status.textContent="Erinnerung gespeichert ❤️";
     await loadMemories();
 }
@@ -1463,320 +1291,6 @@ async function deleteMemory(item){
     if(result.error){alert("Die Erinnerung konnte nicht gelöscht werden.\n\n"+result.error.message);return;}
     if(item.image_path)await supabaseClient.storage.from(IMAGE_BUCKET).remove([item.image_path]);
     await loadMemories();
-}
-
-
-/* TAGES-UPDATES + STREAK */
-
-function getLocalDateString(date=new Date()){
-    const year=date.getFullYear();
-    const month=String(date.getMonth()+1).padStart(2,"0");
-    const day=String(date.getDate()).padStart(2,"0");
-    return year+"-"+month+"-"+day;
-}
-
-function dateFromString(value){
-    const parts=String(value||"").split("-").map(Number);
-    if(parts.length!==3 || parts.some(Number.isNaN))return null;
-    return new Date(parts[0],parts[1]-1,parts[2]);
-}
-
-function dayDifference(dateA,dateB){
-    const a=dateFromString(dateA);
-    const b=dateFromString(dateB);
-    if(!a||!b)return null;
-    return Math.round((a-b)/(1000*60*60*24));
-}
-
-function formatDailyDate(value){
-    const date=dateFromString(value);
-    if(!date)return value||"";
-    return date.toLocaleDateString("de-DE",{weekday:"long",day:"2-digit",month:"2-digit",year:"numeric"});
-}
-
-function openDailyUpdates(){
-    if(!currentUser){
-        showPage("identityPage");
-        return;
-    }
-    showPage("dailyUpdatesPage");
-    loadDailyUpdates();
-}
-
-async function loadDailyUpdates(){
-    const list=document.getElementById("dailyUpdateList");
-    const status=document.getElementById("dailyUpdateStatus");
-    if(!list)return;
-
-    list.innerHTML='<div class="empty">Tages-Updates werden geladen...</div>';
-    if(status)status.textContent="";
-
-    const result=await supabaseClient
-        .from(DAILY_UPDATES_TABLE)
-        .select("id,player,update_date,text,image_paths,created_at")
-        .order("update_date",{ascending:false})
-        .order("created_at",{ascending:false})
-        .limit(100);
-
-    if(result.error){
-        console.error("Daily update load error:",result.error);
-        list.innerHTML='<div class="empty">Tages-Updates konnten nicht geladen werden.<br><small>'+escapeHtml(result.error.message)+'</small></div>';
-        if(status)status.textContent="Fehler beim Laden";
-        return;
-    }
-
-    const items=result.data||[];
-    renderDailyStreak(items);
-
-    const today=getLocalDateString();
-    const myToday=items.find(item=>item.player===currentUser && item.update_date===today);
-
-    const hint=document.getElementById("dailyTodayHint");
-    const badge=document.getElementById("dailyTodayBadge");
-    const form=document.getElementById("dailyUpdateForm");
-    const button=document.getElementById("dailyUpdateButton");
-
-    if(myToday){
-        if(hint)hint.textContent="Du hast dein heutiges Update bereits gespeichert. Morgen geht deine Streak weiter! 🔥";
-        if(badge){badge.textContent="ERLEDIGT ❤️";badge.classList.add("done");}
-        if(form)form.style.display="none";
-    }else{
-        if(hint)hint.textContent="Noch kein Update für heute – mach den Tag nicht leer. ❤️";
-        if(badge){badge.textContent="OFFEN";badge.classList.remove("done");}
-        if(form)form.style.display="flex";
-        if(button)button.disabled=false;
-    }
-
-    if(items.length===0){
-        list.innerHTML='<div class="empty">Noch keine Tages-Updates ❤️<br>Das erste Update startet eure Streak!</div>';
-        return;
-    }
-
-    list.innerHTML="";
-
-    for(const item of items){
-        const row=document.createElement("article");
-        row.className="daily-update-item";
-
-        const paths=Array.isArray(item.image_paths)?item.image_paths:[];
-        const safeText=escapeHtml(item.text||"");
-        const author=escapeHtml(item.player||"");
-        const dateText=escapeHtml(formatDailyDate(item.update_date));
-
-        row.innerHTML=
-            '<div class="daily-update-top">'+
-                '<div class="daily-update-date">'+dateText+'</div>'+
-                '<div class="daily-update-author">'+author+'</div>'+
-            '</div>'+
-            (safeText?'<div class="daily-update-text">'+safeText+'</div>':"")+
-            '<div class="daily-update-images"></div>'+
-            '<div class="daily-update-footer">'+
-                '<span>'+new Date(item.created_at).toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})+'</span>'+
-                '<button class="daily-delete" type="button">🗑️ Löschen</button>'+
-            '</div>';
-
-        const imageContainer=row.querySelector(".daily-update-images");
-
-        for(const path of paths){
-            const signed=await supabaseClient.storage.from(IMAGE_BUCKET).createSignedUrl(path,3600);
-            if(signed.error)continue;
-
-            const img=document.createElement("img");
-            img.src=signed.data.signedUrl;
-            img.alt="Bild aus Tages-Update";
-            img.loading="lazy";
-            img.addEventListener("click",()=>openLightbox(signed.data.signedUrl));
-            imageContainer.appendChild(img);
-        }
-
-        if(paths.length===0)imageContainer.remove();
-
-        row.querySelector(".daily-delete").addEventListener("click",()=>deleteDailyUpdate(item));
-        list.appendChild(row);
-    }
-}
-
-function calculateStreak(items,player){
-    const dates=[...new Set(
-        items
-            .filter(item=>item.player===player)
-            .map(item=>item.update_date)
-            .filter(Boolean)
-    )].sort((a,b)=>b.localeCompare(a));
-
-    if(!dates.length)return {current:0,best:0,last:null};
-
-    let best=1;
-    let run=1;
-
-    for(let i=1;i<dates.length;i++){
-        const diff=dayDifference(dates[i-1],dates[i]);
-        if(diff===1){
-            run++;
-            if(run>best)best=run;
-        }else{
-            run=1;
-        }
-    }
-
-    const today=getLocalDateString();
-    let current=0;
-    if(dates[0]===today){
-        current=1;
-        for(let i=1;i<dates.length;i++){
-            if(dayDifference(dates[i-1],dates[i])===1)current++;
-            else break;
-        }
-    }
-
-    return {current,best,last:dates[0]};
-}
-
-function renderDailyStreak(items){
-    const streak=calculateStreak(items,currentUser);
-    const current=document.getElementById("myStreak");
-    const best=document.getElementById("myBestStreak");
-    const name=document.getElementById("myStreakName");
-
-    if(current)current.textContent=streak.current+" "+(streak.current===1?"Tag":"Tage");
-    if(best)best.textContent=streak.best+" "+(streak.best===1?"Tag":"Tage");
-
-    if(name){
-        if(!streak.last)name.textContent="Noch kein Update";
-        else if(streak.current>0)name.textContent="🔥 Läuft weiter!";
-        else name.textContent="Heute noch kein Update";
-    }
-}
-
-async function addDailyUpdate(event){
-    event.preventDefault();
-    if(!currentUser)return;
-
-    const textInput=document.getElementById("dailyUpdateText");
-    const fileInput=document.getElementById("dailyUpdateImages");
-    const status=document.getElementById("dailyUpdateStatus");
-    const button=document.getElementById("dailyUpdateButton");
-
-    const textValue=(textInput?.value||"").trim();
-    const files=Array.from(fileInput?.files||[]);
-
-    if(!textValue && files.length===0){
-        alert("Schreib etwas oder füge mindestens ein Bild hinzu. ❤️");
-        return;
-    }
-
-    if(files.length>6){
-        alert("Du kannst höchstens 6 Bilder pro Tages-Update hinzufügen.");
-        return;
-    }
-
-    for(const file of files){
-        if(!file.type.startsWith("image/")){
-            alert("Bitte nur Bilder auswählen.");
-            return;
-        }
-        if(file.size>8*1024*1024){
-            alert("Jedes Bild darf höchstens 8 MB groß sein.");
-            return;
-        }
-    }
-
-    const today=getLocalDateString();
-
-    const existing=await supabaseClient
-        .from(DAILY_UPDATES_TABLE)
-        .select("id")
-        .eq("player",currentUser)
-        .eq("update_date",today)
-        .maybeSingle();
-
-    if(existing.error){
-        alert("Das Tages-Update konnte nicht geprüft werden.\n\n"+existing.error.message);
-        return;
-    }
-
-    if(existing.data){
-        alert("Du hast für heute bereits ein Tages-Update gespeichert. ❤️");
-        await loadDailyUpdates();
-        return;
-    }
-
-    if(button)button.disabled=true;
-    if(status)status.textContent="Tages-Update wird gespeichert...";
-
-    const imagePaths=[];
-
-    for(const file of files){
-        const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"")||"jpg";
-        const path="daily-updates/"+currentUser+"/"+today+"-"+Date.now()+"-"+Math.random().toString(36).slice(2,10)+"."+ext;
-
-        const upload=await supabaseClient.storage.from(IMAGE_BUCKET).upload(path,file,{
-            contentType:file.type,
-            upsert:false
-        });
-
-        if(upload.error){
-            if(imagePaths.length)await supabaseClient.storage.from(IMAGE_BUCKET).remove(imagePaths);
-            if(button)button.disabled=false;
-            if(status)status.textContent="";
-            alert("Ein Bild konnte nicht hochgeladen werden.\n\n"+upload.error.message);
-            return;
-        }
-
-        imagePaths.push(path);
-    }
-
-    const result=await supabaseClient
-        .from(DAILY_UPDATES_TABLE)
-        .insert({
-            player:currentUser,
-            update_date:today,
-            text:textValue||null,
-            image_paths:imagePaths
-        });
-
-    if(result.error){
-        if(imagePaths.length)await supabaseClient.storage.from(IMAGE_BUCKET).remove(imagePaths);
-        if(button)button.disabled=false;
-        if(status)status.textContent="";
-        if(result.error.code==="23505"){
-            alert("Du hast für heute bereits ein Tages-Update gespeichert. ❤️");
-        }else{
-            alert("Das Tages-Update konnte nicht gespeichert werden.\n\n"+result.error.message);
-        }
-        await loadDailyUpdates();
-        return;
-    }
-
-    if(textInput)textInput.value="";
-    if(fileInput)fileInput.value="";
-    const fileName=document.getElementById("dailyUpdateFileName");
-    if(fileName)fileName.textContent="";
-
-    if(status)status.textContent="Gespeichert ❤️ Deine Streak zählt weiter!";
-    await loadDailyUpdates();
-}
-
-async function deleteDailyUpdate(item){
-    if(!confirm("Möchtest du dieses Tages-Update wirklich löschen?"))return;
-
-    const result=await supabaseClient
-        .from(DAILY_UPDATES_TABLE)
-        .delete()
-        .eq("id",item.id);
-
-    if(result.error){
-        alert("Das Tages-Update konnte nicht gelöscht werden.\n\n"+result.error.message);
-        return;
-    }
-
-    const paths=Array.isArray(item.image_paths)?item.image_paths:[];
-    if(paths.length){
-        const removeResult=await supabaseClient.storage.from(IMAGE_BUCKET).remove(paths);
-        if(removeResult.error)console.error("Daily image cleanup error:",removeResult.error);
-    }
-
-    await loadDailyUpdates();
 }
 
 function openTodo(){
@@ -1870,6 +1384,7 @@ async function addTodo(task){
 
     const input=document.getElementById("todoInput");
     if(input)input.value="";
+    await sendPushNotification("📋 Neue To-do-Aufgabe",currentUser+" hat eine Aufgabe hinzugefügt: "+clean);
 
     await loadTodos();
 }
@@ -1916,123 +1431,67 @@ function escapeHtml(value){
 }
 
 
-/* AUTHENTIFIZIERUNG + PERSON */
+/* PERSON */
 
-// Die E-Mail-Adresse ist nur die technische Supabase-ID.
-// Trage hier GENAU die E-Mail-Adresse des gemeinsamen Supabase-Users ein.
-const SHARED_LOGIN_EMAIL="noahfischer818@gmail.com";
-
-let currentUser=localStorage.getItem("unser_programm_user");
-let authSession=null;
+let currentUser=
+localStorage.getItem(
+    "unser_programm_user"
+);
 
 function chooseIdentity(name){
-    if(name!=="Noah" && name!=="Emma")return;
+
     currentUser=name;
-    localStorage.setItem("unser_programm_user",name);
+
+    localStorage.setItem(
+        "unser_programm_user",
+        name
+    );
+
     updateUserText();
+
     showPage("homePage");
 }
 
 function changeIdentity(){
+
     stopGame();
+
     showPage("identityPage");
 }
 
 function updateUserText(){
-    const element=document.getElementById("currentUserText");
+
+    const element=
+        document.getElementById(
+            "currentUserText"
+        );
+
     if(!element)return;
+
     if(!currentUser){
+
         element.textContent="";
-        return;
-    }
-    element.innerHTML="Du bist gerade als <strong>"+escapeHtml(currentUser)+"</strong> angemeldet ❤️";
-}
 
-async function loginWithPassword(event){
-    event.preventDefault();
-    const password=document.getElementById("loginPassword");
-    const button=document.getElementById("loginButton");
-    const status=document.getElementById("loginStatus");
-    if(!password || !password.value)return;
-
-    if(SHARED_LOGIN_EMAIL==="DEINE_SUPABASE_EMAIL_HIER"){
-        if(status)status.textContent="Bitte zuerst die E-Mail-Adresse des gemeinsamen Supabase-Users im Code eintragen.";
         return;
     }
 
-    if(button)button.disabled=true;
-    if(status)status.textContent="Anmeldung läuft...";
-
-    const result=await supabaseClient.auth.signInWithPassword({
-        email:SHARED_LOGIN_EMAIL,
-        password:password.value
-    });
-
-    if(result.error){
-        console.error("Login error:",result.error);
-        if(status)status.textContent="Passwort falsch oder Anmeldung fehlgeschlagen.";
-        password.select();
-        if(button)button.disabled=false;
-        return;
-    }
-
-    authSession=result.data.session;
-    password.value="";
-    if(status)status.textContent="";
-    if(button)button.disabled=false;
-
-    if(currentUser==="Noah" || currentUser==="Emma")showPage("homePage");
-    else showPage("identityPage");
+    element.innerHTML=
+        "Du bist gerade als <strong>"+
+        escapeHtml(currentUser)+
+        "</strong> angemeldet ❤️";
 }
 
-async function logout(){
-    stopGame();
-    await supabaseClient.auth.signOut();
-    authSession=null;
-    currentUser=null;
-    localStorage.removeItem("unser_programm_user");
-    updateUserText();
-    showPage("loginPage");
-}
-
-async function initializeAuthentication(){
-    const result=await supabaseClient.auth.getSession();
-    authSession=result.data?result.data.session:null;
-
-    if(!authSession){
-        currentUser=null;
-        localStorage.removeItem("unser_programm_user");
-        showPage("loginPage");
-        return;
-    }
-
-    if(currentUser!=="Noah" && currentUser!=="Emma")currentUser=null;
-    updateUserText();
-    showPage(currentUser?"homePage":"identityPage");
-}
-
-supabaseClient.auth.onAuthStateChange((_event,session)=>{
-    authSession=session;
-    if(!session){
-        currentUser=null;
-        localStorage.removeItem("unser_programm_user");
-        updateUserText();
-        showPage("loginPage");
-    }
-});
 
 /* SEITEN */
 
 function showPage(id){
 
     const pages=[
-        "loginPage",
         "homePage",
         "identityPage",
         "messagesPage",
         "imagesPage",
         "memoriesPage",
-        "dailyUpdatesPage",
         "todoPage",
         "gamePage",
         "soonPage"
@@ -2264,6 +1723,7 @@ async function sendMessage(event){
     }
 
     input.value="";
+    await sendPushNotification("💌 Neue Nachricht von "+currentUser,text);
 
     if(
         !document.querySelector(
@@ -2727,11 +2187,9 @@ document.addEventListener(
 
 /* START */
 
-const loginForm=document.getElementById("loginForm");
-if(loginForm)loginForm.addEventListener("submit",loginWithPassword);
-
-showPage("loginPage");
+showPage("identityPage");
 initializeAuthentication();
+
 
 
 
@@ -2741,20 +2199,6 @@ const memoryImage=document.getElementById("memoryImage");
 if(memoryImage)memoryImage.addEventListener("change",()=>{
     const fileName=document.getElementById("memoryFileName");
     if(fileName)fileName.textContent=memoryImage.files&&memoryImage.files[0]?memoryImage.files[0].name:"";
-});
-
-const dailyUpdateForm=document.getElementById("dailyUpdateForm");
-if(dailyUpdateForm)dailyUpdateForm.addEventListener("submit",addDailyUpdate);
-
-const dailyUpdateImages=document.getElementById("dailyUpdateImages");
-if(dailyUpdateImages)dailyUpdateImages.addEventListener("change",()=>{
-    const fileName=document.getElementById("dailyUpdateFileName");
-    const files=Array.from(dailyUpdateImages.files||[]);
-    if(fileName){
-        fileName.textContent=files.length
-            ?files.length+" Bild"+(files.length===1?"":"er")+" ausgewählt ❤️"
-            :"";
-    }
 });
 
 const todoForm=document.getElementById("todoForm");
@@ -2767,21 +2211,5 @@ if(todoForm){
 }
 </script>
 
-
-
-<script>
-function applyDarkMode(){
-    const enabled=localStorage.getItem("unser_programm_dark_mode")==="true";
-    document.body.classList.toggle("dark-mode",enabled);
-    const button=document.getElementById("darkModeButton");
-    if(button)button.textContent=enabled?"☀️ Light Mode":"🌙 Dark Mode";
-}
-function toggleDarkMode(){
-    const enabled=!document.body.classList.contains("dark-mode");
-    localStorage.setItem("unser_programm_dark_mode",String(enabled));
-    applyDarkMode();
-}
-applyDarkMode();
-</script>
 </body>
 </html>
