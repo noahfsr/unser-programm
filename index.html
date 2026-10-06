@@ -819,7 +819,148 @@ button{-webkit-tap-highlight-color:transparent}
 .score-name{font-weight:bold;color:#5d243b}
 .score-value{font-weight:bold;color:#d6336c}
 @media(max-width:600px){.typing-form{flex-direction:column}.typing-form input,.typing-form .game-button{width:100%;min-height:48px}.typing-stats{gap:7px}.typing-stat{padding:11px 5px}.typing-stat strong{font-size:21px}}
+
+/* DARK MODE - nur Farben, Layout bleibt unverändert */
+body.dark-mode{background:#121218;color:#f2edf0}
+body.dark-mode .card{background:#1d1b22;border-color:#3a3540}
+body.dark-mode .header h1,body.dark-mode h1,body.dark-mode h2{color:#f7dbe5}
+body.dark-mode .header p,body.dark-mode p{color:#c7bcc3}
+body.dark-mode .menu button,body.dark-mode button{color:#f4e9ee}
+body.dark-mode input,body.dark-mode textarea,body.dark-mode select{background:#25222b;color:#f4e9ee;border-color:#4a4350}
+body.dark-mode input::placeholder,body.dark-mode textarea::placeholder{color:#9f949c}
+body.dark-mode .messages,.dark-mode .empty,body.dark-mode .todo-item,body.dark-mode .memory-card,body.dark-mode .update-card,body.dark-mode .score-row{background:#24212a;border-color:#403945}
+body.dark-mode .login-card{background:#1d1b22}
+body.dark-mode .back-button,body.dark-mode .identity-switch-button,body.dark-mode .logout-button{background:#29252e;border-color:#4a4350;color:#f4e9ee}
+body.dark-mode .typing-result{background:#2a2026;border-color:#563746}
+.dark-mode-button{border:1px solid #e0c2ce;background:#fff0f5;color:#6d2944;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:bold;margin-top:10px}
+body.dark-mode .dark-mode-button{background:#29252e;color:#f7dbe5;border-color:#5a4c55}
 </style>
+
+<style id="dark-mode-button-fix">
+body.dark-mode .menu button,
+body.dark-mode .game-button,
+body.dark-mode .send-button,
+body.dark-mode .login-button,
+body.dark-mode .identity-buttons button,
+body.dark-mode .identity-switch-button,
+body.dark-mode .logout-button,
+body.dark-mode .back-button,
+body.dark-mode .todo-add-button,
+body.dark-mode .memory-add-button,
+body.dark-mode .image-upload-button,
+body.dark-mode .delete-button {
+    background: #24202a !important;
+    color: #f5edf3 !important;
+    border-color: #4b414e !important;
+}
+
+body.dark-mode .menu button:hover,
+body.dark-mode .game-button:hover,
+body.dark-mode .send-button:hover,
+body.dark-mode .login-button:hover,
+body.dark-mode .identity-buttons button:hover,
+body.dark-mode .identity-switch-button:hover,
+body.dark-mode .logout-button:hover,
+body.dark-mode .back-button:hover,
+body.dark-mode .todo-add-button:hover,
+body.dark-mode .memory-add-button:hover,
+body.dark-mode .image-upload-button:hover,
+body.dark-mode .delete-button:hover {
+    background: #302a37 !important;
+}
+</style>
+
+
+<style id="dark-mode-deeper">
+body.dark-mode {
+    background: #151219 !important;
+    color: #eee7ed !important;
+}
+
+body.dark-mode .page,
+body.dark-mode .card,
+body.dark-mode .header,
+body.dark-mode section {
+    color: #eee7ed;
+}
+
+body.dark-mode .card {
+    background: #1d1921 !important;
+    border-color: #342d38 !important;
+}
+
+body.dark-mode .header h1,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3 {
+    color: #f3eaf0 !important;
+}
+
+body.dark-mode p,
+body.dark-mode .empty,
+body.dark-mode .login-status,
+body.dark-mode .leaderboard-status,
+body.dark-mode .leaderboard-subtitle {
+    color: #b9aeb8 !important;
+}
+
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background: #211d25 !important;
+    color: #eee7ed !important;
+    border-color: #443a47 !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #8f858e !important;
+}
+
+body.dark-mode .menu button,
+body.dark-mode .game-button,
+body.dark-mode .send-button,
+body.dark-mode .login-button,
+body.dark-mode .identity-buttons button,
+body.dark-mode .identity-switch-button,
+body.dark-mode .logout-button,
+body.dark-mode .back-button,
+body.dark-mode .todo-add-button,
+body.dark-mode .memory-add-button,
+body.dark-mode .image-upload-button,
+body.dark-mode .delete-button {
+    background: #242029 !important;
+    color: #eee7ed !important;
+    border-color: #443b47 !important;
+}
+
+body.dark-mode .menu button:hover,
+body.dark-mode .game-button:hover,
+body.dark-mode .send-button:hover,
+body.dark-mode .login-button:hover,
+body.dark-mode .identity-buttons button:hover,
+body.dark-mode .identity-switch-button:hover,
+body.dark-mode .logout-button:hover,
+body.dark-mode .back-button:hover,
+body.dark-mode .todo-add-button:hover,
+body.dark-mode .memory-add-button:hover,
+body.dark-mode .image-upload-button:hover,
+body.dark-mode .delete-button:hover {
+    background: #302936 !important;
+}
+
+body.dark-mode .message,
+body.dark-mode .todo-item,
+body.dark-mode .memory-item,
+body.dark-mode .score-row,
+body.dark-mode .typing-result,
+body.dark-mode .typing-stat {
+    background: #211d25 !important;
+    border-color: #3c3440 !important;
+    color: #eee7ed !important;
+}
+</style>
+
 </head>
 
 <body>
@@ -885,6 +1026,8 @@ button{-webkit-tap-highlight-color:transparent}
 <button class="logout-button" type="button" onclick="logout()">
 🔒 Ausloggen
 </button>
+
+<button class="dark-mode-button" type="button" onclick="toggleDarkMode()" id="darkModeButton">🌙 Dark Mode</button>
 
 </div>
 
@@ -2588,5 +2731,21 @@ if(todoForm){
 }
 </script>
 
+
+
+<script>
+function applyDarkMode(){
+    const enabled=localStorage.getItem("unser_programm_dark_mode")==="true";
+    document.body.classList.toggle("dark-mode",enabled);
+    const button=document.getElementById("darkModeButton");
+    if(button)button.textContent=enabled?"☀️ Light Mode":"🌙 Dark Mode";
+}
+function toggleDarkMode(){
+    const enabled=!document.body.classList.contains("dark-mode");
+    localStorage.setItem("unser_programm_dark_mode",String(enabled));
+    applyDarkMode();
+}
+applyDarkMode();
+</script>
 </body>
 </html>
