@@ -210,6 +210,42 @@ button{-webkit-tap-highlight-color:transparent}
     font-weight:bold;
 }
 
+/* ZENTRALE LIVE-SYNCHRONISATION */
+
+function liveReload(pageId, loader){
+    return function(){
+        if(document.getElementById(pageId) && !document.getElementById(pageId).classList.contains("hidden")){
+            loader();
+        }
+    };
+}
+
+function setupLiveSync(){
+    const subscriptions=[
+        {name:"live-message",table:MESSAGE_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("messagesPage",loadMessages)},
+        {name:"live-todo",table:TODO_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("todoPage",loadTodos)},
+        {name:"live-memory",table:MEMORY_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("memoriesPage",loadMemories)},
+        {name:"live-daily-updates",table:DAILY_UPDATES_TABLE,schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("dailyUpdatesPage",loadDailyUpdates)},
+        {name:"live-game-scores",table:"game_scores",schema:"public",events:["INSERT","UPDATE","DELETE"],reload:liveReload("gamePage",renderLeaderboard)},
+        {name:"live-images",table:"objects",schema:"storage",events:["INSERT","UPDATE","DELETE"],reload:liveReload("imagesPage",loadImages),filter:"bucket_id=eq.bilder"}
+    ];
+
+    subscriptions.forEach(config=>{
+        let channel=supabaseClient.channel(config.name);
+        config.events.forEach(event=>{
+            const filter={event,schema:config.schema,table:config.table};
+            if(config.filter)filter.filter=config.filter;
+            channel=channel.on("postgres_changes",filter,config.reload);
+        });
+        channel.subscribe(status=>{
+            if(status!=="SUBSCRIBED")console.log(config.name+" status:",status);
+        });
+    });
+}
+
+setupLiveSync();
+
+
 /* BILDER */
 
 .upload-area{
